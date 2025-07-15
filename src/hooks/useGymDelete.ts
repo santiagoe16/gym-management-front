@@ -1,37 +1,37 @@
 import { useState } from "react";
-import react from "react";
-import { deleteUserService } from "@/services/userService";
+import { deleteGymService } from "@/services/gymsService";
+import { Gym } from "@/types/gym";
 
-export function useUserDelete(getUsers: () => void) {
+export function useGymDelete(getGyms: () => void) {
   const [showConfirm, setShowConfirm] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<any>(null);
+  const [gymToDelete, setGymToDelete] = useState<Gym | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleDeleteClick = (user: any) => {
-    setUserToDelete(user);
+  const handleDeleteClick = (gym: Gym) => {
+    setGymToDelete(gym);
     setShowConfirm(true);
   };
 
   const handleConfirmDelete = async () => {
-    // // Eliminar usuario
+    if (!gymToDelete) return;
     setLoading(true);
     setError(null);
     try {
-      await deleteUserService(userToDelete.id);
-      getUsers();
+      await deleteGymService(gymToDelete.id);
+      getGyms();
+      setShowConfirm(false);
+      setGymToDelete(null);
     } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-    setShowConfirm(false);
-    setUserToDelete(null);
   };
 
   const handleCancelDelete = () => {
     setShowConfirm(false);
-    setUserToDelete(null);
+    setGymToDelete(null);
   };
 
   return {
@@ -39,6 +39,8 @@ export function useUserDelete(getUsers: () => void) {
     handleConfirmDelete,
     handleCancelDelete,
     showConfirm,
-    userToDelete,
+    gymToDelete,
+    loading,
+    error,
   };
-}
+} 

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Mariana Giraldo",
+    "cedula": "1030123456",
+    "phone": "3001234567",
+    "schedule": "Lunes a Viernes 6 AM - 8 AM",
+    "gym": {
+      "id": 101,
+      "name": "Smart Fit Poblado",
+      "address": "Calle 10 # 36-12"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Ricardo Vélez",
+    "cedula": "1030234567",
+    "phone": "3109876543",
+    "schedule": "Lunes, Miércoles, Viernes 7 PM - 9 PM",
+    "gym": {
+      "id": 102,
+      "name": "Bodytech Laureles",
+      "address": "Circular 73 # 39B-51"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Sofía Castro",
+    "cedula": "1030345678",
+    "phone": "3201112233",
+    "schedule": "Martes y Jueves 10 AM - 12 PM",
+    "gym": {
+      "id": 103,
+      "name": "Athletic Gym Envigado",
+      "address": "Carrera 43A # 31-10"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Juan Pablo Restrepo",
+    "cedula": "1030456789",
+    "phone": "3114445566",
+    "schedule": "Sábados y Domingos 9 AM - 11 AM",
+    "gym": {
+      "id": 101,
+      "name": "Smart Fit Poblado",
+      "address": "Calle 10 # 36-12"
+    }
+  },
+  {
+    "id": 5,
+    "name": "Daniela Ospina",
+    "cedula": "1030567890",
+    "phone": "3017778899",
+    "schedule": "Horario Abierto",
+    "gym": {
+      "id": 104,
+      "name": "Fitness Palace Bello",
+      "address": "Avenida 42 # 50-25"
+    }
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Gym Power",
+    "address": "Calle 123, Ciudad"
+  },
+  {
+    "id": 2,
+    "name": "Fitness Center",
+    "address": "Avenida 456, Ciudad"
+  },
+  {
+    "id": 3,
+    "name": "Strong Life Gym",
+    "address": "Boulevard 789, Ciudad"
+  }
+] 

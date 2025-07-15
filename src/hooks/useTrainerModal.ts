@@ -1,36 +1,24 @@
 import { useState, useEffect } from "react";
-import { addUserService, updateUserService } from "@/services/userService";
-import { getPlansService, Plans } from "@/services/plansService";
+import { addTrainerService, updateTrainerService } from "@/services/trainersService";
 import { getGymsService } from "@/services/gymsService";
 import { Gym } from "@/types/gym";
 
-export function useUserModal(getUsers: () => void) {
+export function useTrainerModal(getTrainers: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "",
     cedula: "",
     phone: "",
-    plan: "",
+    schedule: "",
     gym: { id: 0, name: "", address: "" } as Gym,
+    password: "",
   });
-  const [plans, setPlans] = useState<Plans[]>([]);
-  const [plansLoading, setPlansLoading] = useState(false);
-  const [plansError, setPlansError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [gyms, setGyms] = useState<Gym[]>([]);
   const [gymsLoading, setGymsLoading] = useState(false);
   const [gymsError, setGymsError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setPlansLoading(true);
-    setPlansError(null);
-    getPlansService()
-      .then((data) => setPlans(data))
-      .catch((err) => setPlansError(err.message))
-      .finally(() => setPlansLoading(false));
-  }, []);
 
   useEffect(() => {
     setGymsLoading(true);
@@ -40,33 +28,6 @@ export function useUserModal(getUsers: () => void) {
       .catch((err) => setGymsError(err.message))
       .finally(() => setGymsLoading(false));
   }, []);
-
-  const addUser = async (user: any) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const newUser = await addUserService(user);
-      getUsers();
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Actualizar usuario
-  const updateUser = async (user: any) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const updated = await updateUserService(user);
-      getUsers();
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleOpen = (editData?: typeof form) => {
     setOpen(true);
@@ -78,8 +39,9 @@ export function useUserModal(getUsers: () => void) {
         name: "",
         cedula: "",
         phone: "",
-        plan: "",
+        schedule: "",
         gym: { id: 0, name: "", address: "" },
+        password: "",
       });
       setMode("add");
     }
@@ -91,8 +53,9 @@ export function useUserModal(getUsers: () => void) {
       name: "",
       cedula: "",
       phone: "",
-      plan: "",
+      schedule: "",
       gym: { id: 0, name: "", address: "" },
+      password: "",
     });
     setMode("add");
   };
@@ -110,21 +73,41 @@ export function useUserModal(getUsers: () => void) {
     }
   };
 
+  const addTrainer = async (trainer: any) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await addTrainerService(trainer);
+      getTrainers();
+      handleClose();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateTrainer = async (trainer: any) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await updateTrainerService(trainer);
+      getTrainers();
+      handleClose();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
-      ...form,
-      cedula: form.cedula ? Number(form.cedula) : undefined,
-      phone: form.phone ? Number(form.phone) : undefined,
-    };
-
     if (mode === "add") {
-      addUser(data);
+      addTrainer(form);
     } else {
-      updateUser(data);
+      updateTrainer(form);
     }
-
-    handleClose();
   };
 
   return {
@@ -133,15 +116,12 @@ export function useUserModal(getUsers: () => void) {
     form,
     loading,
     error,
+    gyms,
+    gymsLoading,
+    gymsError,
     handleOpen,
     handleClose,
     handleChange,
     handleSubmit,
-    plans,
-    plansLoading,
-    plansError,
-    gyms,
-    gymsLoading,
-    gymsError,
   };
 }

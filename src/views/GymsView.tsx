@@ -1,50 +1,42 @@
 "use client";
-import React, { useState } from "react";
-import UserModal from "@/components/userModal";
-import { useUserModal } from "@/hooks/useUserModal";
-import { useUserDelete } from "@/hooks/useUserDelete";
+import React from "react";
+import GymModal from "@/components/GymModal";
+import { useGyms } from "@/hooks/useGyms";
+import { useGymModal } from "@/hooks/useGymModal";
 import ConfirmModal from "@/components/ConfirmModal";
-import { useUsers } from "@/hooks/useUsers";
+import { useGymDelete } from "@/hooks/useGymDelete";
 
-export default function UsersView() {
-  const { users, loading, error, getUsers } = useUsers();
-
+export default function GymsView() {
+  const { gyms, loading, error, getGyms } = useGyms();
   const {
     open,
     mode,
     form,
+    loading: modalLoading,
+    error: modalError,
     handleOpen,
     handleClose,
     handleChange,
     handleSubmit,
-    plans,
-    plansLoading,
-    plansError,
-    gyms,
-    gymsLoading,
-    gymsError,
-  } = useUserModal(getUsers);
+  } = useGymModal(getGyms);
 
   const {
     handleDeleteClick,
     handleConfirmDelete,
     handleCancelDelete,
     showConfirm,
-    userToDelete,
-  } = useUserDelete(getUsers);
-
-  // Ejemplo de datos de producto
+    gymToDelete,
+    loading: deleteLoading,
+    error: deleteError,
+  } = useGymDelete(getGyms);
 
   return (
     <main className="p-6">
-      {/* Encabezado de la página */}
       <header className="mb-4">
         <h1 className="text-4xl font-semibold text-gray-800">
-          Listado de usuarios
+          Listado de gimnasios
         </h1>
       </header>
-
-      {/* Sección de acciones */}
       <section className="flex justify-end mb-16">
         <button className="btn-primary" onClick={() => handleOpen()}>
           <svg
@@ -59,47 +51,41 @@ export default function UsersView() {
               clipRule="evenodd"
             ></path>
           </svg>{" "}
-          Agregar usuario
+          Agregar gimnasio
         </button>
       </section>
-
-      {/* Sección de la tabla de productos */}
       <section className="overflow-x-auto bg-white rounded-lg shadow-lg border-gray-300 border">
         {loading ? (
-          <p className="text-gray-500">Cargando usuarios...</p>
+          <p className="text-gray-500 p-4">Cargando gimnasios...</p>
+        ) : error ? (
+          <p className="text-red-500 p-4">{error}</p>
         ) : (
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-gray-200 text-left text-gray-600 uppercase text-sm font-medium">
               <tr className="whitespace-nowrap">
                 <th className="px-6 py-3">Nombre</th>
-                <th className="px-6 py-3">Cedula</th>
-                <th className="px-6 py-3">Celular</th>
-                <th className="px-6 py-3">Plan</th>
-                <th className="px-6 py-3">Gimnasio</th>
+                <th className="px-6 py-3">Dirección</th>
                 <th className="px-6 py-3">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 text-gray-700">
-              {users.map((user, idx) => (
+              {gyms.map((gym) => (
                 <tr
-                  key={user.cedula}
+                  key={gym.id}
                   className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
                 >
-                  <td className="px-6 py-4">{user.name}</td>
-                  <td className="px-6 py-4">{user.cedula}</td>
-                  <td className="px-6 py-4">{user.phone}</td>
-                  <td className="px-6 py-4">{user.plan}</td>
-                  <td className="px-6 py-4">{user.gym?.name}</td>
+                  <td className="px-6 py-4">{gym.name}</td>
+                  <td className="px-6 py-4">{gym.address}</td>
                   <td className="px-6 py-4">
                     <button
                       className="text-blue-600 hover:underline"
-                      onClick={() => handleOpen(user)}
+                      onClick={() => handleOpen(gym)}
                     >
                       Editar
                     </button>
                     <button
                       className="text-blue-600 hover:underline ml-2"
-                      onClick={() => handleDeleteClick(user)}
+                      onClick={() => handleDeleteClick(gym)}
                     >
                       Eliminar
                     </button>
@@ -110,26 +96,28 @@ export default function UsersView() {
           </table>
         )}
       </section>
-      <UserModal
+      <GymModal
         open={open}
         onClose={handleClose}
         form={form}
         onChange={handleChange}
         onSubmit={handleSubmit}
         mode={mode}
-        plans={plans}
-        plansLoading={plansLoading}
-        plansError={plansError}
-        gyms={gyms}
-        gymsLoading={gymsLoading}
-        gymsError={gymsError}
+        loading={modalLoading}
+        error={modalError}
       />
       <ConfirmModal
         open={showConfirm}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        message={`¿Seguro que deseas eliminar "${userToDelete?.name}"?`}
+        message={
+          deleteLoading
+            ? "Eliminando..."
+            : deleteError
+            ? `Error: ${deleteError}`
+            : `¿Seguro que deseas eliminar "${gymToDelete?.name}"?`
+        }
       />
     </main>
   );
-}
+} 

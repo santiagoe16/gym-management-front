@@ -1,21 +1,19 @@
 "use client";
-import React, { useState } from "react";
-import { UserModalProps } from "@/types/userModal";
+import React from "react";
 
-export default function UserModal({
+export default function TrainerModal({
   open,
   onClose,
   form,
   onChange,
   onSubmit,
   mode = "add",
-  plans = [],
-  plansLoading = false,
-  plansError = null,
+  loading = false,
+  error = null,
   gyms = [],
   gymsLoading = false,
   gymsError = null,
-}: UserModalProps) {
+}: any) {
   if (!open) return null;
 
   return (
@@ -24,7 +22,7 @@ export default function UserModal({
         <div className="relative bg-white rounded-lg shadow-sm">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
             <h3 className="text-xl font-semibold text-gray-900">
-              {mode === "edit" ? "Editar usuario" : "Crear nuevo usuario"}
+              {mode === "edit" ? "Editar entrenador" : "Crear nuevo entrenador"}
             </h3>
             <button
               type="button"
@@ -51,6 +49,9 @@ export default function UserModal({
             </button>
           </div>
           <form className="p-4 md:p-5" onSubmit={onSubmit}>
+            {error && (
+              <div className="mb-4 text-red-600 text-sm font-medium">{error}</div>
+            )}
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2">
                 <label
@@ -66,7 +67,7 @@ export default function UserModal({
                   value={form.name}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Nombre del producto"
+                  placeholder="Nombre del entrenador"
                   required
                 />
               </div>
@@ -75,7 +76,7 @@ export default function UserModal({
                   htmlFor="cedula"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
-                  Cedula
+                  Cédula
                 </label>
                 <input
                   type="number"
@@ -84,7 +85,7 @@ export default function UserModal({
                   value={form.cedula}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Cedula"
+                  placeholder="Cédula"
                   required
                 />
               </div>
@@ -108,34 +109,21 @@ export default function UserModal({
               </div>
               <div className="col-span-2">
                 <label
-                  htmlFor="plan"
+                  htmlFor="horario"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
-                  Plan
+                  Horario
                 </label>
-                {plansLoading ? (
-                  <p className="text-gray-500 text-sm">Cargando planes...</p>
-                ) : plansError ? (
-                  <p className="text-red-500 text-sm">{plansError}</p>
-                ) : (
-                  <select
-                    name="plan"
-                    id="plan"
-                    value={form.plan}
-                    onChange={onChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required
-                  >
-                    <option value="" disabled>
-                      Selecciona un plan
-                    </option>
-                    {plans.map((plan) => (
-                      <option key={plan.id} value={plan.name}>
-                        {plan.name} - {plan.duration} días - ${plan.price}
-                      </option>
-                    ))}
-                  </select>
-                )}
+                <input
+                  type="text"
+                  name="horario"
+                  id="horario"
+                  value={form.schedule}
+                  onChange={onChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="Horario"
+                  required
+                />
               </div>
               <div className="col-span-2">
                 <label
@@ -160,7 +148,7 @@ export default function UserModal({
                     <option value={0} disabled>
                       Selecciona un gimnasio
                     </option>
-                    {gyms.map((gym) => (
+                    {gyms.map((gym: { id: number; name: string; address: string }) => (
                       <option key={gym.id} value={gym.id}>
                         {gym.name} - {gym.address}
                       </option>
@@ -168,25 +156,50 @@ export default function UserModal({
                   </select>
                 )}
               </div>
+              <div className="col-span-2">
+                <label
+                  htmlFor="password"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
+                  Contraseña
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  value={form.password}
+                  onChange={onChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="Contraseña"
+                  required
+                />
+              </div>
             </div>
             <div className="flex justify-end w-full">
               <button
                 type="submit"
                 className="btn-primary"
+                disabled={loading}
               >
-                <svg
-                  className="me-1 -ms-1 w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                {mode === "edit" ? "Guardar cambios" : "Agregar usuario"}
+                {loading ? (
+                  <span>Guardando...</span>
+                ) : (
+                  <>
+                    <svg
+                      className="me-1 -ms-1 w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                    {mode === "edit" ? "Guardar cambios" : "Agregar entrenador"}
+                  </>
+                )}
               </button>
             </div>
           </form>
@@ -194,4 +207,4 @@ export default function UserModal({
       </div>
     </div>
   );
-}
+} 

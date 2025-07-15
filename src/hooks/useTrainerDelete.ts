@@ -1,37 +1,35 @@
 import { useState } from "react";
-import react from "react";
-import { deleteUserService } from "@/services/userService";
+import { deleteTrainerService } from "@/services/trainersService";
 
-export function useUserDelete(getUsers: () => void) {
+export function useTrainerDelete(getTrainers: () => void) {
   const [showConfirm, setShowConfirm] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<any>(null);
+  const [trainerToDelete, setTrainerToDelete] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleDeleteClick = (user: any) => {
-    setUserToDelete(user);
+  const handleDeleteClick = (trainer: any) => {
+    setTrainerToDelete(trainer);
     setShowConfirm(true);
   };
 
   const handleConfirmDelete = async () => {
-    // // Eliminar usuario
     setLoading(true);
     setError(null);
     try {
-      await deleteUserService(userToDelete.id);
-      getUsers();
+      await deleteTrainerService(trainerToDelete.id);
+      getTrainers();
+      setShowConfirm(false);
+      setTrainerToDelete(null);
     } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-    setShowConfirm(false);
-    setUserToDelete(null);
   };
 
   const handleCancelDelete = () => {
     setShowConfirm(false);
-    setUserToDelete(null);
+    setTrainerToDelete(null);
   };
 
   return {
@@ -39,6 +37,8 @@ export function useUserDelete(getUsers: () => void) {
     handleConfirmDelete,
     handleCancelDelete,
     showConfirm,
-    userToDelete,
+    trainerToDelete,
+    loading,
+    error,
   };
-}
+} 

@@ -1,0 +1,37 @@
+[
+    {
+      "id": 1,
+      "name": "Membresía Bronce",
+      "price": 75000,
+      "gym_name": "Body Sculpt Gym",
+      "duration": 30
+    },
+    {
+      "id": 2,
+      "name": "Plan Fit Pro",
+      "price": 120000,
+      "gym_name": "Power House Fitness",
+      "duration": 90
+    },
+    {
+      "id": 3,
+      "name": "Acceso Total",
+      "price": 200000,
+      "gym_name": "Elite Training Center",
+      "duration": 180
+    },
+    {
+      "id": 4,
+      "name": "Membresía Estudiantil",
+      "price": 60000,
+      "gym_name": "Campus Fit",
+      "duration": 30
+    },
+    {
+      "id": 5,
+      "name": "Golden Pass",
+      "price": 350000,
+      "gym_name": "Mega Gym Plus",
+      "duration": 365
+    }
+  ]

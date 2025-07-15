@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Juan Pérez",
+    "cedula": "12345678",
+    "phone": "5551234",
+    "plan": "Mensual",
+    "gym": { "id": 1, "name": "Gym Power", "address": "Calle 123, Ciudad" }
+  },
+  {
+    "id": 2,
+    "name": "Ana Gómez",
+    "cedula": "87654321",
+    "phone": "5555678",
+    "plan": "Trimestral",
+    "gym": { "id": 2, "name": "Fitness Center", "address": "Avenida 456, Ciudad" }
+  },
+  {
+    "id": 3,
+    "name": "Carlos Ruiz",
+    "cedula": "11223344",
+    "phone": "5559988",
+    "plan": "Anual",
+    "gym": { "id": 3, "name": "Strong Life Gym", "address": "Boulevard 789, Ciudad" }
+  }
+]
