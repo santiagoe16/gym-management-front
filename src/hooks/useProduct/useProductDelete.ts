@@ -1,7 +1,7 @@
 import { useState } from "react";
 import react from "react";
 
-export function useProductDelete() {
+export function useProductDelete(getProducts: () => void) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [productToDelete, setProductToDelete] = useState<any>(null);
 

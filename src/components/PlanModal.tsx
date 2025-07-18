@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import PlanModaltype from "@/types/modals/plansModal";
 
 export default function PlanModal({
   open,
@@ -8,7 +9,10 @@ export default function PlanModal({
   onChange,
   onSubmit,
   mode = "add",
-}: PlanModalProps) {
+  gyms = [],
+  gymsLoading = false,
+  gymsError = null,
+}: PlanModaltype) {
   if (!open) return null;
 
   return (
@@ -63,6 +67,37 @@ export default function PlanModal({
                   required
                 />
               </div>
+              <div className="col-span-2">
+                <label
+                  htmlFor="gym"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
+                  Gimnasio
+                </label>
+                {gymsLoading ? (
+                  <p className="text-gray-500 text-sm">Cargando gimnasios...</p>
+                ) : gymsError ? (
+                  <p className="text-red-500 text-sm">{gymsError}</p>
+                ) : (
+                  <select
+                    name="gym"
+                    id="gym"
+                    value={form.gym?.id ?? 0}
+                    onChange={onChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    required
+                  >
+                    <option value={0} disabled>
+                      Selecciona un gimnasio
+                    </option>
+                    {gyms.map((gym) => (
+                      <option key={gym.id} value={gym.id}>
+                        {gym.name} - {gym.address}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
               <div className="col-span-2 sm:col-span-1">
                 <label
                   htmlFor="price"
@@ -74,11 +109,16 @@ export default function PlanModal({
                   type="number"
                   name="price"
                   id="price"
-                  value={form.price}
+                  value={form.price === 0 ? "" : form.price}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Precio"
                   required
+                  onKeyDown={(e) => {
+                    if (["e", "E", "+", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
@@ -92,19 +132,21 @@ export default function PlanModal({
                   type="number"
                   name="duration"
                   id="duration"
-                  value={form.duration}
+                  value={form.duration === 0 ? "" : form.duration}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Duración en días"
                   required
+                  onKeyDown={(e) => {
+                    if (["e", "E", "+", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
             </div>
             <div className="flex justify-end w-full">
-              <button
-                type="submit"
-                className="btn-primary"
-              >
+              <button type="submit" className="btn-primary">
                 <svg
                   className="me-1 -ms-1 w-5 h-5"
                   fill="currentColor"

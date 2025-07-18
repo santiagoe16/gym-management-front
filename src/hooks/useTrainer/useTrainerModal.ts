@@ -1,33 +1,27 @@
 import { useState, useEffect } from "react";
-import { addTrainerService, updateTrainerService } from "@/services/trainersService";
-import { getGymsService } from "@/services/gymsService";
-import { Gym } from "@/types/gym";
+import {
+  addTrainerService,
+  updateTrainerService,
+} from "@/services/trainersService";
+import { useGyms } from "../useGym/useGyms";
+import Trainer from "@/types/trainer";
 
 export function useTrainerModal(getTrainers: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const [form, setForm] = useState({
+  const initialForm = {
     name: "",
     cedula: "",
     phone: "",
     schedule: "",
-    gym: { id: 0, name: "", address: "" } as Gym,
+    gym: { name: "", address: "" },
     password: "",
-  });
+  };
+  const [form, setForm] = useState<Trainer>(initialForm);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [gyms, setGyms] = useState<Gym[]>([]);
-  const [gymsLoading, setGymsLoading] = useState(false);
-  const [gymsError, setGymsError] = useState<string | null>(null);
 
-  useEffect(() => {
-    setGymsLoading(true);
-    setGymsError(null);
-    getGymsService()
-      .then((data) => setGyms(data))
-      .catch((err) => setGymsError(err.message))
-      .finally(() => setGymsLoading(false));
-  }, []);
+  const { gyms, loading: gymsLoading, error: gymsError } = useGyms();
 
   const handleOpen = (editData?: typeof form) => {
     setOpen(true);
@@ -35,28 +29,14 @@ export function useTrainerModal(getTrainers: () => void) {
       setForm(editData);
       setMode("edit");
     } else {
-      setForm({
-        name: "",
-        cedula: "",
-        phone: "",
-        schedule: "",
-        gym: { id: 0, name: "", address: "" },
-        password: "",
-      });
+      setForm(initialForm);
       setMode("add");
     }
   };
 
   const handleClose = () => {
     setOpen(false);
-    setForm({
-      name: "",
-      cedula: "",
-      phone: "",
-      schedule: "",
-      gym: { id: 0, name: "", address: "" },
-      password: "",
-    });
+    setForm(initialForm);
     setMode("add");
   };
 
@@ -67,7 +47,7 @@ export function useTrainerModal(getTrainers: () => void) {
   ) => {
     if (e.target.name === "gym") {
       const gymObj = gyms.find((g) => g.id === Number(e.target.value));
-      setForm({ ...form, gym: gymObj || { id: 0, name: "", address: "" } });
+      setForm({ ...form, gym: gymObj || form.gym });
     } else {
       setForm({ ...form, [e.target.name]: e.target.value });
     }
@@ -105,8 +85,10 @@ export function useTrainerModal(getTrainers: () => void) {
     e.preventDefault();
     if (mode === "add") {
       addTrainer(form);
+      getTrainers;
     } else {
       updateTrainer(form);
+      getTrainers;
     }
   };
 

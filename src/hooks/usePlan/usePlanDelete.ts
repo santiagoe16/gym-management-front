@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function usePlanDelete() {
+export function usePlanDelete(getPlans: () => void) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [planToDelete, setPlanToDelete] = useState<any>(null);
 

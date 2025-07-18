@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { getTrainersService } from "@/services/trainersService";
+import { getProductsService } from "@/services/productsService";
+import { Product } from "@/types/product";
 
-export function useTrainers() {
-  const [trainers, setTrainers] = useState<any[]>([]);
+export function useProducts() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Obtener entrenadores
-  const getTrainers = async () => {
+  const getProducts = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getTrainersService();
-      setTrainers(data);
+      const data = await getProductsService();
+      setProducts(data);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -21,13 +21,13 @@ export function useTrainers() {
   };
 
   useEffect(() => {
-    getTrainers();
+    getProducts();
   }, []);
 
   return {
-    trainers,
+    products,
     loading,
     error,
-    getTrainers,
+    getProducts,
   };
-}
+} 

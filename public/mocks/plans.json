@@ -3,35 +3,55 @@
       "id": 1,
       "name": "Membresía Bronce",
       "price": 75000,
-      "gym_name": "Body Sculpt Gym",
+      "gym": {
+        "id": 2,
+        "name": "Fitness Center",
+        "address": "Avenida 456, Ciudad"
+      },
       "duration": 30
     },
     {
       "id": 2,
       "name": "Plan Fit Pro",
       "price": 120000,
-      "gym_name": "Power House Fitness",
+      "gym":{
+        "id": 3,
+        "name": "Strong Life Gym",
+        "address": "Boulevard 789, Ciudad"
+      },
       "duration": 90
     },
     {
       "id": 3,
       "name": "Acceso Total",
       "price": 200000,
-      "gym_name": "Elite Training Center",
+      "gym": {
+        "id": 2,
+        "name": "Fitness Center",
+        "address": "Avenida 456, Ciudad"
+      },
       "duration": 180
     },
     {
       "id": 4,
       "name": "Membresía Estudiantil",
       "price": 60000,
-      "gym_name": "Campus Fit",
+      "gym": {
+        "id": 1,
+        "name": "Gym Power",
+        "address": "Calle 123, Ciudad"
+      },
       "duration": 30
     },
     {
       "id": 5,
       "name": "Golden Pass",
       "price": 350000,
-      "gym_name": "Mega Gym Plus",
+      "gym": {
+        "id": 2,
+        "name": "Fitness Center",
+        "address": "Avenida 456, Ciudad"
+      },
       "duration": 365
     }
   ]

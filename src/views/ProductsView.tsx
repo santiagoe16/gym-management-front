@@ -2,10 +2,13 @@
 import React, { useState } from "react";
 import ProductModal from "@/components/ProductModal";
 import ConfirmModal from "@/components/ConfirmModal";
-import { useProductModal } from "@/hooks/useProductModal";
-import { useProductDelete } from "@/hooks/useProductDelete";
+import { useProductModal } from "@/hooks/useProduct/useProductModal";
+import { useProductDelete } from "@/hooks/useProduct/useProductDelete";
+import { useProducts } from "@/hooks/useProduct/useProducts";
 
 export default function ProductsView() {
+  const { products, loading, error, getProducts } = useProducts();
+
   const {
     open,
     mode,
@@ -14,7 +17,7 @@ export default function ProductsView() {
     handleClose,
     handleChange,
     handleSubmit,
-  } = useProductModal();
+  } = useProductModal(getProducts);
 
   const {
     handleDeleteClick,
@@ -22,7 +25,7 @@ export default function ProductsView() {
     handleCancelDelete,
     showConfirm,
     productToDelete,
-  } = useProductDelete();
+  } = useProductDelete(getProducts);
 
   // Ejemplo de datos de producto
   const productos = [{ name: "Creatina", price: "80000", cantidad: "25" },{ name: "Creatina", price: "80000", cantidad: "25" }];
@@ -58,24 +61,24 @@ export default function ProductsView() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 text-gray-700">
-            {productos.map((prod, idx) => (
+            {products.map((product, idx) => (
               <tr
                 key={idx}
                 className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
               >
-                <td className="px-6 py-4">{prod.name}</td>
-                <td className="px-6 py-4">${prod.price}</td>
-                <td className="px-6 py-4">{prod.cantidad}</td>
+                <td className="px-6 py-4">{product.name}</td>
+                <td className="px-6 py-4">${product.price}</td>
+                <td className="px-6 py-4">{product.quantity}</td>
                 <td className="px-6 py-4">
                   <button
                     className="text-blue-600 hover:underline"
-                    onClick={() => handleOpen(prod)}
+                    onClick={() => handleOpen(product)}
                   >
                     Editar
                   </button>
                   <button
                     className="text-blue-600 hover:underline ml-2"
-                    onClick={() => handleDeleteClick(prod)}
+                    onClick={() => handleDeleteClick(product)}
                   >
                     Eliminar
                   </button>

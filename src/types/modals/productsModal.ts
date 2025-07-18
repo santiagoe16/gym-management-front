@@ -1,11 +1,9 @@
-interface PlanModalProps {
+import { Product } from "../product";
+
+export default interface ProductModalProps {
   open: boolean;
   onClose: () => void;
-  form: {
-    name: string;
-    price: string;
-    duration: string;
-  };
+  form: Product;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;

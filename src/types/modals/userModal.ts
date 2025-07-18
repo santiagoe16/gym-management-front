@@ -1,21 +1,17 @@
 import Gym from "@/types/gym"
+import  User  from "@/types/user";
+import Plan from "@/types/plan"
 
-interface UserModalProps {
+export default interface UserModalProps {
   open: boolean;
   onClose: () => void;
-  form: {
-    name: string;
-    cedula: string;
-    phone: string;
-    plan: string;
-    gym: import("@/types/gym").Gym;
-  };
+  form: User;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;
   onSubmit: (e: React.FormEvent) => void;
   mode?: "add" | "edit";
-  plans: import("@/services/plansService").Plans[];
+  plans: Plan[];
   plansLoading: boolean;
   plansError: string | null;
   gyms: Gym[];

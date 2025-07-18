@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import TrainerModalProps from "@/types/modals/trainerModal";
 
 export default function TrainerModal({
   open,
@@ -13,7 +14,7 @@ export default function TrainerModal({
   gyms = [],
   gymsLoading = false,
   gymsError = null,
-}: any) {
+}: TrainerModalProps) {
   if (!open) return null;
 
   return (
@@ -87,6 +88,11 @@ export default function TrainerModal({
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Cédula"
                   required
+                  onKeyDown={(e) => {
+                    if (["e", "E", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <div className="col-span-2">
@@ -105,6 +111,11 @@ export default function TrainerModal({
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Celular"
                   required
+                  onKeyDown={(e) => {
+                    if (["e", "E", "+", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <div className="col-span-2">
@@ -148,7 +159,7 @@ export default function TrainerModal({
                     <option value={0} disabled>
                       Selecciona un gimnasio
                     </option>
-                    {gyms.map((gym: { id: number; name: string; address: string }) => (
+                    {gyms.map((gym) => (
                       <option key={gym.id} value={gym.id}>
                         {gym.name} - {gym.address}
                       </option>

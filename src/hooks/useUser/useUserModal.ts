@@ -1,47 +1,37 @@
 import { useState, useEffect } from "react";
 import { addUserService, updateUserService } from "@/services/userService";
-import { getPlansService, Plans } from "@/services/plansService";
-import { getGymsService } from "@/services/gymsService";
-import { Gym } from "@/types/gym";
+import { usePlans } from "../usePlan/usePlans";
+import { useGyms } from "../useGym/useGyms";
+import User from "@/types/user";
 
 export function useUserModal(getUsers: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [form, setForm] = useState({
+
+  const initialForm: User = {
     name: "",
-    cedula: "",
-    phone: "",
-    plan: "",
-    gym: { id: 0, name: "", address: "" } as Gym,
-  });
-  const [plans, setPlans] = useState<Plans[]>([]);
-  const [plansLoading, setPlansLoading] = useState(false);
-  const [plansError, setPlansError] = useState<string | null>(null);
-  const [gyms, setGyms] = useState<Gym[]>([]);
-  const [gymsLoading, setGymsLoading] = useState(false);
-  const [gymsError, setGymsError] = useState<string | null>(null);
+    cedula: 0,
+    phone: 0,
+    plan: {
+      "name": "Plan Fit Pro",
+      "price": 120000,
+      "gym":{
+        "id": 3,
+        "name": "Strong Life Gym",
+        "address": "Boulevard 789, Ciudad"
+      },
+      "duration": 90
+    },
+    gym: { name: "", address: "" },
+  };
 
-  useEffect(() => {
-    setPlansLoading(true);
-    setPlansError(null);
-    getPlansService()
-      .then((data) => setPlans(data))
-      .catch((err) => setPlansError(err.message))
-      .finally(() => setPlansLoading(false));
-  }, []);
+  const [form, setForm] = useState(initialForm);
+  const { plans, loading: plansLoading, error: plansError } = usePlans();
+  const { gyms, loading: gymsLoading, error: gymsError } = useGyms();
 
-  useEffect(() => {
-    setGymsLoading(true);
-    setGymsError(null);
-    getGymsService()
-      .then((data) => setGyms(data))
-      .catch((err) => setGymsError(err.message))
-      .finally(() => setGymsLoading(false));
-  }, []);
-
-  const addUser = async (user: any) => {
+  const addUser = async (user: User) => {
     setLoading(true);
     setError(null);
     try {
@@ -55,7 +45,7 @@ export function useUserModal(getUsers: () => void) {
   };
 
   // Actualizar usuario
-  const updateUser = async (user: any) => {
+  const updateUser = async (user: User) => {
     setLoading(true);
     setError(null);
     try {
@@ -68,32 +58,20 @@ export function useUserModal(getUsers: () => void) {
     }
   };
 
-  const handleOpen = (editData?: typeof form) => {
+  const handleOpen = (editData?: User) => {
     setOpen(true);
     if (editData) {
       setForm(editData);
       setMode("edit");
     } else {
-      setForm({
-        name: "",
-        cedula: "",
-        phone: "",
-        plan: "",
-        gym: { id: 0, name: "", address: "" },
-      });
+      setForm(initialForm);
       setMode("add");
     }
   };
 
   const handleClose = () => {
     setOpen(false);
-    setForm({
-      name: "",
-      cedula: "",
-      phone: "",
-      plan: "",
-      gym: { id: 0, name: "", address: "" },
-    });
+    setForm(initialForm);
     setMode("add");
   };
 
@@ -105,6 +83,9 @@ export function useUserModal(getUsers: () => void) {
     if (e.target.name === "gym") {
       const gymObj = gyms.find((g) => g.id === Number(e.target.value));
       setForm({ ...form, gym: gymObj || { id: 0, name: "", address: "" } });
+    } else if (e.target.name === "plan") {
+      const planObj = plans.find((p) => p.id === Number(e.target.value));
+      setForm({ ...form, plan: planObj || { id: 0, name: "", price: 0, gym: { id: 0, name: "", address: "" }, duration: 0 } });
     } else {
       setForm({ ...form, [e.target.name]: e.target.value });
     }
@@ -112,16 +93,13 @@ export function useUserModal(getUsers: () => void) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
-      ...form,
-      cedula: form.cedula ? Number(form.cedula) : undefined,
-      phone: form.phone ? Number(form.phone) : undefined,
-    };
 
     if (mode === "add") {
-      addUser(data);
+      addUser(form);
+      getUsers();
     } else {
-      updateUser(data);
+      updateUser(form);
+      getUsers();
     }
 
     handleClose();

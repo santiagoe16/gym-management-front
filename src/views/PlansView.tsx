@@ -2,10 +2,19 @@
 import React, { useState } from "react";
 import PlanModal from "@/components/PlanModal";
 import ConfirmModal from "@/components/ConfirmModal";
-import { usePlanModal } from "@/hooks/usePlanModal";
-import { usePlanDelete } from "@/hooks/usePlanDelete";
+import { usePlanModal } from "@/hooks/usePlan/usePlanModal";
+import { usePlanDelete } from "@/hooks/usePlan/usePlanDelete";
+import { usePlans } from "@/hooks/usePlan/usePlans";
+import { useGyms } from "@/hooks/useGym/useGyms";
 
 export default function PlansView() {
+  const {
+    plans,
+    loading: plansLoading,
+    error: plansError,
+    getPlans,
+  } = usePlans();
+
   const {
     open,
     mode,
@@ -14,7 +23,10 @@ export default function PlansView() {
     handleClose,
     handleChange,
     handleSubmit,
-  } = usePlanModal();
+    gyms,
+    gymsLoading,
+    gymsError
+  } = usePlanModal(getPlans);
 
   const {
     handleDeleteClick,
@@ -22,29 +34,18 @@ export default function PlansView() {
     handleCancelDelete,
     showConfirm,
     planToDelete,
-  } = usePlanDelete();
-
-  // Ejemplo de datos de planes
-  const planes = [
-    { name: "Mensual", price: "70000", duration: "30" },
-    { name: "Trimestral", price: "180000", duration: "90" },
-  ];
+  } = usePlanDelete(getPlans);
 
   return (
     <main className="p-6">
       {/* Encabezado de la página */}
       <header className="mb-4">
-        <h1 className="text-4xl font-semibold text-gray-800">
-          Planes
-        </h1>
+        <h1 className="text-4xl font-semibold text-gray-800">Planes</h1>
       </header>
 
       {/* Sección de acciones */}
       <section className="flex justify-end mb-16">
-        <button
-          className="btn-primary"
-          onClick={() => handleOpen()}
-        >
+        <button className="btn-primary" onClick={() => handleOpen()}>
           + Agregar plan
         </button>
       </section>
@@ -57,11 +58,12 @@ export default function PlansView() {
               <th className="px-6 py-3">Plan</th>
               <th className="px-6 py-3">Precio</th>
               <th className="px-6 py-3">Duración (días)</th>
+              <th className="px-6 py-3">Gimnasio</th>
               <th className="px-6 py-3">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 text-gray-700">
-            {planes.map((plan, idx) => (
+            {plans.map((plan, idx) => (
               <tr
                 key={idx}
                 className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
@@ -69,6 +71,7 @@ export default function PlansView() {
                 <td className="px-6 py-4">{plan.name}</td>
                 <td className="px-6 py-4">${plan.price}</td>
                 <td className="px-6 py-4">{plan.duration}</td>
+                <td className="px-6 py-4">{plan.gym.name}</td>
                 <td className="px-6 py-4">
                   <button
                     className="text-blue-600 hover:underline"
@@ -95,6 +98,9 @@ export default function PlansView() {
         onChange={handleChange}
         onSubmit={handleSubmit}
         mode={mode}
+        gyms={gyms}
+        gymsLoading={gymsLoading}
+        gymsError={gymsError}
       />
       <ConfirmModal
         open={showConfirm}

@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import GymModal from "@/components/GymModal";
-import { useGyms } from "@/hooks/useGyms";
-import { useGymModal } from "@/hooks/useGymModal";
+import { useGyms } from "@/hooks/useGym/useGyms";
+import { useGymModal } from "@/hooks/useGym/useGymModal";
 import ConfirmModal from "@/components/ConfirmModal";
-import { useGymDelete } from "@/hooks/useGymDelete";
+import { useGymDelete } from "@/hooks/useGym/useGymDelete";
 
 export default function GymsView() {
   const { gyms, loading, error, getGyms } = useGyms();
@@ -120,4 +120,4 @@ export default function GymsView() {
       />
     </main>
   );
-} 
+}

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
-export default function Sidebar({ children }: { children: React.ReactNode }) {
+export default function AdminSidebar({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -261,7 +261,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Área del contenido principal de la página */}
-      <div className="p-4 sm:ml-64">{children}</div>
+      <div className="sm:ml-64">{children}</div>
     </>
   );
 }

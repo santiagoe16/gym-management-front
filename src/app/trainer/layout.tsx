@@ -1,14 +1,14 @@
 'use client'
 
-import Sidebar from '@/components/AdminSidebar'
+import TrainerSidebar from '@/components/TrainerSidebar'
 import LayoutContainer from '@/layouts/LayoutContainer'
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function TrainerLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Sidebar>
+    <TrainerSidebar>
       <main className="bg-gray-100">
         <LayoutContainer>{children}</LayoutContainer>
       </main>
-    </Sidebar>
+    </TrainerSidebar>
   )
 }

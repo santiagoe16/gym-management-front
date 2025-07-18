@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import ProductModalProps from "@/types/modals/productsModal";
 
 export default function ProductModal({
   open,
@@ -74,29 +75,39 @@ export default function ProductModal({
                   type="number"
                   name="price"
                   id="price"
-                  value={form.price}
+                  value={form.price === 0 ? "" : form.price}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Precio"
                   required
+                  onKeyDown={(e) => {
+                    if (["e", "E", "+", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="cantidad"
+                  htmlFor="quantity"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Cantidad
                 </label>
                 <input
                   type="number"
-                  name="cantidad"
-                  id="cantidad"
-                  value={form.cantidad}
+                  name="quantity"
+                  id="quantity"
+                  value={form.quantity === 0 ? "" : form.quantity}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Cantidad"
                   required
+                  onKeyDown={(e) => {
+                    if (["e", "E", "+", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
             </div>

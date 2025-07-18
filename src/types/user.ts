@@ -1,4 +1,5 @@
-import { Gym } from "./gym";
+import Gym from "@/types/gym";
+import Plan from "@/types/plan";
 
 export interface RegisterData {
   firstName: string;
@@ -8,11 +9,11 @@ export interface RegisterData {
   confirmPassword: string;
 }
 
-export interface User {
+export default interface User {
   id?: number;
   name: string;
-  cedula: string;
-  phone: string;
-  plan: string;
+  cedula: number;
+  phone: number;
+  plan: Plan;
   gym: Gym;
 }

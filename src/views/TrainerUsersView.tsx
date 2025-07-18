@@ -1,43 +1,38 @@
 "use client";
-import React from "react";
-import TrainerModal from "@/components/TrainerModal";
+import React, { useState } from "react";
+import UserModal from "@/components/userModal";
+import { useUserModal } from "@/hooks/useUser/useUserModal";
+import { useUserDelete } from "@/hooks/useUser/useUserDelete";
 import ConfirmModal from "@/components/ConfirmModal";
-import { useTrainerModal } from "@/hooks/useTrainer/useTrainerModal";
-import { useTrainerDelete } from "@/hooks/useTrainer/useTrainerDelete";
-import { useTrainers } from "@/hooks/useTrainer/useTrainers";
+import { useUsers } from "@/hooks/useUser/useUsers";
 
-export default function TrainersView() {
-  const { trainers, loading, error, getTrainers } = useTrainers();
+export default function UsersView() {
+  const { users, loading, error, getUsers } = useUsers();
 
   const {
     open,
     mode,
     form,
-    loading: loadingModal,
-    error: errorModal,
-    gyms,
-    gymsLoading,
-    gymsError,
     handleOpen,
     handleClose,
     handleChange,
     handleSubmit,
-  } = useTrainerModal(getTrainers);
+    plans,
+    plansLoading,
+    plansError,
+    gyms,
+    gymsLoading,
+    gymsError,
+  } = useUserModal(getUsers);
 
-  const {
-    handleDeleteClick,
-    handleConfirmDelete,
-    handleCancelDelete,
-    showConfirm,
-    trainerToDelete,
-  } = useTrainerDelete(getTrainers);
+
 
   return (
-    <main className="p-6">
+    <main className="min-h-screen">
       {/* Encabezado de la página */}
       <header className="mb-4">
         <h1 className="text-4xl font-semibold text-gray-800">
-          Listado de entrenadores
+          Listado de usuarios
         </h1>
       </header>
 
@@ -56,51 +51,49 @@ export default function TrainersView() {
               clipRule="evenodd"
             ></path>
           </svg>{" "}
-          Agregar entrenador
+          Agregar usuario
         </button>
       </section>
 
-      {/* Sección de la tabla de entrenadores */}
+      {/* Sección de la tabla de productos */}
       <section className="overflow-x-auto bg-white rounded-lg shadow-lg border-gray-300 border">
         {loading ? (
-          <p className="text-gray-500 p-4">Cargando entrenadores...</p>
-        ) : error ? (
-          <p className="text-red-500 p-4">{error}</p>
+          <p className="text-gray-500">Cargando usuarios...</p>
         ) : (
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-gray-200 text-left text-gray-600 uppercase text-sm font-medium">
               <tr className="whitespace-nowrap">
                 <th className="px-6 py-3">Nombre</th>
-                <th className="px-6 py-3">Cédula</th>
+                <th className="px-6 py-3">Cedula</th>
                 <th className="px-6 py-3">Celular</th>
-                <th className="px-6 py-3">Horario</th>
-                <th className="px-6 py-3">Nombre de gimnasio</th>
+                <th className="px-6 py-3">Plan</th>
+                <th className="px-6 py-3">Gimnasio</th>
                 <th className="px-6 py-3">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 text-gray-700">
-              {trainers.map((trainer, idx) => (
+              {users.map((user, idx) => (
                 <tr
-                  key={trainer.cedula}
+                  key={user.cedula}
                   className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
                 >
-                  <td className="px-6 py-4">{trainer.name}</td>
-                  <td className="px-6 py-4">{trainer.cedula}</td>
-                  <td className="px-6 py-4">{trainer.phone}</td>
-                  <td className="px-6 py-4">{trainer.schedule}</td>
-                  <td className="px-6 py-4">{trainer.gym.name}</td>
+                  <td className="px-6 py-4">{user.name}</td>
+                  <td className="px-6 py-4">{user.cedula}</td>
+                  <td className="px-6 py-4">{user.phone}</td>
+                  <td className="px-6 py-4">{user.plan.name}</td>
+                  <td className="px-6 py-4">{user.gym?.name}</td>
                   <td className="px-6 py-4">
                     <button
                       className="text-blue-600 hover:underline"
-                      onClick={() => handleOpen(trainer)}
+                      onClick={() => handleOpen(user)}
                     >
                       Editar
                     </button>
                     <button
-                      className="text-blue-600 hover:underline ml-2"
-                      onClick={() => handleDeleteClick(trainer)}
+                      className="text-blue-600 hover:underline"
+                      onClick={() => handleOpen(user)}
                     >
-                      Eliminar
+                      Medidas
                     </button>
                   </td>
                 </tr>
@@ -109,25 +102,19 @@ export default function TrainersView() {
           </table>
         )}
       </section>
-      {/* Aquí se integrarán los modales cuando existan los hooks y el modal de entrenador */}
-      <TrainerModal
+      <UserModal
         open={open}
         onClose={handleClose}
         form={form}
         onChange={handleChange}
         onSubmit={handleSubmit}
         mode={mode}
-        loading={loadingModal}
-        error={errorModal}
+        plans={plans}
+        plansLoading={plansLoading}
+        plansError={plansError}
         gyms={gyms}
         gymsLoading={gymsLoading}
         gymsError={gymsError}
-      />
-      <ConfirmModal
-        open={showConfirm}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-        message={`¿Seguro que deseas eliminar "${trainerToDelete?.name}"?`}
       />
     </main>
   );

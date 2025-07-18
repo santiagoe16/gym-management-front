@@ -4,7 +4,17 @@
     "name": "Juan Pérez",
     "cedula": "12345678",
     "phone": "5551234",
-    "plan": "Mensual",
+    "plan": {
+      "id": 5,
+      "name": "Golden Pass",
+      "price": 350000,
+      "gym": {
+        "id": 2,
+        "name": "Fitness Center",
+        "address": "Avenida 456, Ciudad"
+      },
+      "duration": 365
+    },
     "gym": { "id": 1, "name": "Gym Power", "address": "Calle 123, Ciudad" }
   },
   {
@@ -12,15 +22,43 @@
     "name": "Ana Gómez",
     "cedula": "87654321",
     "phone": "5555678",
-    "plan": "Trimestral",
-    "gym": { "id": 2, "name": "Fitness Center", "address": "Avenida 456, Ciudad" }
+    "plan": {
+      "id": 4,
+      "name": "Membresía Estudiantil",
+      "price": 60000,
+      "gym": {
+        "id": 1,
+        "name": "Gym Power",
+        "address": "Calle 123, Ciudad"
+      },
+      "duration": 30
+    },
+    "gym": {
+      "id": 2,
+      "name": "Fitness Center",
+      "address": "Avenida 456, Ciudad"
+    }
   },
   {
     "id": 3,
     "name": "Carlos Ruiz",
     "cedula": "11223344",
     "phone": "5559988",
-    "plan": "Anual",
-    "gym": { "id": 3, "name": "Strong Life Gym", "address": "Boulevard 789, Ciudad" }
+    "plan": {
+      "id": 2,
+      "name": "Plan Fit Pro",
+      "price": 120000,
+      "gym": {
+        "id": 3,
+        "name": "Strong Life Gym",
+        "address": "Boulevard 789, Ciudad"
+      },
+      "duration": 90
+    },
+    "gym": {
+      "id": 3,
+      "name": "Strong Life Gym",
+      "address": "Boulevard 789, Ciudad"
+    }
   }
 ]

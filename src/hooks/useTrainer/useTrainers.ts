@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { getUsersService } from "@/services/userService";
+import { getTrainersService } from "@/services/trainersService";
+import Trainer from "@/types/trainer";
 
-export function useUsers() {
-  const [users, setUsers] = useState<any[]>([]);
+export function useTrainers() {
+  const [trainers, setTrainers] = useState<Trainer[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Obtener usuarios
-  const getUsers = async () => {
+  // Obtener entrenadores
+  const getTrainers = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getUsersService();
-      setUsers(data);
+      const data = await getTrainersService();
+      setTrainers(data);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -21,13 +22,13 @@ export function useUsers() {
   };
 
   useEffect(() => {
-    getUsers();
+    getTrainers();
   }, []);
 
   return {
-    users,
+    trainers,
     loading,
     error,
-    getUsers,
+    getTrainers,
   };
 }

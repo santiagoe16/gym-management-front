@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { UserModalProps } from "@/types/userModal";
+import UserModalProps from "@/types/modals/userModal";
 
 export default function UserModal({
   open,
@@ -81,11 +81,16 @@ export default function UserModal({
                   type="number"
                   name="cedula"
                   id="cedula"
-                  value={form.cedula}
+                  value={form.cedula === 0 ? "" : form.cedula}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Cedula"
+                  placeholder="Cédula"
                   required
+                  onKeyDown={(e) => {
+                    if (["e", "E", "+", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <div className="col-span-2">
@@ -99,11 +104,16 @@ export default function UserModal({
                   type="number"
                   name="phone"
                   id="phone"
-                  value={form.phone}
+                  value={form.phone === 0 ? "" : form.phone}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Celular"
                   required
+                  onKeyDown={(e) => {
+                    if (["e", "E", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <div className="col-span-2">
@@ -121,16 +131,16 @@ export default function UserModal({
                   <select
                     name="plan"
                     id="plan"
-                    value={form.plan}
+                    value={form.plan?.id ?? 0}
                     onChange={onChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
                   >
-                    <option value="" disabled>
+                    <option value={0} disabled>
                       Selecciona un plan
                     </option>
                     {plans.map((plan) => (
-                      <option key={plan.id} value={plan.name}>
+                      <option key={plan.id} value={plan.id}>
                         {plan.name} - {plan.duration} días - ${plan.price}
                       </option>
                     ))}
@@ -170,10 +180,7 @@ export default function UserModal({
               </div>
             </div>
             <div className="flex justify-end w-full">
-              <button
-                type="submit"
-                className="btn-primary"
-              >
+              <button type="submit" className="btn-primary">
                 <svg
                   className="me-1 -ms-1 w-5 h-5"
                   fill="currentColor"

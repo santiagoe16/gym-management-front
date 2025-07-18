@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import UserModal from "@/components/userModal";
-import { useUserModal } from "@/hooks/useUserModal";
-import { useUserDelete } from "@/hooks/useUserDelete";
+import { useUserModal } from "@/hooks/useUser/useUserModal";
+import { useUserDelete } from "@/hooks/useUser/useUserDelete";
 import ConfirmModal from "@/components/ConfirmModal";
-import { useUsers } from "@/hooks/useUsers";
+import { useUsers } from "@/hooks/useUser/useUsers";
 
 export default function UsersView() {
   const { users, loading, error, getUsers } = useUsers();
@@ -36,7 +36,7 @@ export default function UsersView() {
   // Ejemplo de datos de producto
 
   return (
-    <main className="p-6">
+    <main>
       {/* Encabezado de la página */}
       <header className="mb-4">
         <h1 className="text-4xl font-semibold text-gray-800">
@@ -88,7 +88,7 @@ export default function UsersView() {
                   <td className="px-6 py-4">{user.name}</td>
                   <td className="px-6 py-4">{user.cedula}</td>
                   <td className="px-6 py-4">{user.phone}</td>
-                  <td className="px-6 py-4">{user.plan}</td>
+                  <td className="px-6 py-4">{user.plan.name}</td>
                   <td className="px-6 py-4">{user.gym?.name}</td>
                   <td className="px-6 py-4">
                     <button

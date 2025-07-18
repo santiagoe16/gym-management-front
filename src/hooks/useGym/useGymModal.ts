@@ -5,7 +5,7 @@ import { Gym } from "@/types/gym";
 export function useGymModal(getGyms: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const [form, setForm] = useState<Omit<Gym, "id">>({
+  const [form, setForm] = useState<Gym>({
     name: "",
     address: "",
   });
@@ -17,7 +17,7 @@ export function useGymModal(getGyms: () => void) {
     setOpen(true);
     if (editData) {
       setForm({ name: editData.name, address: editData.address });
-      setEditId(editData.id);
+      setEditId(editData.id ?? null);
       setMode("edit");
     } else {
       setForm({ name: "", address: "" });

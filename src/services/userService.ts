@@ -1,13 +1,6 @@
+import  User  from "@/types/user";
+
 // Servicio para manejar usuarios usando mocks
-
-export interface User {
-  id?: number;
-  name: string;
-  cedula: string;
-  phone: string;
-  plan: string;
-}
-
 export async function getUsersService(): Promise<User[]> {
   const res = await fetch("/mocks/users.json");
   if (!res.ok) throw new Error("Error al obtener usuarios");

@@ -1,13 +1,14 @@
 import { useState } from "react";
-
-export function useProductModal() {
+import { Product } from "@/types/product";
+export function useProductModal(getProducts: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const [form, setForm] = useState({
+  const initialForm = {
     name: "",
-    price: "",
-    cantidad: ""
-  });
+    price: 0,
+    quantity: 0,
+  }
+  const [form, setForm] = useState<Product>(initialForm);
 
   const handleOpen = (editData?: typeof form) => {
     setOpen(true);
@@ -15,27 +16,21 @@ export function useProductModal() {
       setForm(editData);
       setMode("edit");
     } else {
-      setForm({
-        name: "",
-        price: "",
-        cantidad: ""
-      });
+      setForm(initialForm);
       setMode("add");
     }
   };
 
   const handleClose = () => {
     setOpen(false);
-    setForm({
-      name: "",
-      price: "",
-      cantidad: "",
-    });
+    setForm(initialForm);
     setMode("add");
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -43,6 +38,7 @@ export function useProductModal() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Aquí puedes manejar el envío del formulario (add/edit)
+    getProducts()
     handleClose();
   };
 
