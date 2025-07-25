@@ -1,5 +1,5 @@
 import {Gym} from "@/types/gym";
-import Plan from "@/types/plan";
+import {Plan} from "@/types/plan";
 
 export interface UserAutenticate {
   id: number;

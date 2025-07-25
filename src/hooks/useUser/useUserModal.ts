@@ -16,7 +16,7 @@ export function useUserModal(getUsers: () => void) {
     phone: 0,
     plan: {
       "name": "Plan Fit Pro",
-      "price": 120000,
+      // "price": 120000,
       "gym":{
         "id": 3,
         "name": "Strong Life Gym",

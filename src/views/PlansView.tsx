@@ -70,8 +70,8 @@ export default function PlansView() {
               >
                 <td className="px-6 py-4">{plan.name}</td>
                 <td className="px-6 py-4">${plan.price}</td>
-                <td className="px-6 py-4">{plan.duration}</td>
-                {/* <td className="px-6 py-4">{plan.gym.name}</td> */}
+                <td className="px-6 py-4">{plan.durationDays}</td>
+                <td className="px-6 py-4">{plan.gym.name}</td>
                 <td className="px-6 py-4">
                   <button
                     className="text-blue-600 hover:underline"

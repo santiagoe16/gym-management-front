@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { addGymService, updateGymService } from "@/services/gymsService";
-import { Gym } from "@/types/gym";
+import { Gym, CreateGymDTO } from "@/types/gym";
+import { mapGymToCreateDTO } from "@/utils/mappers";
 
 export function useGymModal(getGyms: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const [form, setForm] = useState<Gym>({
+  const initialForm: CreateGymDTO = {
     name: "",
     address: "",
-  });
+  };
+  const [form, setForm] = useState<CreateGymDTO>(initialForm);
   const [editId, setEditId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -16,11 +18,12 @@ export function useGymModal(getGyms: () => void) {
   const handleOpen = (editData?: Gym) => {
     setOpen(true);
     if (editData) {
-      setForm({ name: editData.name, address: editData.address });
-      setEditId(editData.id ?? null);
+      const { id, ...formData } = editData;
+      setForm(formData);
+      setEditId(id);
       setMode("edit");
     } else {
-      setForm({ name: "", address: "" });
+      setForm(initialForm);
       setEditId(null);
       setMode("add");
     }
@@ -28,7 +31,7 @@ export function useGymModal(getGyms: () => void) {
 
   const handleClose = () => {
     setOpen(false);
-    setForm({ name: "", address: "" });
+    setForm(initialForm);
     setEditId(null);
     setMode("add");
   };
@@ -39,7 +42,7 @@ export function useGymModal(getGyms: () => void) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const addGym = async (gym: Omit<Gym, "id">) => {
+  const addGym = async (gym: CreateGymDTO) => {
     setLoading(true);
     setError(null);
     try {

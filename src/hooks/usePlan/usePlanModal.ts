@@ -1,26 +1,33 @@
 import { useState } from "react";
-import Plan from "@/types/plan";
+import { Plan, CreatePlanDTO, UpdatePlanDTO } from "@/types/plan";
 import { Gym } from "@/types/gym";
 import { useGyms } from "../useGym/useGyms";
+import { addPlanService, updatePlanService } from "@/services/plansService";
 
 export function usePlanModal(getPlans: () => void) {
-  const initialForm: Plan = {
+  const initialForm: CreatePlanDTO = {
     name: "",
-    price: 0,
-    gym: { name: "", address: "" },
-    duration: 0,
+    price: "",
+    gymId: 0,
+    durationDays: 0,
   };
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const [form, setForm] = useState<Plan>(initialForm);
+  const [form, setForm] = useState<CreatePlanDTO>(initialForm);
+  const [editId, setEditId] = useState<number | null>(null);
   const { gyms, loading: gymsLoading, error: gymsError } = useGyms();
 
-  const handleOpen = (editData?: typeof form) => {
+  const handleOpen = (editData?: Plan) => {
     setOpen(true);
     if (editData) {
-      setForm(editData);
+      const { id, ...formData } = editData;
+      setForm(formData);
+      setEditId(id);
       setMode("edit");
     } else {
+      setEditId(null);
       setForm(initialForm);
       setMode("add");
     }
@@ -28,6 +35,7 @@ export function usePlanModal(getPlans: () => void) {
 
   const handleClose = () => {
     setOpen(false);
+    setEditId(null);
     setForm(initialForm);
     setMode("add");
   };
@@ -38,21 +46,48 @@ export function usePlanModal(getPlans: () => void) {
     >
   ) => {
     const { name, value } = e.target;
-    
-    if (name === "gym") {
-      // Buscar el gimnasio completo por ID
-      const selectedGym = gyms.find(gym => gym.id === parseInt(value));
-      setForm({ ...form, gym: selectedGym || { id: 0, name: "", address: "" } });
-    } else {
-      setForm({ ...form, [name]: value });
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "gymId" || name === "durationDays" ? Number(value) : value,
+    }));
+  };
+  const addPlan = async (plan: CreatePlanDTO) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await addPlanService(plan);
+      getPlans();
+      handleClose();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updatePlan = async (plan: any) => {
+    if (!editId) return;
+    setLoading(true);
+    setError(null);
+    try {
+      await updatePlanService(editId, plan);
+      getPlans();
+      handleClose();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //manejar envío de formulario (add/edit)
-    getPlans()
-    handleClose();
+    if (mode === "add") {
+      addPlan(form);
+    } else {
+      updatePlan(form);
+    }
   };
 
   return {
@@ -65,6 +100,6 @@ export function usePlanModal(getPlans: () => void) {
     handleSubmit,
     gyms,
     gymsLoading,
-    gymsError
+    gymsError,
   };
 }

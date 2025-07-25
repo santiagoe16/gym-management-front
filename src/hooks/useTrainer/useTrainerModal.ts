@@ -76,7 +76,6 @@ export function useTrainerModal(getTrainers: () => void) {
   };
 
   const updateTrainer = async (trainer: any) => {
-    console.log("updatetrainer", selectedTrainerId)
     if (!selectedTrainerId) return;
     setLoading(true);
     setError(null);

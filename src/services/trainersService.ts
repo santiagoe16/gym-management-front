@@ -92,5 +92,17 @@ export async function updateTrainerService(
 
 export async function deleteTrainerService(id: number): Promise<number> {
   // Aquí normalmente harías un DELETE
-  return id;
+  const res = await fetchWithAuth(TRAINER_ENDPOINTS.TRAINERS_DELETE + id, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    console.log(res)
+    const errorBody = await res.json();
+    console.error("Código de error:", res.status);
+    throw new Error(errorBody.datail || `Error HTTP ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data.message;
 }

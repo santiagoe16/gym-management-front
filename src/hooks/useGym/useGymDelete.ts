@@ -23,7 +23,7 @@ export function useGymDelete(getGyms: () => void) {
       setShowConfirm(false);
       setGymToDelete(null);
     } catch (err: any) {
-      setError(err.message);
+      setError(err);
     } finally {
       setLoading(false);
     }

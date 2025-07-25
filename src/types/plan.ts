@@ -1,11 +1,24 @@
 import {Gym} from "@/types/gym";
 
 export interface Plan {
-  id?: number;
+  id: number;
   name: string;
-  price: number;
+  price: string;
+  gymId: number,
   gym: Gym;
-  duration: number;
+  durationDays: number;
 }
 
-export default Plan;
+export interface CreatePlanDTO {
+  name: string;
+  price: string;
+  durationDays: number;
+  gymId: number,
+}
+
+export interface UpdatePlanDTO {
+  id: number;
+  price: string;
+  durationDays: number;
+  gymId: number,
+}

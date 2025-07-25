@@ -128,7 +128,7 @@ export default function TrainersView() {
         open={showConfirm}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        message={`¿Seguro que deseas eliminar "${trainerToDelete?.name}"?`}
+        message={`¿Seguro que deseas eliminar "${trainerToDelete?.fullName}"?`}
       />
     </main>
   );

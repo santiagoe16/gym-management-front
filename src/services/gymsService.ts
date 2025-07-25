@@ -1,36 +1,74 @@
-import { Gym } from "@/types/gym";
+import { Gym, CreateGymDTO } from "@/types/gym";
 import { GYM_ENDPOINTS } from "@/constants/apiEndopoints";
-import fetchWithAuth from "@/utils/fetchWithAuth"
+import fetchWithAuth from "@/utils/fetchWithAuth";
 
 export async function getGymsService(): Promise<Gym[]> {
-  try {
-    const res = await fetchWithAuth(GYM_ENDPOINTS.GYMS_ALL);
+  const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE);
 
-    try {
-      const gyms: Gym[] = await res.json();
-      return gyms;
-    } catch (err) {
-      throw new Error("Error al parsear la respuesta del servidor");
-    }
+  if (!res.ok) {
+    throw new Error(`Error HTTP: ${res.status}`);
+  }
+
+  try {
+    const gyms: Gym[] = await res.json();
+    return gyms;
   } catch (err) {
-    console.error("getGymsService error:", err);
-    // Re-lanzamos el error para que lo capture el hook
-    throw err;
+    throw new Error("Error al parsear la respuesta del servidor");
   }
 }
 
+export async function addGymService(gym: CreateGymDTO): Promise<Gym> {
+  // Validación de entrada
 
-export async function addGymService(gym: Omit<Gym, 'id'>): Promise<Gym> {
-  // Aquí iría la lógica real de POST
-  return gym as Gym;
+  try {
+    // Enviar el cuerpo validado al backend
+    const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(gym),
+    });
+
+    const data = await res.json();
+
+    // Validar respuesta del servidor
+    const addedGym: Gym = data;
+    return addedGym;
+  } catch (err) {
+    console.error("addGymService error:", err);
+    throw new Error("Error al agregar gimnasio");
+  }
 }
 
 export async function updateGymService(gym: Gym): Promise<Gym> {
-  // Aquí iría la lógica real de PUT
-  return gym;
+  try {
+    const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE + gym.id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(gym),
+    });
+
+    const data = await res.json();
+
+    const updatedGym: Gym = data;
+    return updatedGym;
+  } catch (err) {
+    console.error("updateGymService error:", err);
+    throw new Error("Error al actualizar gimnasio");
+  }
 }
 
-export async function deleteGymService(id: number): Promise<void> {
-  // Aquí iría la lógica real de DELETE
-  return;
-} 
+export async function deleteGymService(id: number): Promise<string> {
+  const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE + id, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    console.log(res)
+    const errorBody = await res.json();
+    console.error("Código de error:", res.status);
+    throw new Error(errorBody.datail || `Error HTTP ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data.message;
+}

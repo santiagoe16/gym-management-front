@@ -7,13 +7,11 @@ export const AUTH_ENDPOINTS = {
 }
 
 export const GYM_ENDPOINTS = {
-    GYMS_ALL: `${API_BASE_URL}/api/v1/gyms/`,
-    GYMS_ADD: `${API_BASE_URL}/api/v1/gyms/`,
+    GYM_BASE: `${API_BASE_URL}/api/v1/gyms/`,
 }
 
 export const PLAN_ENDPOINTS = {
-    PLANS_ALL: `${API_BASE_URL}/api/v1/plans/`,
-    PLANS_ADD: `${API_BASE_URL}/api/v1/plans/`,
+    PLAN_BASE: `${API_BASE_URL}/api/v1/plans/`,
 }
 
 export const PRODUCT_ENDPOINTS = {
@@ -25,4 +23,5 @@ export const TRAINER_ENDPOINTS = {
     TRAINERS_ALL: `${API_BASE_URL}/api/v1/users/trainers/`,
     TRAINERS_ADD: `${API_BASE_URL}/api/v1/users/admin-trainer`,
     TRAINERS_EDIT: `${API_BASE_URL}/api/v1/users/`,
+    TRAINERS_DELETE: `${API_BASE_URL}/api/v1/users/`,
 }

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Trainer, CreateTrainerDTO } from "@/types/trainer";
+import { Trainer } from "@/types/trainer";
 import { Gym } from "@/types/gym";
 
 const GymSchema: z.ZodType<Gym> = z

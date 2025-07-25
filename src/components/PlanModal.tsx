@@ -69,7 +69,7 @@ export default function PlanModal({
               </div>
               <div className="col-span-2">
                 <label
-                  htmlFor="gym"
+                  htmlFor="gymId"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Gimnasio
@@ -80,9 +80,9 @@ export default function PlanModal({
                   <p className="text-red-500 text-sm">{gymsError}</p>
                 ) : (
                   <select
-                    name="gym"
-                    id="gym"
-                    value={form.gym?.id ?? 0}
+                    name="gymId"
+                    id="gymId"
+                    value={form.gymId}
                     onChange={onChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
@@ -123,16 +123,16 @@ export default function PlanModal({
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="duration"
+                  htmlFor="durationDays"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Duración (días)
                 </label>
                 <input
                   type="number"
-                  name="duration"
-                  id="duration"
-                  value={form.duration === 0 ? "" : form.duration}
+                  name="durationDays"
+                  id="durationDays"
+                  value={form.durationDays === 0 ? "" : form.durationDays}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Duración en días"
