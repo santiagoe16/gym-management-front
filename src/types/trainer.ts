@@ -1,10 +1,28 @@
 import { Gym } from "./gym";
-export default interface Trainer {
-  id?: number;
-  name: string;
-  cedula: string;
-  phone: string;
-  schedule: string;
+
+export interface Trainer {
+  id: number;
+  email: string;
+  fullName: string;
+  documentId: string;
+  phoneNumber: string;
+  role: 'trainer';
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
   gym: Gym;
-  password?: string
 }
+
+export interface CreateTrainerDTO {
+  email: string;
+  fullName: string;
+  documentId: string;
+  phoneNumber: string;
+  gymId: number;
+  role: 'trainer';
+  password: string;
+}
+
+export type EditTrainerDTO = Partial<Omit<CreateTrainerDTO, "role">> & {
+  id: number;
+};

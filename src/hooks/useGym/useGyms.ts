@@ -14,7 +14,8 @@ export function useGyms() {
       const data = await getGymsService();
       setGyms(data);
     } catch (err: any) {
-      setError(err.message);
+      const fallback = "No se pudieron cargar los gimnasios.";
+      setError(err?.message || fallback);
     } finally {
       setLoading(false);
     }
@@ -30,4 +31,4 @@ export function useGyms() {
     error,
     getGyms,
   };
-} 
+}

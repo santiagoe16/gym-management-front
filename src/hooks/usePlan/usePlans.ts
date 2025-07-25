@@ -14,7 +14,8 @@ export function usePlans() {
       const data = await getPlansService();
       setPlans(data);
     } catch (err: any) {
-      setError(err.message);
+      const fallback = "No se pudieron cargar los gimnasios.";
+      setError(err?.message || fallback);
     } finally {
       setLoading(false);
     }

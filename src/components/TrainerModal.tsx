@@ -56,38 +56,56 @@ export default function TrainerModal({
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2">
                 <label
-                  htmlFor="name"
+                  htmlFor="email"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
+                  Email
+                </label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  value={form.email}
+                  onChange={onChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="Nombre del entrenador"
+                  required={mode === "add"}
+                />
+              </div>
+              <div className="col-span-2">
+                <label
+                  htmlFor="fullName"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Nombre
                 </label>
                 <input
                   type="text"
-                  name="name"
-                  id="name"
-                  value={form.name}
+                  name="fullName"
+                  id="fullName"
+                  value={form.fullName}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Nombre del entrenador"
-                  required
+                  required={mode === "add"}
                 />
               </div>
               <div className="col-span-2">
                 <label
-                  htmlFor="cedula"
+                  htmlFor="documentId"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Cédula
                 </label>
                 <input
                   type="number"
-                  name="cedula"
-                  id="cedula"
-                  value={form.cedula}
+                  name="documentId"
+                  id="documentId"
+                  value={form.documentId}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Cédula"
-                  required
+                  required={mode === "add"}
                   onKeyDown={(e) => {
                     if (["e", "E", "-"].includes(e.key)) {
                       e.preventDefault();
@@ -97,20 +115,20 @@ export default function TrainerModal({
               </div>
               <div className="col-span-2">
                 <label
-                  htmlFor="phone"
+                  htmlFor="phoneNumber"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Celular
                 </label>
                 <input
-                  type="number"
-                  name="phone"
-                  id="phone"
-                  value={form.phone}
+                  type="text"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  value={form.phoneNumber}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Celular"
-                  required
+                  required={mode === "add"}
                   onKeyDown={(e) => {
                     if (["e", "E", "+", "-"].includes(e.key)) {
                       e.preventDefault();
@@ -118,7 +136,7 @@ export default function TrainerModal({
                   }}
                 />
               </div>
-              <div className="col-span-2">
+              {/* <div className="col-span-2">
                 <label
                   htmlFor="horario"
                   className="block mb-1 text-sm font-medium text-gray-900"
@@ -135,7 +153,7 @@ export default function TrainerModal({
                   placeholder="Horario"
                   required
                 />
-              </div>
+              </div> */}
               <div className="col-span-2">
                 <label
                   htmlFor="gym"
@@ -149,12 +167,12 @@ export default function TrainerModal({
                   <p className="text-red-500 text-sm">{gymsError}</p>
                 ) : (
                   <select
-                    name="gym"
+                    name="gymId"
                     id="gym"
-                    value={form.gym?.id ?? 0}
+                    value={form.gymId}
                     onChange={onChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required
+                    required={mode === "add"}
                   >
                     <option value={0} disabled>
                       Selecciona un gimnasio
@@ -182,7 +200,7 @@ export default function TrainerModal({
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Contraseña"
-                  required
+                  required={mode === "add"}
                 />
               </div>
             </div>

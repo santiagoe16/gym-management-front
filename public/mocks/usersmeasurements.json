@@ -1,0 +1,343 @@
+[
+    {
+      "id": 1,
+      "name": "Camilo Rodríguez",
+      "cedula": 1034567890,
+      "phone": 3101234567,
+      "plan": {
+        "id": 1,
+        "name": "Plan Mensual",
+        "price": 120000,
+        "gym": {
+          "id": 1,
+          "name": "Titan Gym",
+          "address": "Cra. 50 #45-20, Medellín"
+        },
+        "duration": 30
+      },
+      "gym": {
+        "id": 1,
+        "name": "Titan Gym",
+        "address": "Cra. 50 #45-20, Medellín"
+      },
+      "measurements": {
+        "chest": 98,
+        "bicep": 34,
+        "forearm": 30,
+        "abdomen": 82,
+        "glutes": 96,
+        "thigh": 61,
+        "calf": 39,
+        "weight": 75,
+        "height": 178,
+        "date": "2025-07-17"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Laura Martínez",
+      "cedula": 1056893245,
+      "phone": 3124567890,
+      "plan": {
+        "id": 2,
+        "name": "Plan Trimestral",
+        "price": 330000,
+        "gym": {
+          "id": 2,
+          "name": "Body Tech",
+          "address": "Cl. 10 #20-33, Bogotá"
+        },
+        "duration": 90
+      },
+      "gym": {
+        "id": 2,
+        "name": "Body Tech",
+        "address": "Cl. 10 #20-33, Bogotá"
+      },
+      "measurements": {
+        "chest": 85,
+        "bicep": 28,
+        "forearm": 24,
+        "abdomen": 69,
+        "glutes": 98,
+        "thigh": 55,
+        "calf": 35,
+        "weight": 60,
+        "height": 164,
+        "date": "2025-07-16"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Julián Torres",
+      "cedula": 1012345671,
+      "phone": 3009876543,
+      "plan": {
+        "id": 3,
+        "name": "Plan Anual",
+        "price": 950000,
+        "gym": {
+          "id": 3,
+          "name": "Power Gym",
+          "address": "Av. Las Vegas #55-23, Envigado"
+        },
+        "duration": 365
+      },
+      "gym": {
+        "id": 3,
+        "name": "Power Gym",
+        "address": "Av. Las Vegas #55-23, Envigado"
+      },
+      "measurements": {
+        "chest": 105,
+        "bicep": 38,
+        "forearm": 33,
+        "abdomen": 88,
+        "glutes": 102,
+        "thigh": 65,
+        "calf": 42,
+        "weight": 82,
+        "height": 182,
+        "date": "2025-07-14"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Valentina Gómez",
+      "cedula": 1098765432,
+      "phone": 3157894321,
+      "plan": {
+        "id": 2,
+        "name": "Plan Trimestral",
+        "price": 330000,
+        "gym": {
+          "id": 2,
+          "name": "Body Tech",
+          "address": "Cl. 10 #20-33, Bogotá"
+        },
+        "duration": 90
+      },
+      "gym": {
+        "id": 2,
+        "name": "Body Tech",
+        "address": "Cl. 10 #20-33, Bogotá"
+      },
+      "measurements": {
+        "chest": 87,
+        "bicep": 27,
+        "forearm": 25,
+        "abdomen": 68,
+        "glutes": 101,
+        "thigh": 58,
+        "calf": 37,
+        "weight": 59,
+        "height": 162,
+        "date": "2025-07-15"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Andrés Restrepo",
+      "cedula": 1045678912,
+      "phone": 3119876543,
+      "plan": {
+        "id": 1,
+        "name": "Plan Mensual",
+        "price": 120000,
+        "gym": {
+          "id": 1,
+          "name": "Titan Gym",
+          "address": "Cra. 50 #45-20, Medellín"
+        },
+        "duration": 30
+      },
+      "gym": {
+        "id": 1,
+        "name": "Titan Gym",
+        "address": "Cra. 50 #45-20, Medellín"
+      },
+      "measurements": {
+        "chest": 96,
+        "bicep": 33,
+        "forearm": 30,
+        "abdomen": 83,
+        "glutes": 97,
+        "thigh": 62,
+        "calf": 40,
+        "weight": 74,
+        "height": 175,
+        "date": "2025-07-10"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Isabela Castaño",
+      "cedula": 1112345678,
+      "phone": 3112345678,
+      "plan": {
+        "id": 3,
+        "name": "Plan Anual",
+        "price": 950000,
+        "gym": {
+          "id": 3,
+          "name": "Power Gym",
+          "address": "Av. Las Vegas #55-23, Envigado"
+        },
+        "duration": 365
+      },
+      "gym": {
+        "id": 3,
+        "name": "Power Gym",
+        "address": "Av. Las Vegas #55-23, Envigado"
+      },
+      "measurements": {
+        "chest": 84,
+        "bicep": 29,
+        "forearm": 26,
+        "abdomen": 71,
+        "glutes": 99,
+        "thigh": 57,
+        "calf": 36,
+        "weight": 61,
+        "height": 166,
+        "date": "2025-07-17"
+      }
+    },
+    {
+      "id": 7,
+      "name": "Felipe Méndez",
+      "cedula": 1122334455,
+      "phone": 3167890123,
+      "plan": {
+        "id": 1,
+        "name": "Plan Mensual",
+        "price": 120000,
+        "gym": {
+          "id": 1,
+          "name": "Titan Gym",
+          "address": "Cra. 50 #45-20, Medellín"
+        },
+        "duration": 30
+      },
+      "gym": {
+        "id": 1,
+        "name": "Titan Gym",
+        "address": "Cra. 50 #45-20, Medellín"
+      },
+      "measurements": {
+        "chest": 99,
+        "bicep": 35,
+        "forearm": 31,
+        "abdomen": 85,
+        "glutes": 95,
+        "thigh": 63,
+        "calf": 39,
+        "weight": 77,
+        "height": 179,
+        "date": "2025-07-13"
+      }
+    },
+    {
+      "id": 8,
+      "name": "Mariana Salazar",
+      "cedula": 1065432198,
+      "phone": 3137894560,
+      "plan": {
+        "id": 2,
+        "name": "Plan Trimestral",
+        "price": 330000,
+        "gym": {
+          "id": 2,
+          "name": "Body Tech",
+          "address": "Cl. 10 #20-33, Bogotá"
+        },
+        "duration": 90
+      },
+      "gym": {
+        "id": 2,
+        "name": "Body Tech",
+        "address": "Cl. 10 #20-33, Bogotá"
+      },
+      "measurements": {
+        "chest": 82,
+        "bicep": 26,
+        "forearm": 24,
+        "abdomen": 70,
+        "glutes": 100,
+        "thigh": 56,
+        "calf": 36,
+        "weight": 58,
+        "height": 163,
+        "date": "2025-07-12"
+      }
+    },
+    {
+      "id": 9,
+      "name": "Sebastián Álvarez",
+      "cedula": 1009876543,
+      "phone": 3144567890,
+      "plan": {
+        "id": 3,
+        "name": "Plan Anual",
+        "price": 950000,
+        "gym": {
+          "id": 3,
+          "name": "Power Gym",
+          "address": "Av. Las Vegas #55-23, Envigado"
+        },
+        "duration": 365
+      },
+      "gym": {
+        "id": 3,
+        "name": "Power Gym",
+        "address": "Av. Las Vegas #55-23, Envigado"
+      },
+      "measurements": {
+        "chest": 102,
+        "bicep": 37,
+        "forearm": 32,
+        "abdomen": 87,
+        "glutes": 101,
+        "thigh": 66,
+        "calf": 41,
+        "weight": 80,
+        "height": 180,
+        "date": "2025-07-09"
+      }
+    },
+    {
+      "id": 10,
+      "name": "Diana Quintero",
+      "cedula": 1087654321,
+      "phone": 3109876543,
+      "plan": {
+        "id": 1,
+        "name": "Plan Mensual",
+        "price": 120000,
+        "gym": {
+          "id": 1,
+          "name": "Titan Gym",
+          "address": "Cra. 50 #45-20, Medellín"
+        },
+        "duration": 30
+      },
+      "gym": {
+        "id": 1,
+        "name": "Titan Gym",
+        "address": "Cra. 50 #45-20, Medellín"
+      },
+      "measurements": {
+        "chest": 86,
+        "bicep": 27,
+        "forearm": 25,
+        "abdomen": 69,
+        "glutes": 97,
+        "thigh": 55,
+        "calf": 35,
+        "weight": 59,
+        "height": 165,
+        "date": "2025-07-08"
+      }
+    }
+  ]
+  

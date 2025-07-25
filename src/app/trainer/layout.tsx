@@ -1,14 +1,21 @@
-'use client'
+"use client";
 
-import TrainerSidebar from '@/components/TrainerSidebar'
-import LayoutContainer from '@/layouts/LayoutContainer'
+import TrainerSidebar from "@/components/TrainerSidebar";
+import LayoutContainer from "@/layouts/LayoutContainer";
+import PrivateRoute from "@/components/PrivateRoute";
 
-export default function TrainerLayout({ children }: { children: React.ReactNode }) {
+export default function TrainerLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <TrainerSidebar>
-      <main className="bg-gray-100">
-        <LayoutContainer>{children}</LayoutContainer>
-      </main>
-    </TrainerSidebar>
-  )
+    <PrivateRoute>
+      <TrainerSidebar>
+        <main className="bg-gray-100">
+          <LayoutContainer>{children}</LayoutContainer>
+        </main>
+      </TrainerSidebar>
+    </PrivateRoute>
+  );
 }

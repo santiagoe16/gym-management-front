@@ -1,4 +1,4 @@
-import Gym from "./gym";
+import {Gym} from "@/types/gym";
 
 export interface Plan {
   id?: number;

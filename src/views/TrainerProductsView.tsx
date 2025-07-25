@@ -7,7 +7,7 @@ export default function TrainerProductsView() {
 
   if (loading) {
     return (
-      <main className="p-6">
+      <main>
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
         </div>
@@ -17,7 +17,7 @@ export default function TrainerProductsView() {
 
   if (error) {
     return (
-      <main className="p-6">
+      <main>
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
           <p className="text-red-800">Error: {error}</p>
         </div>
@@ -26,7 +26,7 @@ export default function TrainerProductsView() {
   }
 
   return (
-    <main className="p-6">
+    <main>
       {/* Encabezado de la página */}
       <header className="mb-6">
         <h1 className="text-3xl font-semibold text-gray-800 mb-10">

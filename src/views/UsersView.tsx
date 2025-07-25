@@ -5,6 +5,7 @@ import { useUserModal } from "@/hooks/useUser/useUserModal";
 import { useUserDelete } from "@/hooks/useUser/useUserDelete";
 import ConfirmModal from "@/components/ConfirmModal";
 import { useUsers } from "@/hooks/useUser/useUsers";
+import Link from "next/link";
 
 export default function UsersView() {
   const { users, loading, error, getUsers } = useUsers();
@@ -75,6 +76,7 @@ export default function UsersView() {
                 <th className="px-6 py-3">Cedula</th>
                 <th className="px-6 py-3">Celular</th>
                 <th className="px-6 py-3">Plan</th>
+                <th className="px-6 py-3">Vigencia</th>
                 <th className="px-6 py-3">Gimnasio</th>
                 <th className="px-6 py-3">Acciones</th>
               </tr>
@@ -82,13 +84,14 @@ export default function UsersView() {
             <tbody className="divide-y divide-gray-200 text-gray-700">
               {users.map((user, idx) => (
                 <tr
-                  key={user.cedula}
+                  key={user.documentId}
                   className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
                 >
                   <td className="px-6 py-4">{user.name}</td>
-                  <td className="px-6 py-4">{user.cedula}</td>
-                  <td className="px-6 py-4">{user.phone}</td>
-                  <td className="px-6 py-4">{user.plan.name}</td>
+                  <td className="px-6 py-4">{user.documentId}</td>
+                  <td className="px-6 py-4">{user.phoneNumber}</td>
+                  <td className="px-6 py-4">{user.plan?.name}</td>
+                  <td className="px-6 py-4">{user.plan?.name}</td>
                   <td className="px-6 py-4">{user.gym?.name}</td>
                   <td className="px-6 py-4">
                     <button
@@ -103,6 +106,12 @@ export default function UsersView() {
                     >
                       Eliminar
                     </button>
+                    <Link
+                      href={`users/${user.id}`}
+                      className="text-blue-600 hover:underline ml-2"
+                    >
+                      Ver usuario
+                    </Link>
                   </td>
                 </tr>
               ))}

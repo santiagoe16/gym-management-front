@@ -2,8 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from 'next/image';
+import logoLine from '../../public/logoLinefit.png';
 
-export default function AdminSidebar({ children }: { children: React.ReactNode }) {
+export default function AdminSidebar({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -60,14 +66,11 @@ export default function AdminSidebar({ children }: { children: React.ReactNode }
               isOpen ? "pt-12" : "pt-4"
             }`}
           >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-6 me-3 sm:h-7"
-              alt="Flowbite Logo"
+            <Image
+              src={logoLine}
+              className="h-15 w-[11rem] me-3"
+              alt="Line fitness logo"
             />
-            <span className="self-center text-xl font-semibold whitespace-nowrap text-gray-900">
-              Flowbite
-            </span>
           </a>
           <ul className="space-y-2 font-medium">
             <li>
@@ -218,21 +221,24 @@ export default function AdminSidebar({ children }: { children: React.ReactNode }
                 onClick={closeSidebar}
               >
                 <svg
-                  className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                  className="shrink-0 w-6 h-6    text-gray-500 transition duration-75 group-hover:text-gray-900"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="none"
-                  viewBox="0 0 18 16"
+                  viewBox="1 0 24 24"
                 >
                   <path
                     stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
+                    strokeWidth="3"
+                    d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
                   />
                 </svg>
-                <span className="flex-1 ms-3 whitespace-nowrap">Sign In</span>
+
+                <span className="flex-1 ms-2 whitespace-nowrap">Cerrar sesion</span>
               </a>
             </li>
             <li>

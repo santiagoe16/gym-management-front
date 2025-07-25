@@ -31,7 +31,7 @@ export default function ProductsView() {
   const productos = [{ name: "Creatina", price: "80000", cantidad: "25" },{ name: "Creatina", price: "80000", cantidad: "25" }];
 
   return (
-    <main className="p-6">
+    <main>
       {/* Encabezado de la página */}
       <header className="mb-4">
         <h1 className="text-4xl font-semibold text-gray-800">

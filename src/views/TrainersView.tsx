@@ -33,7 +33,7 @@ export default function TrainersView() {
   } = useTrainerDelete(getTrainers);
 
   return (
-    <main className="p-6">
+    <main>
       {/* Encabezado de la página */}
       <header className="mb-4">
         <h1 className="text-4xl font-semibold text-gray-800">
@@ -74,20 +74,21 @@ export default function TrainersView() {
                 <th className="px-6 py-3">Cédula</th>
                 <th className="px-6 py-3">Celular</th>
                 <th className="px-6 py-3">Horario</th>
-                <th className="px-6 py-3">Nombre de gimnasio</th>
+                <th className="px-6 py-3">Gimnasio</th>
                 <th className="px-6 py-3">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 text-gray-700">
               {trainers.map((trainer, idx) => (
                 <tr
-                  key={trainer.cedula}
+                  key={trainer.documentId}
                   className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
                 >
-                  <td className="px-6 py-4">{trainer.name}</td>
-                  <td className="px-6 py-4">{trainer.cedula}</td>
-                  <td className="px-6 py-4">{trainer.phone}</td>
-                  <td className="px-6 py-4">{trainer.schedule}</td>
+                  <td className="px-6 py-4">{trainer.fullName}</td>
+                  <td className="px-6 py-4">{trainer.documentId}</td>
+                  <td className="px-6 py-4">{trainer.phoneNumber}</td>
+                  <td className="px-6 py-4">Horario</td>
+                  {/* <td className="px-6 py-4">{trainer.schedule}</td> */}
                   <td className="px-6 py-4">{trainer.gym.name}</td>
                   <td className="px-6 py-4">
                     <button

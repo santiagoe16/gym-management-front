@@ -4,29 +4,36 @@ import {
   updateTrainerService,
 } from "@/services/trainersService";
 import { useGyms } from "../useGym/useGyms";
-import Trainer from "@/types/trainer";
+import { Trainer, CreateTrainerDTO } from "@/types/trainer";
+import { mapTrainerToCreateDTO } from "@/utils/mappers";
 
 export function useTrainerModal(getTrainers: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const initialForm = {
-    name: "",
-    cedula: "",
-    phone: "",
-    schedule: "",
-    gym: { name: "", address: "" },
+  const [selectedTrainerId, setSelectedTrainerId] = useState<number | null>(
+    null
+  );
+  const initialForm: CreateTrainerDTO = {
+    email: "",
+    fullName: "",
+    documentId: "",
+    phoneNumber: "",
+    role: "trainer",
+    gymId: 0,
     password: "",
   };
-  const [form, setForm] = useState<Trainer>(initialForm);
+  const [form, setForm] = useState<CreateTrainerDTO>(initialForm);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const { gyms, loading: gymsLoading, error: gymsError } = useGyms();
 
-  const handleOpen = (editData?: typeof form) => {
+  const handleOpen = (editData?: Trainer) => {
     setOpen(true);
     if (editData) {
-      setForm(editData);
+      const formData = mapTrainerToCreateDTO(editData);
+      setSelectedTrainerId(editData.id)
+      setForm(formData);
       setMode("edit");
     } else {
       setForm(initialForm);
@@ -37,6 +44,7 @@ export function useTrainerModal(getTrainers: () => void) {
   const handleClose = () => {
     setOpen(false);
     setForm(initialForm);
+    setSelectedTrainerId(null);
     setMode("add");
   };
 
@@ -45,15 +53,15 @@ export function useTrainerModal(getTrainers: () => void) {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    if (e.target.name === "gym") {
-      const gymObj = gyms.find((g) => g.id === Number(e.target.value));
-      setForm({ ...form, gym: gymObj || form.gym });
-    } else {
-      setForm({ ...form, [e.target.name]: e.target.value });
-    }
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "gymId" ? Number(value) : value,
+    }));
   };
 
-  const addTrainer = async (trainer: any) => {
+  const addTrainer = async (trainer: CreateTrainerDTO) => {
     setLoading(true);
     setError(null);
     try {
@@ -68,10 +76,12 @@ export function useTrainerModal(getTrainers: () => void) {
   };
 
   const updateTrainer = async (trainer: any) => {
+    console.log("updatetrainer", selectedTrainerId)
+    if (!selectedTrainerId) return;
     setLoading(true);
     setError(null);
     try {
-      await updateTrainerService(trainer);
+      await updateTrainerService(selectedTrainerId, trainer);
       getTrainers();
       handleClose();
     } catch (err: any) {
@@ -85,10 +95,8 @@ export function useTrainerModal(getTrainers: () => void) {
     e.preventDefault();
     if (mode === "add") {
       addTrainer(form);
-      getTrainers;
     } else {
       updateTrainer(form);
-      getTrainers;
     }
   };
 

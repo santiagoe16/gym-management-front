@@ -1,11 +1,8 @@
 "use client";
 import React, { useState } from "react";
+import { useTrainers } from "@/hooks/useTrainer/useTrainers";
 
 // Datos de ejemplo
-const entrenadores = [
-  { nombre: "Juan Pérez", cedula: "1234567890" },
-  { nombre: "Ana Gómez", cedula: "9876543210" },
-];
 
 const usuariosRegistrados = [
   { nombre: "Carlos Ruiz", cedula: "111222333", plan: "Mensual" },
@@ -18,16 +15,16 @@ const ventasRealizadas = [
 ];
 
 export default function TrainersActivityView() {
-  const [entrenador, setEntrenador] = useState(entrenadores[0].cedula);
+  const {trainers, loading: TrainersLoading, error: TrainersError} = useTrainers()
+  const [trainer, setTrainer] = useState<string | undefined>(undefined);
+
   const [fecha, setFecha] = useState(() => {
     const hoy = new Date();
     return hoy.toISOString().split("T")[0];
   });
 
-  // Aquí iría la lógica para filtrar usuarios y ventas según el entrenador y la fecha seleccionados
-
   return (
-    <main className="p-6">
+    <main>
       <header className="mb-4">
         <h1 className="text-4xl font-semibold text-gray-800">
           Actividad de entrenador
@@ -37,14 +34,17 @@ export default function TrainersActivityView() {
       {/* Selectores */}
       <section className="flex flex-col md:flex-row gap-4 mb-8">
         <div>
-          <label className="block mb-1 text-sm font-medium text-gray-700">Entrenador</label>
+          <label htmlFor="trainer" className="block mb-1 text-sm font-medium text-gray-700">Entrenador</label>
           <select
+            id="trainer"
+            name="trainer"
             className="border border-gray-300 rounded p-2 w-full"
-            value={entrenador}
-            onChange={e => setEntrenador(e.target.value)}
+            value={trainer ?? 0}
+            onChange={e => setTrainer(e.target.value)}
           >
-            {entrenadores.map(e => (
-              <option key={e.cedula} value={e.cedula}>{e.nombre}</option>
+            <option value={0} disabled>Elige un entrenador</option>
+            {trainers.map(e => (
+              <option key={e.cedula} value={e.cedula}>{e.name}</option>
             ))}
           </select>
         </div>

@@ -37,7 +37,7 @@ export default function PlansView() {
   } = usePlanDelete(getPlans);
 
   return (
-    <main className="p-6">
+    <main>
       {/* Encabezado de la página */}
       <header className="mb-4">
         <h1 className="text-4xl font-semibold text-gray-800">Planes</h1>
@@ -71,7 +71,7 @@ export default function PlansView() {
                 <td className="px-6 py-4">{plan.name}</td>
                 <td className="px-6 py-4">${plan.price}</td>
                 <td className="px-6 py-4">{plan.duration}</td>
-                <td className="px-6 py-4">{plan.gym.name}</td>
+                {/* <td className="px-6 py-4">{plan.gym.name}</td> */}
                 <td className="px-6 py-4">
                   <button
                     className="text-blue-600 hover:underline"

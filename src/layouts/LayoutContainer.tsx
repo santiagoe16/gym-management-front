@@ -4,7 +4,7 @@ type Props = {
 
 export default function LayoutContainer({ children }: Props) {
   return (
-    <div className="container mx-auto sm:px-6 lg:px-8 xl:px-20 pt-12">
+    <div className="container mx-auto px-5 sm:px-4 md:px-7 lg:px-6 xl:px-10 pt-12">
       {children}
     </div>
   );

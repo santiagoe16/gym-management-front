@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getTrainersService } from "@/services/trainersService";
-import Trainer from "@/types/trainer";
+import {Trainer} from "@/types/trainer";
 
 export function useTrainers() {
   const [trainers, setTrainers] = useState<Trainer[]>([]);
@@ -15,7 +15,8 @@ export function useTrainers() {
       const data = await getTrainersService();
       setTrainers(data);
     } catch (err: any) {
-      setError(err.message);
+      const fallback = "No se pudieron cargar los entrenadores.";
+      setError(err?.message || fallback);
     } finally {
       setLoading(false);
     }

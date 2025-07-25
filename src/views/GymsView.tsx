@@ -31,7 +31,7 @@ export default function GymsView() {
   } = useGymDelete(getGyms);
 
   return (
-    <main className="p-6">
+    <main >
       <header className="mb-4">
         <h1 className="text-4xl font-semibold text-gray-800">
           Listado de gimnasios

@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from 'next/image';
+import logoLine from '../../public/logoLinefit.png';
 
 export default function TrainerSidebar({
   children,
@@ -64,14 +66,11 @@ export default function TrainerSidebar({
               isOpen ? "pt-12" : "pt-4"
             }`}
           >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-6 me-3 sm:h-7"
-              alt="Flowbite Logo"
+            <Image
+              src={logoLine}
+              className="h-15 w-[11rem] me-3"
+              alt="Line fitness logo"
             />
-            <span className="self-center text-xl font-semibold whitespace-nowrap text-gray-900">
-              Flowbite
-            </span>
           </a>
           <ul className="space-y-2 font-medium">
             <li>

@@ -1,7 +1,16 @@
 export interface Gym {
-  id?: number;
+  id: number;
   name: string;
   address: string;
 }
 
-export default Gym;
+export interface CreateGymDTO {
+  name: string;
+  address: string;
+}
+
+export interface UpdateGymDTO {
+  id: number;
+  name?: string;
+  address?: string;
+}
