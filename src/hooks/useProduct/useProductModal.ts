@@ -1,22 +1,34 @@
 import { useState } from "react";
-import { Product } from "@/types/product";
+import { Product, CreateProductDTO } from "@/types/product";
+import { addProductService, updatePlanService } from "@/services/productsService";
+import { useGyms } from "../useGym/useGyms";
+
+
 export function useProductModal(getProducts: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const initialForm = {
+  const [editId, setEditId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const initialForm: CreateProductDTO = {
     name: "",
-    price: 0,
+    price: "",
     quantity: 0,
+    gymId: 0
   }
-  const [form, setForm] = useState<Product>(initialForm);
+  const [form, setForm] = useState<CreateProductDTO>(initialForm);
+  const { gyms, loading: gymsLoading, error: gymsError } = useGyms();
 
-  const handleOpen = (editData?: typeof form) => {
+  const handleOpen = (editData?: Product) => {
     setOpen(true);
     if (editData) {
-      setForm(editData);
+      const { id, ...formData } = editData;
+      setForm(formData);
+      setEditId(id);
       setMode("edit");
     } else {
       setForm(initialForm);
+      setEditId(null);
       setMode("add");
     }
   };
@@ -24,6 +36,7 @@ export function useProductModal(getProducts: () => void) {
   const handleClose = () => {
     setOpen(false);
     setForm(initialForm);
+    setEditId(null);
     setMode("add");
   };
 
@@ -32,14 +45,50 @@ export function useProductModal(getProducts: () => void) {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "gymId" || name === "quantity" ? Number(value) : value,
+    }));
+  };
+
+  const addProduct = async (plan: CreateProductDTO) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await addProductService(plan);
+      getProducts();
+      handleClose();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateProduct = async (product: CreateProductDTO) => {
+    if (!editId) return;
+    setLoading(true);
+    setError(null);
+    try {
+      await updatePlanService(editId, product);
+      getProducts();
+      handleClose();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí puedes manejar el envío del formulario (add/edit)
-    getProducts()
-    handleClose();
+    if (mode === "add") {
+      addProduct(form);
+    } else {
+      updateProduct(form);
+    }
   };
 
   return {
@@ -50,5 +99,8 @@ export function useProductModal(getProducts: () => void) {
     handleClose,
     handleChange,
     handleSubmit,
+    gyms,
+    gymsLoading,
+    gymsError,
   };
 }

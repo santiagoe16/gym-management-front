@@ -14,7 +14,7 @@ import { loginService } from "@/services/authService";
 
 type AuthContextType = {
   user: UserAutenticate | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, gymId: number) => Promise<void>;
   logout: () => void;
   loading: boolean;
 };
@@ -35,8 +35,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const data = await loginService({ email, password });
+  const login = async (email: string, password: string, gym_id: number) => {
+    const data = await loginService({ email, password, gym_id });
 
     setUser(data.user);
 

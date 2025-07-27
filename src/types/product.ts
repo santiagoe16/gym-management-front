@@ -1,6 +1,23 @@
+import { Gym } from "./gym";
+
 export interface Product {
-  id?: number;
+  id: number;
   name: string;
-  price: number;
+  price: string;
   quantity: number;
+  gymId: number,
+  gym: Gym;
 } 
+
+export interface CreateProductDTO {
+  name: string;
+  price: string;
+  quantity: number;
+  gymId: number,
+}
+
+export interface UpdateProductDTO {
+  price: string;
+  durationDays: number;
+  gymId: number,
+}

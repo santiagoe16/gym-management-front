@@ -38,7 +38,7 @@ export default function TrainersActivityView() {
           <select
             id="trainer"
             name="trainer"
-            className="border border-gray-300 rounded p-2 w-full"
+            className="border border-gray-300 rounded-sm p-2 w-full"
             value={trainer ?? 0}
             onChange={e => setTrainer(e.target.value)}
           >
@@ -52,7 +52,7 @@ export default function TrainersActivityView() {
           <label className="block mb-1 text-sm font-medium text-gray-700">Fecha</label>
           <input
             type="date"
-            className="border border-gray-300 rounded p-2 w-full"
+            className="border border-gray-300 rounded-sm p-2 w-full"
             value={fecha}
             onChange={e => setFecha(e.target.value)}
           />

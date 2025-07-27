@@ -17,6 +17,9 @@ export default function ProductsView() {
     handleClose,
     handleChange,
     handleSubmit,
+    gyms,
+    gymsLoading,
+    gymsError
   } = useProductModal(getProducts);
 
   const {
@@ -28,7 +31,6 @@ export default function ProductsView() {
   } = useProductDelete(getProducts);
 
   // Ejemplo de datos de producto
-  const productos = [{ name: "Creatina", price: "80000", cantidad: "25" },{ name: "Creatina", price: "80000", cantidad: "25" }];
 
   return (
     <main>
@@ -57,6 +59,7 @@ export default function ProductsView() {
               <th className="px-6 py-3">Producto</th>
               <th className="px-6 py-3">Precio</th>
               <th className="px-6 py-3">Cantidad</th>
+              <th className="px-6 py-3">Gimnasio</th>
               <th className="px-6 py-3">Acciones</th>
             </tr>
           </thead>
@@ -69,6 +72,7 @@ export default function ProductsView() {
                 <td className="px-6 py-4">{product.name}</td>
                 <td className="px-6 py-4">${product.price}</td>
                 <td className="px-6 py-4">{product.quantity}</td>
+                <td className="px-6 py-4">{product.gym.name}</td>
                 <td className="px-6 py-4">
                   <button
                     className="text-blue-600 hover:underline"
@@ -95,6 +99,9 @@ export default function ProductsView() {
         onChange={handleChange}
         onSubmit={handleSubmit}
         mode={mode}
+        gyms={gyms}
+        gymsLoading={gymsLoading}
+        gymsError={gymsError}
       />
       <ConfirmModal
         open={showConfirm}

@@ -12,6 +12,7 @@ export function useProducts() {
     setError(null);
     try {
       const data = await getProductsService();
+      console.log(data)
       setProducts(data);
     } catch (err: any) {
       const fallback = "No se pudieron cargar los productos.";

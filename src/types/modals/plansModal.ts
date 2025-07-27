@@ -1,10 +1,10 @@
-import Gym from "@/types/gym";
-import Plan from "@/types/plan";
+import {Gym} from "@/types/gym";
+import {CreatePlanDTO} from "@/types/plan";
 
 export default interface PlanModaltype {
   open: boolean;
   onClose: () => void;
-  form: Plan;
+  form: CreatePlanDTO;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;

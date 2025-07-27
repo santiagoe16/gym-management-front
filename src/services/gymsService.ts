@@ -3,10 +3,20 @@ import { GYM_ENDPOINTS } from "@/constants/apiEndopoints";
 import fetchWithAuth from "@/utils/fetchWithAuth";
 
 export async function getGymsService(): Promise<Gym[]> {
-  const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE);
+
+  const res = await fetch(GYM_ENDPOINTS.GYM_BASE);
 
   if (!res.ok) {
-    throw new Error(`Error HTTP: ${res.status}`);
+    let message = `Error ${res.status}`;
+    try {
+      const errorBody = await res.json();
+      message = errorBody?.message || message;
+    } catch (_) {
+      // ignore parse error, keep generic message
+    }
+    const error = new Error(message);
+    (error as any).status = res.status;
+    throw error;
   }
 
   try {

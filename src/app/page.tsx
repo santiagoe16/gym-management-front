@@ -42,12 +42,12 @@ export default function Home() {
           type="text"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="border p-2 rounded mr-2"
+          className="border p-2 rounded-sm mr-2"
           placeholder="Type your message"
         />
         <button
           onClick={sendMessage}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-blue-600 text-white px-4 py-2 rounded-sm"
         >
           Send
         </button>
@@ -55,7 +55,7 @@ export default function Home() {
 
       <div className="w-full max-w-md">
         <h2 className="text-xl font-semibold mb-2">Messages:</h2>
-        <ul className="bg-white p-4 rounded shadow">
+        <ul className="bg-white p-4 rounded-sm shadow-sm">
           {messages.map((msg) => (
             <li key={msg.id} className="border-b py-2">
               {msg.content}

@@ -1,14 +1,18 @@
-import { Product } from "../product";
+import { Gym } from "../gym";
+import { Product, CreateProductDTO } from "../product";
 
 export default interface ProductModalProps {
   open: boolean;
   onClose: () => void;
-  form: Product;
+  form: CreateProductDTO;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;
   onSubmit: (e: React.FormEvent) => void;
   mode?: "add" | "edit";
+  gyms?: Gym[];             
+  gymsLoading?: boolean;
+  gymsError?: string | null;
 }
 
 interface ConfirmModalProps {

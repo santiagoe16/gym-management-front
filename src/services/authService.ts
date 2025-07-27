@@ -30,7 +30,6 @@ export async function registerUserService(data: RegisterData) {
 }
 
 export async function loginService(credentials: LoginRequest): Promise<LoginResponse> {
-  console.log(AUTH_ENDPOINTS.lOGIN)
     try {
       const response = await fetch(AUTH_ENDPOINTS.lOGIN, {
         method: "POST",

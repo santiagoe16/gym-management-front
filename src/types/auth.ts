@@ -1,6 +1,7 @@
 export interface LoginRequest {
   email: string;
   password: string;
+  gym_id: number;
 }
 
 export interface LoginResponse {

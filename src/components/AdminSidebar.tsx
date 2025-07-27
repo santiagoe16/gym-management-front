@@ -25,7 +25,7 @@ export default function AdminSidebar({
       <button
         type="button"
         onClick={toggleSidebar}
-        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 ring-2 ring-gray-300 z-50 relative"
+        className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-hidden focus:ring-2 ring-2 ring-gray-300 z-50 relative"
         aria-controls="logo-sidebar"
         aria-expanded={isOpen}
       >
@@ -68,7 +68,7 @@ export default function AdminSidebar({
           >
             <Image
               src={logoLine}
-              className="h-15 w-[11rem] me-3"
+              className="h-15 w-44 me-3"
               alt="Line fitness logo"
             />
           </a>
