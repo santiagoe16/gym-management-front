@@ -15,9 +15,3 @@ export interface CreateProductDTO {
   quantity: number;
   gymId: number,
 }
-
-export interface UpdateProductDTO {
-  price: string;
-  durationDays: number;
-  gymId: number,
-}

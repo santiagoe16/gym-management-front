@@ -1,4 +1,4 @@
-import { RegisterData } from "@/types/user";
+import { RegisterData } from "@/types/auth";
 import { LoginRequest, LoginResponse } from "@/types/auth";
 import { AUTH_ENDPOINTS } from "@/constants/apiEndopoints";
 

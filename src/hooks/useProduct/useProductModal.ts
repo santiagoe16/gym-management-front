@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Product, CreateProductDTO } from "@/types/product";
-import { addProductService, updatePlanService } from "@/services/productsService";
+import { addProductService, updateProductService } from "@/services/productsService";
 import { useGyms } from "../useGym/useGyms";
 
 
@@ -53,11 +53,11 @@ export function useProductModal(getProducts: () => void) {
     }));
   };
 
-  const addProduct = async (plan: CreateProductDTO) => {
+  const addProduct = async (product: CreateProductDTO) => {
     setLoading(true);
     setError(null);
     try {
-      await addProductService(plan);
+      await addProductService(product);
       getProducts();
       handleClose();
     } catch (err: any) {
@@ -72,7 +72,7 @@ export function useProductModal(getProducts: () => void) {
     setLoading(true);
     setError(null);
     try {
-      await updatePlanService(editId, product);
+      await updateProductService(editId, product);
       getProducts();
       handleClose();
     } catch (err: any) {

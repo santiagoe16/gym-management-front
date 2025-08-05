@@ -10,6 +10,8 @@ export interface Trainer {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  scheduleStart?: string;
+  scheduleEnd?: string;
   gym: Gym;
 }
 
@@ -20,6 +22,8 @@ export interface CreateTrainerDTO {
   phoneNumber: string;
   gymId: number;
   role: 'trainer';
+  scheduleStart: string;
+  scheduleEnd: string;
   password: string;
 }
 

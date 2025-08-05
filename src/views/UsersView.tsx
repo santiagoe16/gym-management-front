@@ -87,12 +87,12 @@ export default function UsersView() {
                   key={user.documentId}
                   className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
                 >
-                  <td className="px-6 py-4">{user.name}</td>
+                  <td className="px-6 py-4">{user.fullName}</td>
                   <td className="px-6 py-4">{user.documentId}</td>
                   <td className="px-6 py-4">{user.phoneNumber}</td>
-                  <td className="px-6 py-4">{user.plan?.name}</td>
-                  <td className="px-6 py-4">{user.plan?.name}</td>
-                  <td className="px-6 py-4">{user.gym?.name}</td>
+                  <td className="px-6 py-4">{user.active_plan?.plan.name || "Plan inactivo"} </td>
+                  <td className="px-6 py-4">{user.active_plan?.expiresAt}</td>
+                  <td className="px-6 py-4">{user.gym.name}</td>
                   <td className="px-6 py-4">
                     <button
                       className="text-blue-600 hover:underline"
@@ -137,7 +137,7 @@ export default function UsersView() {
         open={showConfirm}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        message={`¿Seguro que deseas eliminar "${userToDelete?.name}"?`}
+        message={`¿Seguro que deseas eliminar "${userToDelete?.fullName}"?`}
       />
     </main>
   );

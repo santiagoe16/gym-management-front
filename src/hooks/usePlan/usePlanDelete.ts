@@ -19,7 +19,7 @@ export function usePlanDelete(getPlans: () => void) {
       await deletePlanService(planToDelete.id);
       getPlans();
       setShowConfirm(false);
-      planToDelete(null);
+      setPlanToDelete(null);
     } catch (err: any) {
       setError(err.message);
     } finally {

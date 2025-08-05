@@ -1,4 +1,5 @@
 import React from "react";
+import { ConfirmModalProps } from "@/types/modals/confirmModal";
 
 export default function ConfirmModal({
   open,
@@ -9,7 +10,7 @@ export default function ConfirmModal({
   if (!open) return null;
 
   return (
-    <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black bg-opacity-40">
+    <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black/50 bg-opacity-40">
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
         <h2 className="text-lg font-semibold mb-4">Confirmar eliminación</h2>
         <p className="mb-6">{message}</p>

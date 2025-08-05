@@ -1,48 +1,33 @@
 import {Gym} from "@/types/gym";
 import {Plan} from "@/types/plan";
 
-export interface UserAutenticate {
+export type ActivePlan = {
   id: number;
-  name: string;
-  email: string;
-  role: string;
-}
+  userId: number;
+  planId: number;
+  purchasedPrice: string;
+  purchasedAt: string;
+  expiresAt: string;
+  createdById: number;
+  //añadir un usuario reducido de quien creo el plan
+  plan: Plan;
+};
 
-export interface RegisterData {
-  firstName: string;
-  lastName: string;
+export type User = {
+  id: number;
   email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export default interface User {
-  id?: number;
   fullName: string;
-  email: string;
   documentId: string;
   phoneNumber: string;
-  plan: Plan;
   gym: Gym;
-}
+  active_plan: ActivePlan | null;
+};
 
-export default interface UserMeasurements {
-  id?: number;
-  name: string;
+export interface CreateUserDTO {
+  email: string;
+  fullName: string;
   documentId: string;
   phoneNumber: string;
-  plan: Plan;
-  gym: Gym;
-  measurements: {
-    chest?: number;
-    bicep?: number;
-    forearm?: number;
-    abdomen?: number;
-    glutes?: number;
-    thigh?: number;
-    calf?: number;
-    weight?: number;
-    height?: number;
-    date?: string;
-  };
+  gymId: number;
+  planId: number;
 }

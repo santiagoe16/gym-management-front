@@ -9,7 +9,7 @@ import {
   useEffect,
 } from "react";
 import { useRouter } from "next/navigation";
-import { UserAutenticate } from "@/types/user";
+import { UserAutenticate } from "@/types/auth";
 import { loginService } from "@/services/authService";
 
 type AuthContextType = {

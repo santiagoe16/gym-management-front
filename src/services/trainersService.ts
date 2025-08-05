@@ -73,7 +73,7 @@ export async function updateTrainerService(
   const filteredForm = removeEmptyFields(parsedForm.data);
 
   try {
-    const res = await fetchWithAuth(TRAINER_ENDPOINTS.TRAINERS_EDIT + selectedTrainerId, {
+    const res = await fetchWithAuth(TRAINER_ENDPOINTS.TRAINERS_UPDATE + selectedTrainerId, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(filteredForm),
@@ -93,7 +93,9 @@ export async function updateTrainerService(
 export async function deleteTrainerService(id: number): Promise<number> {
   // Aquí normalmente harías un DELETE
   const res = await fetchWithAuth(TRAINER_ENDPOINTS.TRAINERS_DELETE + id, {
-    method: "DELETE",
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ isActive: false }),
   });
 
   if (!res.ok) {

@@ -1,5 +1,5 @@
 import { PRODUCT_ENDPOINTS } from "@/constants/apiEndopoints";
-import { Product, CreateProductDTO, UpdateProductDTO } from "@/types/product";
+import { Product, CreateProductDTO } from "@/types/product";
 import fetchWithAuth from "@/utils/fetchWithAuth";
 import { ProductListResponseSchema, ProductResponseSchema, ProductRequestSchema } from "@/schemas/product.schemas";
 import { removeEmptyFields } from "@/utils/removeEmptyFields";
@@ -52,9 +52,9 @@ export async function addProductService(
   }
 }
 
-export async function updatePlanService(
+export async function updateProductService(
   selectedProductId: number,
-  product: UpdateProductDTO
+  product: CreateProductDTO
 ): Promise<Product> {
   const parseResult = ProductRequestSchema.safeParse(product);
 
@@ -83,19 +83,20 @@ export async function updatePlanService(
   }
 }
 
-// export async function deletePlanService(id: number): Promise<number> {
-//   // Aquí normalmente harías un DELETE
-//   const res = await fetchWithAuth(PLAN_ENDPOINTS.PLAN_BASE + id, {
-//     method: "DELETE",
-//   });
+export async function deleteProdutcService(id: number): Promise<number> {
+  const res = await fetchWithAuth(PRODUCT_ENDPOINTS.PRODUCTS_ALL + id, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ isActive: false }),
+  });
 
-//   if (!res.ok) {
-//     console.log(res)
-//     const errorBody = await res.json();
-//     console.error("Código de error:", res.status);
-//     throw new Error(errorBody.datail || `Error HTTP ${res.status}`);
-//   }
+  if (!res.ok) {
+    console.log(res)
+    const errorBody = await res.json();
+    console.error("Código de error:", res.status);
+    throw new Error(errorBody.datail || `Error HTTP ${res.status}`);
+  }
 
-//   const data = await res.json();
-//   return data.message;
-// }
+  const data = await res.json();
+  return data.message;
+}

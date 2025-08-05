@@ -47,7 +47,7 @@ export default function AdminSidebar({
 
       {isOpen && (
         <div
-          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 sm:hidden"
+          className="fixed top-0 left-0 w-full h-full bg-black/50  z-30 sm:hidden"
           onClick={closeSidebar}
         ></div>
       )}
@@ -73,7 +73,7 @@ export default function AdminSidebar({
             />
           </a>
           <ul className="space-y-2 font-medium">
-            <li>
+            {/* <li>
               <a
                 href="#"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
@@ -93,7 +93,7 @@ export default function AdminSidebar({
                   Pro
                 </span>
               </a>
-            </li>
+            </li> */}
 
             <li>
               <Link
@@ -216,7 +216,7 @@ export default function AdminSidebar({
             </li>
             <li>
               <a
-                href="#"
+                href="/login"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
                 onClick={closeSidebar}
               >
@@ -241,7 +241,7 @@ export default function AdminSidebar({
                 <span className="flex-1 ms-2 whitespace-nowrap">Cerrar sesion</span>
               </a>
             </li>
-            <li>
+            {/* <li>
               <a
                 href="#"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
@@ -261,7 +261,7 @@ export default function AdminSidebar({
                   3
                 </span>
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </aside>

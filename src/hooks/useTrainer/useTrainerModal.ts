@@ -18,6 +18,8 @@ export function useTrainerModal(getTrainers: () => void) {
     fullName: "",
     documentId: "",
     phoneNumber: "",
+    scheduleEnd: "",
+    scheduleStart: "",
     role: "trainer",
     gymId: 0,
     password: "",

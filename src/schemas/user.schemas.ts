@@ -1,33 +1,94 @@
-// import { z } from "zod";
-// import User from "@/types/user";
+import { z } from "zod";
+import { User, CreateUserDTO, ActivePlan } from "@/types/user";
+import { Gym } from "@/types/gym";
+import { PlanResponseSchema } from "./plan.schemas";
 
-// export const RawUserSchema = z.object({
-//   id: z.number(),
-//   email: z.string(),
-//   full_name: z.string(),
-//   document_id: z.string(),
-//   phone_number: z.string(),
-//   gym_id: z.number(),
-//   role: z.string(),
-//   is_active: z.boolean(),
-//   created_at: z.string(),
-//   updated_at: z.string(),
-// });
+const GymSchema: z.ZodType<Gym> = z
+  .object({
+    id: z.number(),
+    name: z.string().min(2),
+    address: z.string(),
+  })
+  .transform(
+    (gym): Gym => ({
+      id: gym.id,
+      name: gym.name,
+      address: gym.address,
+    })
+  );
 
-// export const RawUserArraySchema = z.array(RawUserSchema);
+const ActivePlanSchema: z.ZodType<ActivePlan> = z
+  .object({
+    id: z.number(),
+    user_id: z.number(),
+    plan_id: z.number(),
+    purchased_price: z.string(),
+    purchased_at: z.string(),
+    expires_at: z.string(),
+    created_by_id: z.number(),
+    plan: PlanResponseSchema,
+  })
+  .transform(
+    (data): ActivePlan => ({
+      id: data.id,
+      userId: data.user_id,
+      planId: data.plan_id,
+      purchasedPrice: data.purchased_price,
+      purchasedAt: new Date(data.purchased_at).toLocaleDateString("es-CO"),
+      expiresAt: new Date(data.expires_at).toLocaleDateString("es-CO"),
+      createdById: data.created_by_id,
+      plan: data.plan,
+    })
+  );
 
-// // Esta función transforma de snake_case a camelCase según tu tipo User
-// export function transformUser(raw: z.infer<typeof RawUserSchema>): User {
-//   return {
-//     id: raw.id,
-//     email: raw.email,
-//     fullName: raw.full_name,
-//     documentId: raw.document_id,
-//     phoneNumber: raw.phone_number,
-//     gymId: raw.gym_id,
-//     role: raw.role,
-//     isActive: raw.is_active,
-//     createdAt: raw.created_at,
-//     updatedAt: raw.updated_at,
-//   };
-// }
+export const UserResponseSchema: z.ZodType<User> = z
+  .object({
+    id: z.number(),
+    email: z.string(),
+    full_name: z.string(),
+    document_id: z.string(),
+    phone_number: z.string(),
+    gym: GymSchema,
+    active_plan: ActivePlanSchema.nullable(),
+  })
+  .transform(
+    (data): User => ({
+      id: data.id,
+      email: data.email,
+      fullName: data.full_name,
+      documentId: data.document_id,
+      phoneNumber: data.phone_number,
+      gym: data.gym,
+      active_plan: data.active_plan,
+    })
+  );
+
+export const UserListResponseSchema = z.array(UserResponseSchema);
+
+const UserFormSchema = z.object({
+  email: z.string(),
+  fullName: z.string(),
+  documentId: z.string(),
+  phoneNumber: z.string(),
+  gymId: z.number(),
+  planId: z.number(),
+});
+
+export const UserRequestSchema = UserFormSchema.transform((data): any => ({
+  email: data.email,
+  full_name: data.fullName,
+  document_id: data.documentId,
+  phone_number: data.phoneNumber,
+  gym_id: data.gymId,
+  plan_id: data.planId,
+}));
+
+export const EditUserRequestSchema = UserFormSchema.transform((data): any => ({
+  email: data.email,
+  full_name: data.fullName,
+  document_id: data.documentId,
+  phone_number: data.phoneNumber,
+  gym_id: data.gymId,
+  plan_id: data.planId,
+}));
+

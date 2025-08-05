@@ -1,64 +1,72 @@
-[
-  {
+{
+  "email": "santiago@gmail.com",
+  "full_name": "santiago espinal",
+  "document_id": "103423452",
+  "phone_number": "235235442",
+  "gym_id": 1,
+  "role": "user",
+  "is_active": true,
+  "id": 3,
+  "created_at": "2025-07-27T01:47:02",
+  "updated_at": "2025-07-27T01:47:02",
+  "gym": {
+    "name": "Main Gym",
+    "address": "123 Main Street, City, State 12345",
+    "is_active": true,
     "id": 1,
-    "name": "Juan Pérez",
-    "cedula": "12345678",
-    "phone": "5551234",
-    "plan": {
-      "id": 5,
-      "name": "Golden Pass",
-      "price": 350000,
-      "gym": {
-        "id": 2,
-        "name": "Fitness Center",
-        "address": "Avenida 456, Ciudad"
-      },
-      "duration": 365
-    },
-    "gym": { "id": 1, "name": "Gym Power", "address": "Calle 123, Ciudad" }
+    "created_at": "2025-07-26T00:08:32",
+    "updated_at": "2025-07-26T00:08:32"
   },
-  {
-    "id": 2,
-    "name": "Ana Gómez",
-    "cedula": "87654321",
-    "phone": "5555678",
+  "active_plan": {
+    "user_id": 3,
+    "plan_id": 1,
+    "purchased_price": "30",
+    "purchased_at": "2025-07-27T01:47:02",
+    "expires_at": "2025-08-26T01:47:02",
+    "created_by_id": 1,
+    "id": 1,
+    "is_active": true,
+    "created_at": "2025-07-27T01:47:02",
+    "updated_at": "2025-07-27T01:47:02",
     "plan": {
-      "id": 4,
-      "name": "Membresía Estudiantil",
-      "price": 60000,
+      "name": "Basic Plan",
+      "price": "30",
+      "duration_days": 30,
+      "gym_id": 1,
+      "is_active": true,
+      "id": 1,
+      "created_at": "2025-07-26T00:08:32",
+      "updated_at": "2025-07-26T00:08:32",
       "gym": {
+        "name": "Main Gym",
+        "address": "123 Main Street, City, State 12345",
+        "is_active": true,
         "id": 1,
-        "name": "Gym Power",
-        "address": "Calle 123, Ciudad"
-      },
-      "duration": 30
+        "created_at": "2025-07-26T00:08:32",
+        "updated_at": "2025-07-26T00:08:32"
+      }
     },
-    "gym": {
-      "id": 2,
-      "name": "Fitness Center",
-      "address": "Avenida 456, Ciudad"
-    }
-  },
-  {
-    "id": 3,
-    "name": "Carlos Ruiz",
-    "cedula": "11223344",
-    "phone": "5559988",
-    "plan": {
-      "id": 2,
-      "name": "Plan Fit Pro",
-      "price": 120000,
-      "gym": {
-        "id": 3,
-        "name": "Strong Life Gym",
-        "address": "Boulevard 789, Ciudad"
-      },
-      "duration": 90
-    },
-    "gym": {
+    "created_by_user": null,
+    "user": {
+      "email": "santiago@gmail.com",
+      "full_name": "santiago espinal",
+      "document_id": "103423452",
+      "phone_number": "235235442",
+      "gym_id": 1,
+      "role": "user",
+      "is_active": true,
       "id": 3,
-      "name": "Strong Life Gym",
-      "address": "Boulevard 789, Ciudad"
+      "created_at": "2025-07-27T01:47:02",
+      "updated_at": "2025-07-27T01:47:02",
+      "gym": {
+        "name": "Main Gym",
+        "address": "123 Main Street, City, State 12345",
+        "is_active": true,
+        "id": 1,
+        "created_at": "2025-07-26T00:08:32",
+        "updated_at": "2025-07-26T00:08:32"
+      },
+      "active_plan": null
     }
   }
-]
+}

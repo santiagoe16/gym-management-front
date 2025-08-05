@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUsersService } from "@/services/userService";
-import  User  from "@/types/user";
+import  {User}  from "@/types/user";
 
 
 export function useUsers() {

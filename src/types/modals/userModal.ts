@@ -1,11 +1,11 @@
-import Gym from "@/types/gym"
-import  User  from "@/types/user";
-import Plan from "@/types/plan"
+import {Gym} from "@/types/gym"
+import  {CreateUserDTO}  from "@/types/user";
+import {Plan} from "@/types/plan"
 
 export default interface UserModalProps {
   open: boolean;
   onClose: () => void;
-  form: User;
+  form: CreateUserDTO;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;
@@ -17,11 +17,4 @@ export default interface UserModalProps {
   gyms: Gym[];
   gymsLoading: boolean;
   gymsError: string | null;
-}
-
-interface ConfirmModalProps {
-  open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  message?: string;
 }

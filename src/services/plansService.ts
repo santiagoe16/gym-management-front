@@ -56,7 +56,6 @@ export async function updatePlanService(
   selectedPlanId: number,
   plan: UpdatePlanDTO
 ): Promise<Plan> {
-  console.log(plan)
   const parseResult = PlanRequestSchema.safeParse(plan);
 
   if (!parseResult.success) {
@@ -87,7 +86,9 @@ export async function updatePlanService(
 export async function deletePlanService(id: number): Promise<number> {
   // Aquí normalmente harías un DELETE
   const res = await fetchWithAuth(PLAN_ENDPOINTS.PLAN_BASE + id, {
-    method: "DELETE",
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ isActive: false }),
   });
 
   if (!res.ok) {

@@ -29,11 +29,12 @@ export const TrainerResponseSchema: z.ZodType<Trainer> = z
     is_active: z.boolean(),
     created_at: z.string(),
     updated_at: z.string(),
+    schedule_start: z.string().optional(),
+    schedule_end: z.string().optional(),
     gym: GymSchema,
   })
   .transform(
     (data): Trainer => ({
-      // Camel case para el frontend
       id: data.id,
       fullName: data.full_name,
       documentId: data.document_id,
@@ -43,7 +44,9 @@ export const TrainerResponseSchema: z.ZodType<Trainer> = z
       isActive: data.is_active,
       createdAt: data.created_at,
       updatedAt: data.updated_at,
-      gym: data.gym, // Ya transformado por GymSchema
+      scheduleStart: data.schedule_start ?? "",
+      scheduleEnd: data.schedule_end ?? "",
+      gym: data.gym,
     })
   );
 
@@ -59,6 +62,8 @@ const TrainerFormSchema = z.object({
   email: z.string(),
   password: z.string(),
   gymId: z.number(),
+  scheduleStart: z.string(),
+  scheduleEnd: z.string(),
 });
 
 // ✅ Schema para crear
@@ -70,15 +75,21 @@ export const TrainerRequestSchema = TrainerFormSchema.transform((data) => ({
   email: data.email,
   password: data.password,
   gym_id: data.gymId,
+  schedule_start: data.scheduleStart,
+  schedule_end: data.scheduleEnd,
 }));
 
 // ✅ Schema para editar (permite campos opcionales)
-export const EditTrainerRequestSchema = TrainerFormSchema.partial().transform((data) => ({
-  full_name: data.fullName,
-  document_id: data.documentId,
-  phone_number: data.phoneNumber,
-  role: data.role,
-  email: data.email,
-  password: data.password,
-  gym_id: data.gymId,
-}));
+export const EditTrainerRequestSchema = TrainerFormSchema.partial().transform(
+  (data) => ({
+    full_name: data.fullName,
+    document_id: data.documentId,
+    phone_number: data.phoneNumber,
+    role: data.role,
+    email: data.email,
+    password: data.password,
+    gym_id: data.gymId,
+    schedule_start: data.scheduleStart,
+    schedule_end: data.scheduleEnd,
+  })
+);

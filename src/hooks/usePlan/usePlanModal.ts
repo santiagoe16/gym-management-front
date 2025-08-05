@@ -49,7 +49,7 @@ export function usePlanModal(getPlans: () => void) {
 
     setForm((prev) => ({
       ...prev,
-      [name]: name === "gymId" || name === "durationDays" ? Number(value) : value,
+      [name]: ["gymId", "durationDays"].includes(name) ? Number(value) : value,
     }));
   };
   const addPlan = async (plan: CreatePlanDTO) => {

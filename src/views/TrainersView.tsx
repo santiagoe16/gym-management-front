@@ -73,7 +73,8 @@ export default function TrainersView() {
                 <th className="px-6 py-3">Nombre</th>
                 <th className="px-6 py-3">Cédula</th>
                 <th className="px-6 py-3">Celular</th>
-                <th className="px-6 py-3">Horario</th>
+                <th className="px-6 py-3">Horario de entrada</th>
+                <th className="px-6 py-3">Horario de salida</th>
                 <th className="px-6 py-3">Gimnasio</th>
                 <th className="px-6 py-3">Acciones</th>
               </tr>
@@ -87,8 +88,8 @@ export default function TrainersView() {
                   <td className="px-6 py-4">{trainer.fullName}</td>
                   <td className="px-6 py-4">{trainer.documentId}</td>
                   <td className="px-6 py-4">{trainer.phoneNumber}</td>
-                  <td className="px-6 py-4">Horario</td>
-                  {/* <td className="px-6 py-4">{trainer.schedule}</td> */}
+                  <td className="px-6 py-4">{trainer.scheduleStart}</td>
+                  <td className="px-6 py-4">{trainer.scheduleEnd}</td>
                   <td className="px-6 py-4">{trainer.gym.name}</td>
                   <td className="px-6 py-4">
                     <button

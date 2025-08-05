@@ -1,26 +1,37 @@
 import { useState } from "react";
-import react from "react";
+import { Product } from "@/types/product";
+import { deleteProdutcService } from "@/services/productsService";
 
 export function useProductDelete(getProducts: () => void) {
   const [showConfirm, setShowConfirm] = useState(false);
-  const [productToDelete, setProductToDelete] = useState<any>(null);
-
-  const handleDeleteClick = (prod: any) => {
-    setProductToDelete(prod);
-    setShowConfirm(true);
-  };
-
-  const handleConfirmDelete = () => {
-    // Aquí va la lógica para eliminar el producto (por ejemplo, llamada a API)
-    // Ejemplo: productos.splice(productos.indexOf(productToDelete), 1);
-    setShowConfirm(false);
-    setProductToDelete(null);
-  };
-
-  const handleCancelDelete = () => {
-    setShowConfirm(false);
-    setProductToDelete(null);
-  };
-
-  return({handleDeleteClick, handleConfirmDelete, handleCancelDelete, showConfirm, productToDelete})
+    const [productDelete, setProductDelete] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+  
+    const handleDeleteClick = (product: Product) => {
+      setProductDelete(product);
+      setShowConfirm(true);
+    };
+  
+    const handleConfirmDelete = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        await deleteProdutcService(productDelete.id);
+        getProducts();
+        setShowConfirm(false);
+        setProductDelete(null);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    const handleCancelDelete = () => {
+      setShowConfirm(false);
+      setProductDelete(null);
+    };
+  
+    return { handleDeleteClick, handleConfirmDelete, handleCancelDelete, showConfirm, productDelete };
 }

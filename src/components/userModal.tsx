@@ -19,7 +19,7 @@ export default function UserModal({
   if (!open) return null;
 
   return (
-    <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-40">
+    <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full bg-black/50">
       <div className="relative p-4 w-full max-w-md max-h-full">
         <div className="relative bg-white rounded-lg shadow-xs">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
@@ -54,16 +54,16 @@ export default function UserModal({
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2">
                 <label
-                  htmlFor="name"
+                  htmlFor="fullName"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Nombre
                 </label>
                 <input
                   type="text"
-                  name="name"
-                  id="name"
-                  value={form.name}
+                  name="fullName"
+                  id="fullName"
+                  value={form.fullName}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Nombre del producto"
@@ -72,15 +72,15 @@ export default function UserModal({
               </div>
               <div className="col-span-2">
                 <label
-                  htmlFor="cedula"
+                  htmlFor="documentId"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Cedula
                 </label>
                 <input
                   type="number"
-                  name="cedula"
-                  id="cedula"
+                  name="documentId"
+                  id="documentId"
                   value={form.documentId}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -95,15 +95,15 @@ export default function UserModal({
               </div>
               <div className="col-span-2">
                 <label
-                  htmlFor="phone"
+                  htmlFor="phoneNumber"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Celular
                 </label>
                 <input
                   type="number"
-                  name="phone"
-                  id="phone"
+                  name="phoneNumber"
+                  id="phoneNumber"
                   value={form.phoneNumber}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -118,7 +118,25 @@ export default function UserModal({
               </div>
               <div className="col-span-2">
                 <label
-                  htmlFor="plan"
+                  htmlFor="email"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
+                  Correo electronico
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={form.email}
+                  onChange={onChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="Correo electronico"
+                  required
+                />
+              </div>
+              <div className="col-span-2">
+                <label
+                  htmlFor="planId"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Plan
@@ -129,9 +147,9 @@ export default function UserModal({
                   <p className="text-red-500 text-sm">{plansError}</p>
                 ) : (
                   <select
-                    name="plan"
-                    id="plan"
-                    value={form.plan?.id ?? 0}
+                    name="planId"
+                    id="planId"
+                    value={form.planId}
                     onChange={onChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
@@ -141,7 +159,7 @@ export default function UserModal({
                     </option>
                     {plans.map((plan) => (
                       <option key={plan.id} value={plan.id}>
-                        {plan.name} - {plan.duration} días - ${plan.price}
+                        {plan.name} - {plan.durationDays} días - ${plan.price}
                       </option>
                     ))}
                   </select>
@@ -149,7 +167,7 @@ export default function UserModal({
               </div>
               <div className="col-span-2">
                 <label
-                  htmlFor="gym"
+                  htmlFor="gymId"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Gimnasio
@@ -160,9 +178,9 @@ export default function UserModal({
                   <p className="text-red-500 text-sm">{gymsError}</p>
                 ) : (
                   <select
-                    name="gym"
-                    id="gym"
-                    value={form.gym?.id ?? 0}
+                    name="gymId"
+                    id="gymId"
+                    value={form.gymId}
                     onChange={onChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
