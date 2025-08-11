@@ -19,7 +19,24 @@ export async function getProductsService(): Promise<Product[]> {
     console.error("getProductsService error:", err);
     throw err;
   }
-} 
+}
+
+export async function getActiveProductsService(): Promise<Product[]> {
+  try {
+    const res = await fetchWithAuth(PRODUCT_ENDPOINTS.PRODUCTS_ACTIVE);
+    const data = await res.json();
+
+    try {
+      const products: Product[] = ProductListResponseSchema.parse(data)
+      return products;
+    } catch (err) {
+      throw new Error("Error al parsear la respuesta del servidor");
+    }
+  } catch (err) {
+    console.error("getActiveProductsService error:", err);
+    throw err;
+  }
+}
 
 export async function addProductService(
   product: CreateProductDTO
@@ -87,7 +104,7 @@ export async function deleteProdutcService(id: number): Promise<number> {
   const res = await fetchWithAuth(PRODUCT_ENDPOINTS.PRODUCTS_ALL + id, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ isActive: false }),
+    body: JSON.stringify({ is_active: false }),
   });
 
   if (!res.ok) {

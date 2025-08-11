@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import PlanModaltype from "@/types/modals/plansModal";
+import { formatPriceInput, handlePriceInputChange, parsePriceInput } from "@/utils/formatCurrency";
 
 export default function PlanModal({
   open,
@@ -14,6 +15,21 @@ export default function PlanModal({
   gymsError = null,
 }: PlanModaltype) {
   if (!open) return null;
+
+  const handlePriceChange = (value: string) => {
+    const formattedValue = formatPriceInput(value);
+    const numericValue = parsePriceInput(formattedValue);
+    
+    // Crear un evento sintético para mantener compatibilidad
+    const syntheticEvent = {
+      target: {
+        name: 'price',
+        value: numericValue.toString()
+      }
+    } as React.ChangeEvent<HTMLInputElement>;
+    
+    onChange(syntheticEvent);
+  };
 
   return (
     <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full bg-black/50 bg-opacity-40">
@@ -54,7 +70,7 @@ export default function PlanModal({
                   htmlFor="name"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
-                  Nombre del plan
+                  Nombre del Plan
                 </label>
                 <input
                   type="text"
@@ -98,6 +114,53 @@ export default function PlanModal({
                   </select>
                 )}
               </div>
+              <div className="col-span-2">
+                <label
+                  htmlFor="role"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
+                  Tipo de Plan
+                </label>
+                <select
+                  name="role"
+                  id="role"
+                  value={form.role}
+                  onChange={onChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  required
+                >
+                  <option value={"regular"} >
+                    Regular
+                  </option>
+                  <option value={"taquillero"}>
+                    Taquillero
+                  </option>
+                </select>
+              </div>
+              {form.role === "taquillero" &&
+                <div className="col-span-2">
+                  <label
+                    htmlFor="days"
+                    className="block mb-1 text-sm font-medium text-gray-900"
+                  >
+                    Dias de duracion de taquilla
+                  </label>
+                  <input
+                    type="number"
+                    name="days"
+                    id="days"
+                    value={form.days === 0 ? "" : form.days}
+                    onChange={onChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    placeholder="Duración en días"
+                    required
+                    onKeyDown={(e) => {
+                      if (["e", "E", "+", "-"].includes(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                </div>}
               <div className="col-span-2 sm:col-span-1">
                 <label
                   htmlFor="price"
@@ -106,19 +169,14 @@ export default function PlanModal({
                   Precio
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="price"
                   id="price"
-                  value={form.price}
-                  onChange={onChange}
+                  value={formatPriceInput(form.price.toString())}
+                  onChange={(e) => handlePriceChange(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Precio"
+                  placeholder="Ej: 50,000"
                   required
-                  onKeyDown={(e) => {
-                    if (["e", "E", "+", "-"].includes(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">

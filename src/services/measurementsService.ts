@@ -16,7 +16,6 @@ export async function getUserMeasurementsService(
       MEASUREMENTS_ENDPOINTS.MEASUREMENTS_ID_ALL + id
     );
     const data = await res.json();
-
     try {
       const Measurements: UserMeasurements[] =
         UserMeasurementsListSchema.parse(data);
@@ -108,7 +107,7 @@ export async function deleteUserMeasurementsService(
     MEASUREMENTS_ENDPOINTS.MEASUREMENTS_DELETE + id,{
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ isActive: false }),
+    body: JSON.stringify({ is_active: false }),
   });
 
   if (!res.ok) {

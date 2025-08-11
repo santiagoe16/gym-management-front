@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from 'next/image';
 import logoLine from '../../public/logoLinefit.png';
+import { useAuth } from "@/context/authContext";
 
 export default function AdminSidebar({
   children,
@@ -11,6 +12,7 @@ export default function AdminSidebar({
   children: React.ReactNode;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { logout } = useAuth();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -195,7 +197,7 @@ export default function AdminSidebar({
               </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/admin/plans"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
                 onClick={closeSidebar}
@@ -212,13 +214,34 @@ export default function AdminSidebar({
                   <path d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Planes</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/login"
+              <Link
+                href="/admin/daily"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
                 onClick={closeSidebar}
+              >
+                <svg
+                  className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 7h12v9H4V7z"/>
+                  <path d="M7 10h2v2H7v-2zm4 0h2v2h-2v-2z"/>
+                </svg>
+                <span className="flex-1 ms-3 whitespace-nowrap">Resumen Diario</span>
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  closeSidebar();
+                  logout();
+                }}
+                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group w-full text-left"
               >
                 <svg
                   className="shrink-0 w-6 h-6    text-gray-500 transition duration-75 group-hover:text-gray-900"
@@ -238,8 +261,8 @@ export default function AdminSidebar({
                   />
                 </svg>
 
-                <span className="flex-1 ms-2 whitespace-nowrap">Cerrar sesion</span>
-              </a>
+                <span className="flex-1 ms-2 whitespace-nowrap">Cerrar sesión</span>
+              </button>
             </li>
             {/* <li>
               <a

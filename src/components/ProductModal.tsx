@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import ProductModalProps from "@/types/modals/productsModal";
+import { formatPriceInput, parsePriceInput } from "@/utils/formatCurrency";
 
 export default function ProductModal({
   open,
@@ -14,6 +15,21 @@ export default function ProductModal({
   gymsError = null,
 }: ProductModalProps) {
   if (!open) return null;
+
+  const handlePriceChange = (value: string) => {
+    const formattedValue = formatPriceInput(value);
+    const numericValue = parsePriceInput(formattedValue);
+    
+    // Crear un evento sintético para mantener compatibilidad
+    const syntheticEvent = {
+      target: {
+        name: 'price',
+        value: numericValue.toString()
+      }
+    } as React.ChangeEvent<HTMLInputElement>;
+    
+    onChange(syntheticEvent);
+  };
 
   return (
     <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full bg-black/50">
@@ -75,19 +91,14 @@ export default function ProductModal({
                   Precio
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="price"
                   id="price"
-                  value={form.price}
-                  onChange={onChange}
+                  value={formatPriceInput(form.price.toString())}
+                  onChange={(e) => handlePriceChange(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Precio"
+                  placeholder="Ej: 50,000"
                   required
-                  onKeyDown={(e) => {
-                    if (["e", "E", "+", "-"].includes(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">

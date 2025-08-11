@@ -71,7 +71,7 @@ export async function deleteGymService(id: number): Promise<string> {
   const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE + id, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ isActive: false }),
+    body: JSON.stringify({ is_active: false }),
   });
 
   if (!res.ok) {

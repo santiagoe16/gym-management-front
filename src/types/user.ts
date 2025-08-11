@@ -9,7 +9,6 @@ export type ActivePlan = {
   purchasedAt: string;
   expiresAt: string;
   createdById: number;
-  //añadir un usuario reducido de quien creo el plan
   plan: Plan;
 };
 
@@ -20,7 +19,9 @@ export type User = {
   documentId: string;
   phoneNumber: string;
   gym: Gym;
-  active_plan: ActivePlan | null;
+  activePlan: ActivePlan | null | undefined;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export interface CreateUserDTO {
@@ -30,4 +31,11 @@ export interface CreateUserDTO {
   phoneNumber: string;
   gymId: number;
   planId: number;
+}
+
+export type createdBy = {
+  email: string;
+  phoneNumber: string;
+  fullName: string;
+  documentId: string;
 }

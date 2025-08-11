@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from 'next/image';
 import logoLine from '../../public/logoLinefit.png';
+import { useAuth } from "@/context/authContext";
 
 export default function TrainerSidebar({
   children,
@@ -11,6 +12,7 @@ export default function TrainerSidebar({
   children: React.ReactNode;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { logout } = useAuth();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -108,6 +110,53 @@ export default function TrainerSidebar({
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Productos</span>
               </Link>
+            </li>
+            <li>
+              <Link
+                href="/trainer/daily"
+                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                onClick={closeSidebar}
+              >
+                <svg
+                  className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 7h12v9H4V7z"/>
+                  <path d="M7 10h2v2H7v-2zm4 0h2v2h-2v-2z"/>
+                </svg>
+                <span className="flex-1 ms-3 whitespace-nowrap">Resumen Diario</span>
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  closeSidebar();
+                  logout();
+                }}
+                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group w-full text-left"
+              >
+                <svg
+                  className="shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="1 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="3"
+                    d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
+                  />
+                </svg>
+                <span className="flex-1 ms-2 whitespace-nowrap">Cerrar sesión</span>
+              </button>
             </li>
           </ul>
         </div>

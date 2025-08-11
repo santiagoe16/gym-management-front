@@ -51,10 +51,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    router.push("/login");
+    try {
+      // Limpiar estado del usuario
+      setUser(null);
+      
+      // Limpiar localStorage de forma segura
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      
+      // Limpiar cualquier otro dato sensible que pueda existir
+      localStorage.removeItem("gymId");
+      localStorage.removeItem("userRole");
+      
+      // Limpiar sessionStorage también por seguridad
+      sessionStorage.clear();
+      
+      // Forzar redirección y reemplazo del historial para evitar volver atrás
+      router.replace("/login");
+      
+      // Opcional: Recargar la página para limpiar cualquier estado residual
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 100);
+      
+    } catch (error) {
+      console.error("Error durante el logout:", error);
+      // En caso de error, forzar redirección
+      window.location.href = "/login";
+    }
   };
 
   return (

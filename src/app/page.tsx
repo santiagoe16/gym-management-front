@@ -1,68 +1,42 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/authContext";
 
 export default function Home() {
-  const [messages, setMessages] = useState<{ id: number; content: string }[]>(
-    []
-  );
-  const [content, setContent] = useState("");
-
-  const fetchMessages = async () => {
-    const res = await fetch("http://localhost:5000/message");
-    const data = await res.json();
-    setMessages(data);
-  };
-
-  const sendMessage = async () => {
-    await fetch("http://localhost:5000/message", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ content }),
-    });
-    setContent("");
-    fetchMessages();
-  };
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    fetchMessages();
-  }, []);
+    if (!loading) {
+      if (!user) {
+        // Si no hay usuario, redirigir al login
+        router.replace("/login");
+      } else {
+        // Si hay usuario, redirigir según su rol
+        if (user.role === "trainer") {
+          router.replace("/trainer/users");
+        } else if (user.role === "admin") {
+          router.replace("/admin/users");
+        } else {
+          router.replace("/login");
+        }
+      }
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return (
+      <main className="flex items-center justify-center min-h-screen">
+        <p className="text-xl">Cargando...</p>
+      </main>
+    );
+  }
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 bg-white-100 text-primary-500 bg-neutral-900">
-      <h1 className="text-3xl font-bold mb-4 bg-dark-100">
-        📡 Flask + Next.js + DB
-      </h1>
-      <h1 className="text-primary-300 text-4xl font-bold pb-4">hola mundo</h1>
-
-      <div className="flex mb-4">
-        <input
-          type="text"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          className="border p-2 rounded-sm mr-2"
-          placeholder="Type your message"
-        />
-        <button
-          onClick={sendMessage}
-          className="bg-blue-600 text-white px-4 py-2 rounded-sm"
-        >
-          Send
-        </button>
-      </div>
-
-      <div className="w-full max-w-md">
-        <h2 className="text-xl font-semibold mb-2">Messages:</h2>
-        <ul className="bg-white p-4 rounded-sm shadow-sm">
-          {messages.map((msg) => (
-            <li key={msg.id} className="border-b py-2">
-              {msg.content}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <main className="flex items-center justify-center min-h-screen">
+      <p className="text-xl">Redirigiendo...</p>
     </main>
   );
 }

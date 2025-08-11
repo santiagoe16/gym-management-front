@@ -24,6 +24,7 @@ export const PLAN_ENDPOINTS = {
 
 export const PRODUCT_ENDPOINTS = {
     PRODUCTS_ALL: `${API_BASE_URL}/api/v1/products/`,
+    PRODUCTS_ACTIVE: `${API_BASE_URL}/api/v1/products/active`,
     PRODUCTS_ADD: `${API_BASE_URL}/api/v1/products/`,
 }
 
@@ -39,4 +40,21 @@ export const MEASUREMENTS_ENDPOINTS = {
     MEASUREMENTS_ADD: `${API_BASE_URL}/api/v1/measurements/`,
     MEASUREMENTS_UPDATE: `${API_BASE_URL}/api/v1/measurements/`, //add id
     MEASUREMENTS_DELETE: `${API_BASE_URL}/api/v1/measurements/`, //add id
+}
+
+export const ATTENDANCE_ENDPOINTS = {
+    ATTENDANCE_ALL: `${API_BASE_URL}/api/v1/attendance/`,
+    ATTENDANCE_DAILY: `${API_BASE_URL}/api/v1/attendance/daily/`, //add date
+    ATTENDANCE_CREATE: `${API_BASE_URL}/api/v1/attendance/`, //add document_id
+}
+
+export const SALES_ENDPOINTS = {
+    SALES_ALL: `${API_BASE_URL}/api/v1/sales/`,
+    SALES_DAILY: `${API_BASE_URL}/api/v1/sales/daily`, //add ?sale_date=YYYY-MM-DD
+    SALES_CREATE: `${API_BASE_URL}/api/v1/sales/`,
+}
+
+export const USER_PLANS_ENDPOINTS = {
+    USER_PLANS_ALL: `${API_BASE_URL}/api/v1/user-plans/`,
+    USER_PLANS_DAILY: `${API_BASE_URL}/api/v1/user-plans/daily`,
 }

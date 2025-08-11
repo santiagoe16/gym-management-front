@@ -18,9 +18,9 @@ export interface UserMeasurements {
   calvesLeft: number;
   calvesRight: number;
   notes: string;
-  measurementDate: string; //type date
-  createdAt: string; //type date
-  updatedAt: string; //type date
+  measurementDate: string; 
+  createdAt: string; 
+  updatedAt: string; 
   user: User
 }
 export interface CreateMeasurementsDTO {

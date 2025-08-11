@@ -24,7 +24,7 @@ export function mapUserToCreateDTO(user: User): CreateUserDTO {
     documentId: user.documentId,
     phoneNumber: user.phoneNumber,
     gymId: user.gym.id,
-    planId: user.active_plan?.planId || 0,
+    planId: user.activePlan?.planId || 0,
   };
 }
 

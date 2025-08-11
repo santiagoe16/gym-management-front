@@ -5,6 +5,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import { useProductModal } from "@/hooks/useProduct/useProductModal";
 import { useProductDelete } from "@/hooks/useProduct/useProductDelete";
 import { useProducts } from "@/hooks/useProduct/useProducts";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 export default function ProductsView() {
   const { products, loading, error, getProducts } = useProducts();
@@ -27,7 +28,7 @@ export default function ProductsView() {
     handleConfirmDelete,
     handleCancelDelete,
     showConfirm,
-    productToDelete,
+    productDelete,
   } = useProductDelete(getProducts);
 
   // Ejemplo de datos de producto
@@ -70,7 +71,7 @@ export default function ProductsView() {
                 className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
               >
                 <td className="px-6 py-4">{product.name}</td>
-                <td className="px-6 py-4">${product.price}</td>
+                <td className="px-6 py-4">{formatCurrency(product.price)}</td>
                 <td className="px-6 py-4">{product.quantity}</td>
                 <td className="px-6 py-4">{product.gym.name}</td>
                 <td className="px-6 py-4">
@@ -107,7 +108,7 @@ export default function ProductsView() {
         open={showConfirm}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        message={`¿Seguro que deseas eliminar "${productToDelete?.name}"?`}
+        message={`¿Seguro que deseas eliminar "${productDelete?.name}"?`}
       />
     </main>
   );

@@ -6,6 +6,7 @@ import { usePlanModal } from "@/hooks/usePlan/usePlanModal";
 import { usePlanDelete } from "@/hooks/usePlan/usePlanDelete";
 import { usePlans } from "@/hooks/usePlan/usePlans";
 import { useGyms } from "@/hooks/useGym/useGyms";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 export default function PlansView() {
   const {
@@ -58,6 +59,7 @@ export default function PlansView() {
               <th className="px-6 py-3">Plan</th>
               <th className="px-6 py-3">Precio</th>
               <th className="px-6 py-3">Duración (días)</th>
+              <th className="px-6 py-3">Taquilla</th>
               <th className="px-6 py-3">Gimnasio</th>
               <th className="px-6 py-3">Acciones</th>
             </tr>
@@ -69,9 +71,10 @@ export default function PlansView() {
                 className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
               >
                 <td className="px-6 py-4">{plan.name}</td>
-                <td className="px-6 py-4">${plan.price}</td>
+                <td className="px-6 py-4">{formatCurrency(plan.price)}</td>
                 <td className="px-6 py-4">{plan.durationDays}</td>
-                <td className="px-6 py-4">{plan.gym.name}</td>
+                <td className="px-6 py-4">{plan.days}</td>
+                <td className="px-6 py-4">{plan.gym?.name}</td>
                 <td className="px-6 py-4">
                   <button
                     className="text-blue-600 hover:underline"

@@ -6,6 +6,7 @@ import { UserMeasurements } from "@/types/measurements";
 import BodyMeasurementsDisplay from "@/components/BodyMeasurementsDisplay";
 import { useUserModal } from "@/hooks/useUser/useUserModal";
 import UserModal from "@/components/userModal";
+import { utcToColombiaDate } from "@/utils/formatDate";
 
 type Props = {
   userId: number;
@@ -126,15 +127,15 @@ export default function UserDetailView({ userId }: Props) {
         </div>
 
         {/* Información del plan activo */}
-        {user.active_plan && (
+        {user.activePlan && (
           <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-semibold text-green-800">
-                  Plan Activo: {user.active_plan.plan.name}
+                  Plan Activo: {user.activePlan.plan.name}
                 </h3>
                 <p className="text-sm text-green-600">
-                  Expira: {user.active_plan.expiresAt}
+                  Expira: {utcToColombiaDate(user.activePlan.expiresAt)}
                 </p>
               </div>
               <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
@@ -168,7 +169,7 @@ export default function UserDetailView({ userId }: Props) {
                 Última Medición
               </label>
               <p className="text-lg font-semibold text-gray-900">
-                {lastMeasurements.measurementDate}
+                {utcToColombiaDate(lastMeasurements.measurementDate)}
               </p>
             </div>
           </div>
@@ -226,7 +227,7 @@ export default function UserDetailView({ userId }: Props) {
                     className={index === 0 ? "bg-blue-50" : ""}
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {measurement.measurementDate}
+                      {utcToColombiaDate(measurement.measurementDate)}
                       {index === 0 && (
                         <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                           Más reciente

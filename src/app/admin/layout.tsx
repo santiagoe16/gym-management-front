@@ -2,7 +2,7 @@
 
 import Sidebar from "@/components/AdminSidebar";
 import LayoutContainer from "@/layouts/LayoutContainer";
-import PrivateRoute from "@/components/PrivateRoute";
+import RoleProtectedRoute from "@/components/RoleProtectedRoute";
 
 export default function AdminLayout({
   children,
@@ -10,12 +10,12 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <PrivateRoute>
+    <RoleProtectedRoute allowedRoles={["admin"]}>
       <Sidebar>
         <main className="bg-gray-100">
           <LayoutContainer>{children}</LayoutContainer>
         </main>
       </Sidebar>
-    </PrivateRoute>
+    </RoleProtectedRoute>
   );
 }

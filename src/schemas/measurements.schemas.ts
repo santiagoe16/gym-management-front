@@ -45,10 +45,10 @@ export const UserMeasurementsResponseSchema: z.ZodType<UserMeasurements> = z
     calvesLeft: data.calves_left,
     calvesRight: data.calves_right,
     notes: data.notes,
-    measurementDate: new Date(data.measurement_date).toLocaleDateString("es-CO"),
-    createdAt: new Date(data.created_at).toLocaleDateString("es-CO"),
-    updatedAt: new Date(data.updated_at).toLocaleDateString("es-CO"),
-    user: data.user,
+    measurementDate: data.measurement_date,
+    createdAt: data.created_at,
+    updatedAt: data.updated_at,
+    user: data.user
   }));
 
 // 2. Lista de mediciones

@@ -17,7 +17,7 @@ const GymSchema: z.ZodType<Gym> = z
     })
   );
 
-const ActivePlanSchema: z.ZodType<ActivePlan> = z
+export const ActivePlanSchema: z.ZodType<ActivePlan> = z
   .object({
     id: z.number(),
     user_id: z.number(),
@@ -34,8 +34,8 @@ const ActivePlanSchema: z.ZodType<ActivePlan> = z
       userId: data.user_id,
       planId: data.plan_id,
       purchasedPrice: data.purchased_price,
-      purchasedAt: new Date(data.purchased_at).toLocaleDateString("es-CO"),
-      expiresAt: new Date(data.expires_at).toLocaleDateString("es-CO"),
+      purchasedAt: data.purchased_at,
+      expiresAt: data.expires_at,
       createdById: data.created_by_id,
       plan: data.plan,
     })
@@ -50,6 +50,8 @@ export const UserResponseSchema: z.ZodType<User> = z
     phone_number: z.string(),
     gym: GymSchema,
     active_plan: ActivePlanSchema.nullable(),
+    created_at: z.string(),
+    updated_at: z.string(),
   })
   .transform(
     (data): User => ({
@@ -59,7 +61,9 @@ export const UserResponseSchema: z.ZodType<User> = z
       documentId: data.document_id,
       phoneNumber: data.phone_number,
       gym: data.gym,
-      active_plan: data.active_plan,
+      activePlan: data.active_plan,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
     })
   );
 

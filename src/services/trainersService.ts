@@ -95,7 +95,7 @@ export async function deleteTrainerService(id: number): Promise<number> {
   const res = await fetchWithAuth(TRAINER_ENDPOINTS.TRAINERS_DELETE + id, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ isActive: false }),
+    body: JSON.stringify({ is_active: false }),
   });
 
   if (!res.ok) {

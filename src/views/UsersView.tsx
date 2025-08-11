@@ -6,10 +6,11 @@ import { useUserDelete } from "@/hooks/useUser/useUserDelete";
 import ConfirmModal from "@/components/ConfirmModal";
 import { useUsers } from "@/hooks/useUser/useUsers";
 import Link from "next/link";
+import { utcToColombiaDate } from "@/utils/formatDate";
 
 export default function UsersView() {
   const { users, loading, error, getUsers } = useUsers();
-
+ console.log(users)
   const {
     open,
     mode,
@@ -90,8 +91,8 @@ export default function UsersView() {
                   <td className="px-6 py-4">{user.fullName}</td>
                   <td className="px-6 py-4">{user.documentId}</td>
                   <td className="px-6 py-4">{user.phoneNumber}</td>
-                  <td className="px-6 py-4">{user.active_plan?.plan.name || "Plan inactivo"} </td>
-                  <td className="px-6 py-4">{user.active_plan?.expiresAt}</td>
+                  <td className="px-6 py-4">{user.activePlan?.plan.name || "Plan inactivo"} </td>
+                  <td className="px-6 py-4">{user.activePlan?.expiresAt ? utcToColombiaDate(user.activePlan.expiresAt) : "Sin fecha"}</td>
                   <td className="px-6 py-4">{user.gym.name}</td>
                   <td className="px-6 py-4">
                     <button

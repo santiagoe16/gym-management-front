@@ -159,7 +159,7 @@ export default function UserModal({
                     </option>
                     {plans.map((plan) => (
                       <option key={plan.id} value={plan.id}>
-                        {plan.name} - {plan.durationDays} días - ${plan.price}
+                        {plan.name} - {plan.durationDays} días - {plan.days && `${plan.days} -`} ${plan.price}
                       </option>
                     ))}
                   </select>

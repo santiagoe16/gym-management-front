@@ -5,8 +5,10 @@ export interface Plan {
   name: string;
   price: string;
   gymId: number,
-  gym: Gym;
+  gym?: Gym;
   durationDays: number;
+  days?: number,
+  role: "regular" | "taquillero",
 }
 
 export interface CreatePlanDTO {
@@ -14,6 +16,8 @@ export interface CreatePlanDTO {
   price: string;
   durationDays: number;
   gymId: number,
+  days?: number,
+  role: "regular" | "taquillero",
 }
 
 export interface UpdatePlanDTO {
@@ -21,4 +25,6 @@ export interface UpdatePlanDTO {
   price: string;
   durationDays: number;
   gymId: number,
+  days?: number
+  role: "regular" | "taquillero",
 }

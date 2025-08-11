@@ -19,25 +19,25 @@ const GymSchema: z.ZodType<Gym> = z
 // 3. Schema para Plan (forzado a coincidir con la interfaz)
 export const PlanResponseSchema: z.ZodType<Plan> = z
   .object({
-    // Snake case desde API
     id: z.number(),
     name: z.string(),
     price: z.string(),
     duration_days: z.number(),
-    gym: GymSchema,
-    gym_id:z.number(),
+    gym: GymSchema.nullable().optional(),
+    gym_id: z.number(),
+    days: z.number().nullable().optional(), 
+    role: z.enum(["regular", "taquillero"]),
   })
-  .transform(
-    (data): Plan => ({
-      // Camel case para el frontend
-      id: data.id,
-      name: data.name,
-      price: data.price,
-      durationDays: data.duration_days,
-      gym: data.gym, // Ya transformado por GymSchema
-      gymId: data.gym_id
-    })
-  );
+  .transform((data): Plan => ({
+    id: data.id,
+    name: data.name,
+    price: data.price,
+    durationDays: data.duration_days,
+    gym: data.gym ?? undefined,
+    gymId: data.gym_id,
+    days: data.days ?? undefined, // null → undefined
+    role: data.role,
+  }));
 
 // 4. Schema para lista
 export const PlanListResponseSchema = z.array(PlanResponseSchema);
@@ -48,12 +48,15 @@ const PlanFormSchema = z.object({
   price: z.string(),
   durationDays: z.number(),
   gymId: z.number(),
+  days: z.number().nullable().optional(),
+  role: z.enum(["regular", "taquillero"]),
 });
 
-// Schema para crear y crear
 export const PlanRequestSchema = PlanFormSchema.transform((data) => ({
   name: data.name,
   price: data.price,
   duration_days: data.durationDays,
   gym_id: data.gymId,
+  days: data.days, // puede ser null o undefined
+  role: data.role,
 }));

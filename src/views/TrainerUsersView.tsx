@@ -80,7 +80,7 @@ export default function UsersView() {
                   <td className="px-6 py-4">{user.fullName}</td>
                   <td className="px-6 py-4">{user.documentId}</td>
                   <td className="px-6 py-4">{user.phoneNumber}</td>
-                  <td className="px-6 py-4">{user.active_plan?.plan.name}</td>
+                  <td className="px-6 py-4">{user.activePlan?.plan.name}</td>
                   <td className="px-6 py-4">{user.gym?.name}</td>
                   <td className="px-6 py-4">
                     <button

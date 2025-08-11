@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Plan, CreatePlanDTO, UpdatePlanDTO } from "@/types/plan";
-import { Gym } from "@/types/gym";
+import { Plan, CreatePlanDTO } from "@/types/plan";
 import { useGyms } from "../useGym/useGyms";
 import { addPlanService, updatePlanService } from "@/services/plansService";
 
@@ -10,6 +9,8 @@ export function usePlanModal(getPlans: () => void) {
     price: "",
     gymId: 0,
     durationDays: 0,
+    role: "regular",
+    days: undefined,
   };
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -49,7 +50,7 @@ export function usePlanModal(getPlans: () => void) {
 
     setForm((prev) => ({
       ...prev,
-      [name]: ["gymId", "durationDays"].includes(name) ? Number(value) : value,
+      [name]: ["gymId", "durationDays", "days"].includes(name) ? Number(value) : value,
     }));
   };
   const addPlan = async (plan: CreatePlanDTO) => {

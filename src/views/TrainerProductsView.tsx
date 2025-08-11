@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useProducts } from "@/hooks/useProduct/useProducts";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 export default function TrainerProductsView() {
   const { products, loading, error } = useProducts();
@@ -51,7 +52,7 @@ export default function TrainerProductsView() {
                 className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
               >
                 <td className="px-6 py-4">{product.name}</td>
-                <td className="px-6 py-4">${product.price}</td>
+                <td className="px-6 py-4">{formatCurrency(product.price)}</td>
                 <td className="px-6 py-4">{product.quantity}</td>
               </tr>
             ))}

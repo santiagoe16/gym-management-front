@@ -2,7 +2,7 @@
 
 import TrainerSidebar from "@/components/TrainerSidebar";
 import LayoutContainer from "@/layouts/LayoutContainer";
-import PrivateRoute from "@/components/PrivateRoute";
+import RoleProtectedRoute from "@/components/RoleProtectedRoute";
 
 export default function TrainerLayout({
   children,
@@ -10,12 +10,12 @@ export default function TrainerLayout({
   children: React.ReactNode;
 }) {
   return (
-    <PrivateRoute>
+    <RoleProtectedRoute allowedRoles={["trainer"]}>
       <TrainerSidebar>
         <main className="bg-gray-100">
           <LayoutContainer>{children}</LayoutContainer>
         </main>
       </TrainerSidebar>
-    </PrivateRoute>
+    </RoleProtectedRoute>
   );
 }

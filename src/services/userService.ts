@@ -112,7 +112,7 @@ export async function deleteUserService(id: number): Promise<number> {
   const res = await fetchWithAuth(USER_ENDPOINTS.USERS_DELETE + id, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ isActive: false }),
+    body: JSON.stringify({ is_active: false }),
   });
 
   if (!res.ok) {
