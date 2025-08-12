@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CreateAttendanceDTO } from "@/types/attendance";
 import { createAttendanceService } from "@/services/attendanceService";
 
-export function useAttendance(onSuccess: () => void, onUserNotFound?: (documentId: string) => void) {
+export function useAttendance(onSuccess: () => void, onUserNotFound?: (documentId: string) => void, onUserNoPlan?: (documentId: string) => void) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [documentId, setDocumentId] = useState("");
@@ -41,6 +41,15 @@ export function useAttendance(onSuccess: () => void, onUserNotFound?: (documentI
           errorMessage.includes("no existe")) {
         // Llamar al callback para mostrar el modal de registro
         onUserNotFound?.(documentId.trim());
+      } 
+      // Verificar si el error indica que el usuario no tiene plan activo
+      else if (errorMessage.includes("no tiene un plan activo") ||
+               errorMessage.includes("El usuario no tiene un plan activo válido") ||
+               errorMessage.includes("plan ha expirado") ||
+               errorMessage.includes("sin días") ||
+               errorMessage.includes("plan taquillero")) {
+        // Llamar al callback para mostrar el modal de asignación de plan
+        onUserNoPlan?.(documentId.trim());
       } else {
         setError(errorMessage);
       }

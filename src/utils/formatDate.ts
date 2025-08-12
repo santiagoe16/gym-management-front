@@ -197,8 +197,210 @@ export function colombiaDateToUTCEndOfDay(colombiaDateString: string): string {
  */
 export function utcDateStringToColombia(utcDateString: string): string {
   const utcDate = new Date(utcDateString + 'T00:00:00Z');
-  
+
   return utcDate.toLocaleDateString('sv-SE', {
     timeZone: 'America/Bogota'
   });
+}
+
+/**
+ * Convierte una fecha/hora ISO UTC a fecha y hora en Colombia.
+ * @param isoDateString Fecha en formato ISO UTC (ej: "2024-01-15T10:30:00Z")
+ * @returns Fecha y hora en formato local colombiano
+ */
+export function utcISOToColombiaDateTime(isoDateString: string): string {
+  if (!isoDateString) return '';
+  
+  // Asegurar que la fecha tenga la 'Z' al final si no la tiene
+  const formattedDateString = isoDateString.endsWith('Z') 
+    ? isoDateString 
+    : isoDateString + 'Z';
+  
+  const date = new Date(formattedDateString);
+  
+  return date.toLocaleString("es-CO", {
+    timeZone: "America/Bogota",
+    hour12: true,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+/**
+ * Convierte una fecha/hora ISO UTC a solo fecha en Colombia.
+ * @param isoDateString Fecha en formato ISO UTC
+ * @returns Fecha en formato local colombiano (DD/MM/YYYY)
+ */
+export function utcISOToColombiaDate(isoDateString: string): string {
+  if (!isoDateString) return '';
+  
+  const formattedDateString = isoDateString.endsWith('Z') 
+    ? isoDateString 
+    : isoDateString + 'Z';
+  
+  const date = new Date(formattedDateString);
+  
+  return date.toLocaleDateString("es-CO", {
+    timeZone: "America/Bogota",
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+}
+
+/**
+ * Convierte una fecha/hora ISO UTC a solo hora en Colombia.
+ * @param isoDateString Fecha en formato ISO UTC
+ * @returns Hora en formato local colombiano
+ */
+export function utcISOToColombiaTime(isoDateString: string): string {
+  if (!isoDateString) return '';
+  
+  // Si la fecha no tiene 'Z' ni información de zona horaria, asumimos que es UTC
+  let formattedDateString = isoDateString;
+  if (!isoDateString.endsWith('Z') && !isoDateString.includes('+') && !isoDateString.includes('-', 10)) {
+    formattedDateString = isoDateString + 'Z';
+  }
+  
+  const date = new Date(formattedDateString);
+  
+  // Si la fecha es inválida, intentar parseando como UTC directamente
+  if (isNaN(date.getTime())) {
+    const utcDate = new Date(isoDateString + 'Z');
+    return utcDate.toLocaleTimeString("es-CO", {
+      timeZone: "America/Bogota",
+      hour12: true,
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+  
+  return date.toLocaleTimeString("es-CO", {
+    timeZone: "America/Bogota",
+    hour12: true,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+/**
+ * Convierte una fecha/hora que ya está en timezone de Colombia (del backend) a hora local.
+ * Esta función es específica para cuando el backend devuelve fechas ya en timezone de Colombia.
+ * @param colombiaDateString Fecha en formato ISO que ya está en timezone de Colombia
+ * @returns Hora en formato local colombiano
+ */
+export function colombiaISOToColombiaTime(colombiaDateString: string): string {
+  if (!colombiaDateString) return '';
+  
+  // El backend devuelve fechas en timezone de Colombia, pero sin información de zona horaria
+  // Necesitamos parsearla como si fuera local de Colombia, no UTC
+  const date = new Date(colombiaDateString);
+  
+  // Si la fecha es inválida, intentar diferentes formatos
+  if (isNaN(date.getTime())) {
+    return '';
+  }
+  
+  // Como la fecha ya está en timezone de Colombia, solo necesitamos formatearla
+  return date.toLocaleTimeString("es-CO", {
+    hour12: true,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+/**
+ * Convierte una fecha/hora que ya está en timezone de Colombia (del backend) a fecha local.
+ * @param colombiaDateString Fecha en formato ISO que ya está en timezone de Colombia
+ * @returns Fecha en formato local colombiano
+ */
+export function colombiaISOToColombiaDate(colombiaDateString: string): string {
+  if (!colombiaDateString) return '';
+  
+  const date = new Date(colombiaDateString);
+  
+  if (isNaN(date.getTime())) {
+    return '';
+  }
+  
+  return date.toLocaleDateString("es-CO", {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+}
+
+/**
+ * Convierte una fecha/hora que ya está en timezone de Colombia (del backend) a fecha y hora local.
+ * @param colombiaDateString Fecha en formato ISO que ya está en timezone de Colombia
+ * @returns Fecha y hora en formato local colombiano
+ */
+export function colombiaISOToColombiaDateTime(colombiaDateString: string): string {
+  if (!colombiaDateString) return '';
+  
+  const date = new Date(colombiaDateString);
+  
+  if (isNaN(date.getTime())) {
+    return '';
+  }
+  
+  return date.toLocaleString("es-CO", {
+    hour12: true,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+/**
+ * Convierte una fecha/hora local de Colombia a formato ISO UTC para envío al backend.
+ * @param colombiaDateTime Fecha y hora en Colombia (Date object)
+ * @returns Fecha en formato ISO UTC
+ */
+export function colombiaDateTimeToUTCISO(colombiaDateTime: Date): string {
+  // Convertir la fecha local de Colombia a UTC
+  const utcDate = colombiaToUTC(colombiaDateTime);
+  return utcDate.toISOString();
+}
+
+/**
+ * Obtiene la fecha y hora actual en Colombia en formato ISO UTC.
+ * @returns Fecha y hora actual en formato ISO UTC
+ */
+export function getCurrentColombiaDateTimeAsUTC(): string {
+  const now = new Date();
+  // Obtener la fecha actual en Colombia
+  const colombiaTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Bogota"}));
+  return colombiaDateTimeToUTCISO(colombiaTime);
+}
+
+/**
+ * Parsea una fecha ISO y la convierte a formato YYYY-MM-DD para inputs de fecha.
+ * @param isoDateString Fecha en formato ISO
+ * @returns Fecha en formato YYYY-MM-DD
+ */
+export function parseISOToDateInput(isoDateString: string): string {
+  if (!isoDateString) return '';
+  
+  const date = new Date(isoDateString);
+  return date.toLocaleDateString('sv-SE', {
+    timeZone: 'America/Bogota'
+  });
+}
+
+/**
+ * Valida si una cadena es una fecha ISO válida.
+ * @param dateString Cadena a validar
+ * @returns true si es una fecha ISO válida
+ */
+export function isValidISODate(dateString: string): boolean {
+  if (!dateString) return false;
+  
+  const date = new Date(dateString);
+  return !isNaN(date.getTime()) && dateString.includes('T');
 }

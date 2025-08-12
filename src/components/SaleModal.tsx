@@ -2,6 +2,7 @@
 import React from "react";
 import { Product } from "@/types/product";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { PaymentType, PaymentTypeLabels } from "@/types/paymentType";
 
 interface SaleModalProps {
   open: boolean;
@@ -12,6 +13,7 @@ interface SaleModalProps {
   form: {
     product_id: number;
     quantity: number;
+    paymentType: PaymentType;
   };
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
@@ -148,6 +150,29 @@ export default function SaleModal({
                     )}
                   </div>
                 )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="paymentType"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
+                  Tipo de Pago
+                </label>
+                <select
+                  name="paymentType"
+                  id="paymentType"
+                  value={form.paymentType}
+                  onChange={onChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  required
+                >
+                  {Object.entries(PaymentTypeLabels).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               {selectedProduct && form.quantity > 0 && (

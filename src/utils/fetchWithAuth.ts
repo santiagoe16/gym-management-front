@@ -6,10 +6,11 @@ export default async function fetchWithAuth(url: string, options: RequestInit = 
     headers: {
       ...options.headers,
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: token ? `Bearer ${token}` : "",
     },
   });
 
+  // Si la sesión expiró
   if (res.status === 401) {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -21,10 +22,12 @@ export default async function fetchWithAuth(url: string, options: RequestInit = 
     let message = `Error ${res.status}`;
     try {
       const errorBody = await res.json();
-      message = errorBody?.message || message;
-    } catch (_) {
-      // ignore parse error, keep generic message
+      // Soporte para estructuras { detail: "..."} o { message: "..." }
+      message = errorBody?.detail || errorBody?.message || message;
+    } catch {
+      // Si no se puede parsear, dejamos el genérico
     }
+
     const error = new Error(message);
     (error as any).status = res.status;
     throw error;

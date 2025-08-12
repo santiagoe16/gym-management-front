@@ -1,5 +1,6 @@
 import {Gym} from "@/types/gym";
 import {Plan} from "@/types/plan";
+import {PaymentType} from "@/types/paymentType";
 
 export type ActivePlan = {
   id: number;
@@ -9,6 +10,7 @@ export type ActivePlan = {
   purchasedAt: string;
   expiresAt: string;
   createdById: number;
+  paymentType?: PaymentType;
   plan: Plan;
 };
 
@@ -31,6 +33,7 @@ export interface CreateUserDTO {
   phoneNumber: string;
   gymId: number;
   planId: number;
+  paymentType: PaymentType;
 }
 
 export type createdBy = {

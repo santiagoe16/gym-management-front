@@ -2,6 +2,7 @@ import { z } from "zod";
 import { User, CreateUserDTO, ActivePlan } from "@/types/user";
 import { Gym } from "@/types/gym";
 import { PlanResponseSchema } from "./plan.schemas";
+import { PaymentType } from "@/types/paymentType";
 
 const GymSchema: z.ZodType<Gym> = z
   .object({
@@ -26,6 +27,7 @@ export const ActivePlanSchema: z.ZodType<ActivePlan> = z
     purchased_at: z.string(),
     expires_at: z.string(),
     created_by_id: z.number(),
+    payment_type: z.enum(["cash", "transfer"]).optional(),
     plan: PlanResponseSchema,
   })
   .transform(
@@ -37,6 +39,7 @@ export const ActivePlanSchema: z.ZodType<ActivePlan> = z
       purchasedAt: data.purchased_at,
       expiresAt: data.expires_at,
       createdById: data.created_by_id,
+      paymentType: data.payment_type as PaymentType,
       plan: data.plan,
     })
   );
@@ -50,8 +53,8 @@ export const UserResponseSchema: z.ZodType<User> = z
     phone_number: z.string(),
     gym: GymSchema,
     active_plan: ActivePlanSchema.nullable(),
-    created_at: z.string(),
-    updated_at: z.string(),
+    created_at: z.string(), // ISO datetime string
+    updated_at: z.string(), // ISO datetime string
   })
   .transform(
     (data): User => ({
@@ -76,6 +79,7 @@ const UserFormSchema = z.object({
   phoneNumber: z.string(),
   gymId: z.number(),
   planId: z.number(),
+  paymentType: z.nativeEnum(PaymentType),
 });
 
 export const UserRequestSchema = UserFormSchema.transform((data): any => ({
@@ -85,6 +89,7 @@ export const UserRequestSchema = UserFormSchema.transform((data): any => ({
   phone_number: data.phoneNumber,
   gym_id: data.gymId,
   plan_id: data.planId,
+  payment_type: data.paymentType,
 }));
 
 export const EditUserRequestSchema = UserFormSchema.transform((data): any => ({
@@ -94,5 +99,6 @@ export const EditUserRequestSchema = UserFormSchema.transform((data): any => ({
   phone_number: data.phoneNumber,
   gym_id: data.gymId,
   plan_id: data.planId,
+  payment_type: data.paymentType,
 }));
 

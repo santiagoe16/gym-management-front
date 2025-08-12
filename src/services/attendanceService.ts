@@ -2,6 +2,7 @@ import { Attendance, CreateAttendanceDTO } from "@/types/attendance";
 import fetchWithAuth from "@/utils/fetchWithAuth";
 import { ATTENDANCE_ENDPOINTS } from "@/constants/apiEndopoints";
 import { AttendanceListResponseSchema, AttendanceResponseSchema } from "@/schemas/attendance.schemas";
+import { Console } from "console";
 
 export async function getDailyAttendanceService(date: string): Promise<Attendance[]> {
   try {
@@ -30,6 +31,7 @@ export async function createAttendanceService(documentId: string, attendance: Cr
 
     if (!res.ok) {
       const errorData = await res.json();
+      console.log("errordata",errorData)
       throw new Error(errorData.detail || `Error HTTP ${res.status}`);
     }
 

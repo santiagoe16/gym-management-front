@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { UserResponseSchema } from "./user.schemas";
 import { PlanResponseSchema } from "./plan.schemas";
+import { PaymentType } from "@/types/paymentType";
 
 // Schema para el creador (createdBy)
 const CreatedBySchema = z.object({
@@ -21,9 +22,13 @@ const UserPlanServerSchema = z.object({
   user_id: z.number(),
   plan_id: z.number(),
   is_active: z.boolean(),
-  created_at: z.string(),
-  updated_at: z.string(),
-  payment_type: z.string(),
+  created_at: z.string(), // ISO datetime string
+  updated_at: z.string(), // ISO datetime string
+  payment_type: z.enum(["cash", "transfer"]),
+  purchased_price: z.string(),
+  purchased_at: z.string(), // ISO datetime string
+  expires_at: z.string(), // ISO datetime string
+  created_by_id: z.number(),
   user: UserResponseSchema,
   plan: PlanResponseSchema,
   created_by: CreatedBySchema,
@@ -37,7 +42,11 @@ export const UserPlanResponseSchema = UserPlanServerSchema.transform((data) => (
   isActive: data.is_active,
   createdAt: data.created_at,
   updatedAt: data.updated_at,
-  paymentType: data.payment_type === "cash" ? "Efectivo": "transferencia",
+  paymentType: data.payment_type as PaymentType,
+  purchasedPrice: data.purchased_price,
+  purchasedAt: data.purchased_at,
+  expiresAt: data.expires_at,
+  createdById: data.created_by_id,
   user: data.user,
   plan: data.plan,
   createdBy: data.created_by,

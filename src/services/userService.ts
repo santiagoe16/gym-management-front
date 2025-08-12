@@ -9,20 +9,13 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Servicio para manejar usuarios usando mocks
 export async function getUsersService(): Promise<User[]> {
+  const res = await fetchWithAuth(USER_ENDPOINTS.USERS_ALL);
+  const data = await res.json();
+
   try {
-    const res = await fetchWithAuth(USER_ENDPOINTS.USERS_ALL);
-    const data = await res.json();
-
-    try {
-      const users: User[] = UserListResponseSchema.parse(data);
-
-      return users;
-    } catch (err) {
-      throw new Error("Error al parsear la respuesta del servidor");
-    }
-  } catch (err) {
-    console.error("getUsersService error:", err);
-    throw err;
+    return UserListResponseSchema.parse(data);
+  } catch {
+    throw new Error("Respuesta del servidor inválida");
   }
 }
 

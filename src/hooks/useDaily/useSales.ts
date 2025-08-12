@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Product } from "@/types/product";
 import { CreateSaleDTO } from "@/types/sale";
+import { PaymentType } from "@/types/paymentType";
 import { createSaleService } from "@/services/salesService";
 import { getActiveProductsService } from "@/services/productsService";
 
@@ -14,6 +15,7 @@ export function useSales(onSuccess: () => void) {
   const [form, setForm] = useState({
     product_id: 0,
     quantity: 0,
+    paymentType: PaymentType.CASH,
   });
 
   const loadProducts = async () => {
@@ -41,6 +43,7 @@ export function useSales(onSuccess: () => void) {
     setForm({
       product_id: 0,
       quantity: 0,
+      paymentType: PaymentType.CASH,
     });
   };
 
@@ -50,6 +53,7 @@ export function useSales(onSuccess: () => void) {
     setForm({
       product_id: 0,
       quantity: 0,
+      paymentType: PaymentType.CASH,
     });
   };
 
@@ -88,6 +92,7 @@ export function useSales(onSuccess: () => void) {
       const saleData: CreateSaleDTO = {
         productId: form.product_id,
         quantity: form.quantity,
+        paymentType: form.paymentType,
         gymId: selectedProduct?.gymId || 0,
       };
 

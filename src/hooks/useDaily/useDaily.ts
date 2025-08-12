@@ -3,7 +3,7 @@ import { Attendance } from "@/types/attendance";
 import { Sale } from "@/types/sale";
 import { getDailyAttendanceService } from "@/services/attendanceService";
 import { getDailySalesService } from "@/services/salesService";
-import { getColombiaCurrentDateYMD, getCurrentUTCDateYMD } from "@/utils/formatDate";
+import { getColombiaCurrentDateYMD } from "@/utils/formatDate";
 
 export function useDaily() {
   const [attendance, setAttendance] = useState<Attendance[]>([]);
@@ -14,8 +14,9 @@ export function useDaily() {
   const [salesError, setSalesError] = useState<string | null>(null);
 
   const getCurrentDate = () => {
-    const date = getCurrentUTCDateYMD();
-    return date
+    // Use Colombia date for daily operations since backend expects date in YYYY-MM-DD format
+    const date = getColombiaCurrentDateYMD();
+    return date;
   };
 
   const loadDailyData = async () => {

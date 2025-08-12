@@ -22,9 +22,9 @@ export const UserMeasurementsResponseSchema: z.ZodType<UserMeasurements> = z
     calves_left: z.number(),
     calves_right: z.number(),
     notes: z.string(),
-    measurement_date: z.string(),
-    created_at: z.string(),
-    updated_at: z.string(),
+    measurement_date: z.string(), // ISO datetime string
+    created_at: z.string(), // ISO datetime string
+    updated_at: z.string(), // ISO datetime string
     user: UserResponseSchema,
   })
   .transform((data): UserMeasurements => ({

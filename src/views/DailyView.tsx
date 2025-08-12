@@ -11,8 +11,7 @@ import { useAuth } from "@/context/authContext";
 import { useGyms } from "@/hooks/useGym/useGyms";
 import { useTrainers } from "@/hooks/useTrainer/useTrainers";
 import { createAttendanceService } from "@/services/attendanceService";
-import { utcToColombiaDate, utcToColombiaTime } from "@/utils/formatDate";
-import { utcToColombiaDateTime } from "@/utils/formatDate";
+import { utcISOToColombiaDate, utcISOToColombiaTime, utcISOToColombiaDateTime, colombiaISOToColombiaTime, colombiaISOToColombiaDate } from "@/utils/formatDate";
 import { formatCurrency } from "@/utils/formatCurrency";
 
 export default function DailyView() {
@@ -428,14 +427,14 @@ export default function DailyView() {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-sm">
-                        {utcToColombiaTime(record.checkInTime)}
+                        {colombiaISOToColombiaTime(record.checkInTime)}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         {record.user.activePlan?.plan.name}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         {record.user.activePlan?.expiresAt
-                          ? utcToColombiaDate(record.user.activePlan.expiresAt)
+                          ? colombiaISOToColombiaDate(record.user.activePlan.expiresAt)
                           : "Sin fecha"}
                       </td>
                       <td className="px-4 py-3 text-sm">

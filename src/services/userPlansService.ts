@@ -1,8 +1,15 @@
 import fetchWithAuth from "@/utils/fetchWithAuth";
 import { UserPlan } from "@/types/userPlan";
 import { UserPlanListResponseSchema } from "@/schemas/userPlan.schemas";
+import { USER_PLANS_ENDPOINTS } from "@/constants/apiEndopoints";
+import { PaymentType } from "@/types/paymentType";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001";
+
+export interface CreateUserPlanDTO {
+  planId: number;
+  paymentType: PaymentType;
+}
 
 export const getDailyUserPlans = async (
   purchasedAt?: string,
@@ -31,4 +38,29 @@ export const getDailyUserPlans = async (
   const data = await response.json();
   console.log("respuesta del servidor userPlans", data);
   return UserPlanListResponseSchema.parse(data);
+};
+
+export const createUserPlanService = async (
+  documentId: string,
+  userPlanData: CreateUserPlanDTO
+): Promise<UserPlan> => {
+  try {
+    const response = await fetchWithAuth(`${USER_PLANS_ENDPOINTS.USER_PLANS_CREATE}${documentId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userPlanData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.detail || `Error HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("respuesta del servidor createUserPlan", data);
+    return data;
+  } catch (err) {
+    console.error("createUserPlanService error:", err);
+    throw err;
+  }
 };

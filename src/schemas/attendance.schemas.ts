@@ -20,10 +20,10 @@ export const AttendanceResponseSchema: z.ZodType<Attendance> = z
     id: z.number(),
     user_id: z.number(),
     gym_id: z.number(),
-    check_in_time: z.string(),
+    check_in_time: z.string(), // ISO datetime string
     recorded_by_id: z.number(),
-    created_at: z.string(),
-    updated_at: z.string(),
+    created_at: z.string(), // ISO datetime string
+    updated_at: z.string(), // ISO datetime string
     user: UserResponseSchema,
     gym: z.object({
       id: z.number(),

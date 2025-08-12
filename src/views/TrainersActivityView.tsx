@@ -7,6 +7,7 @@ import ActivitySummaryCard from "@/components/ActivitySummaryCard";
 import DateRangePicker from "@/components/DateRangePicker";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { utcToColombiaDate, utcToColombiaTime } from "@/utils/formatDate";
+import { PaymentTypeLabels } from "@/types/paymentType";
 
 export default function TrainersActivityView() {
   const { trainers, loading: trainersLoading } = useTrainers();
@@ -236,6 +237,7 @@ export default function TrainersActivityView() {
                     <th className="px-4 py-3 text-xs">Cliente</th>
                     <th className="px-4 py-3 text-xs">Plan</th>
                     <th className="px-4 py-3 text-xs">Precio</th>
+                    <th className="px-4 py-3 text-xs">Pago</th>
                     <th className="px-4 py-3 text-xs">Vendedor</th>
                     <th className="px-4 py-3 text-xs">Fecha</th>
                   </tr>
@@ -255,6 +257,15 @@ export default function TrainersActivityView() {
                       <td className="px-4 py-3 text-sm">{userPlan.plan.name}</td>
                       <td className="px-4 py-3 text-sm font-medium text-green-600">
                         {formatCurrency(userPlan.plan.price)}
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          userPlan.paymentType === 'cash' 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-blue-100 text-blue-800'
+                        }`}>
+                          {PaymentTypeLabels[userPlan.paymentType] || 'N/A'}
+                        </span>
                       </td>
                       <td className="px-4 py-3 text-sm">{userPlan.createdBy?.fullName || "N/A"}</td>
                       <td className="px-4 py-3 text-sm">{utcToColombiaDate(userPlan.createdAt)}</td>
@@ -283,6 +294,7 @@ export default function TrainersActivityView() {
                     <th className="px-4 py-3 text-xs">Producto</th>
                     <th className="px-4 py-3 text-xs">Cantidad</th>
                     <th className="px-4 py-3 text-xs">Total</th>
+                    <th className="px-4 py-3 text-xs">Pago</th>
                     <th className="px-4 py-3 text-xs">Vendedor</th>
                     <th className="px-4 py-3 text-xs">Fecha</th>
                   </tr>
@@ -297,6 +309,15 @@ export default function TrainersActivityView() {
                       <td className="px-4 py-3 text-sm">{sale.quantity}</td>
                       <td className="px-4 py-3 font-medium text-green-600 text-sm">
                         {formatCurrency(sale.totalAmount)}
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          sale.paymentType === 'cash' 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-blue-100 text-blue-800'
+                        }`}>
+                          {PaymentTypeLabels[sale.paymentType] || 'N/A'}
+                        </span>
                       </td>
                       <td className="px-4 py-3 text-sm">{sale.soldBy.fullName}</td>
                       <td className="px-4 py-3 text-sm">{utcToColombiaDate(sale.saleDate)}</td>

@@ -57,4 +57,5 @@ export const SALES_ENDPOINTS = {
 export const USER_PLANS_ENDPOINTS = {
     USER_PLANS_ALL: `${API_BASE_URL}/api/v1/user-plans/`,
     USER_PLANS_DAILY: `${API_BASE_URL}/api/v1/user-plans/daily`,
+    USER_PLANS_CREATE: `${API_BASE_URL}/api/v1/user-plans/`, // add document_id
 }

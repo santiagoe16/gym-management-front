@@ -2,6 +2,7 @@
 import { Trainer, CreateTrainerDTO } from "@/types/trainer"; // Ajusta la ruta si es necesario
 import { Gym, CreateGymDTO } from "@/types/gym";
 import { CreateUserDTO, User } from "@/types/user";
+import { PaymentType } from "@/types/paymentType";
 
 export function mapTrainerToCreateDTO(trainer: Trainer): CreateTrainerDTO {
   return {
@@ -25,6 +26,7 @@ export function mapUserToCreateDTO(user: User): CreateUserDTO {
     phoneNumber: user.phoneNumber,
     gymId: user.gym.id,
     planId: user.activePlan?.planId || 0,
+    paymentType: user.activePlan?.paymentType || PaymentType.CASH,
   };
 }
 
