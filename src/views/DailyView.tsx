@@ -1,15 +1,9 @@
 "use client"
-
 import React, { useState, useMemo, useCallback } from "react";
 import SaleModal from "@/components/SaleModal";
 import UserModal from "@/components/userModal";
-import { useDaily } from "@/hooks/useDaily/useDaily";
-import { useSales } from "@/hooks/useDaily/useSales";
 import { useUserModal } from "@/hooks/useUser/useUserModal";
-import { useUserPlans } from "@/hooks/useDaily/useUserPlans";
 import { useAuth } from "@/context/authContext";
-import { useGyms } from "@/hooks/useGym/useGyms";
-import { useTrainers } from "@/hooks/useTrainer/useTrainers";
 import { createAttendanceService } from "@/services/attendanceService";
 import { getUserByDocumentIdService } from "@/services/userService";
 import {
@@ -20,6 +14,9 @@ import {
   SalesTable,
   UserPlansTable,
 } from "@/components/DailyView";
+import { useDailyViewData } from "@/hooks/useDaily/useDailyViewData";
+import { useAttendance } from "@/hooks/useDaily/useAttendance";
+import { useSales } from "@/hooks/useDaily/useSales";
 
 export default function DailyView() {
   const { user } = useAuth();
@@ -28,25 +25,19 @@ export default function DailyView() {
   const [selectedGymId, setSelectedGymId] = useState<number | undefined>(undefined);
   const [selectedTrainerId, setSelectedTrainerId] = useState<number | undefined>(undefined);
 
-  const { gyms } = useGyms();
-  const { trainers } = useTrainers();
-
-  const { 
-    attendance, 
-    sales, 
-    attendanceLoading, 
-    salesLoading, 
-    attendanceError, 
-    salesError, 
-    loadDailyData 
-  } = useDaily(selectedGymId, selectedTrainerId);
-  
-  const { 
-    userPlans, 
-    loading: userPlansLoading, 
-    error: userPlansError, 
-    loadUserPlans 
-  } = useUserPlans(undefined, selectedGymId, selectedTrainerId);
+  const {
+    attendance,
+    sales,
+    userPlans,
+    gyms,
+    trainers,
+    loading: dailyViewLoading,
+    error: dailyViewError,
+    loadAllData,
+    loadAttendance,
+    loadSales,
+    loadUserPlans,
+  } = useDailyViewData(selectedGymId, selectedTrainerId);
 
   const { 
     open: saleModalOpen, 
@@ -60,12 +51,14 @@ export default function DailyView() {
     handleClose: handleSaleClose, 
     handleChange: handleSaleChange, 
     handleSubmit: handleSaleSubmit 
-  } = useSales(loadDailyData);
+  } = useSales(() => {
+    loadSales(); // Reload sales after a new sale
+    loadUserPlans(); // Reload user plans if a plan was sold
+  });
 
   const reloadAllData = useCallback(async () => {
-    await loadDailyData();
-    await loadUserPlans();
-  }, [loadDailyData, loadUserPlans]);
+    await loadAllData();
+  }, [loadAllData]);
 
   const { 
     open: userModalOpen, 
@@ -84,19 +77,17 @@ export default function DailyView() {
     gymsLoading, 
     gymsError 
   } = useUserModal(async () => {
-    reloadAllData();
+    reloadAllData(); // Reload all data after user creation/update
     handleUserClose();
     if (userForm.documentId) {
       try {
         await createAttendanceService(userForm.documentId, {});
-        reloadAllData();
+        loadAttendance(); // Only reload attendance after auto-register
       } catch (error) {
         console.error("Error al registrar asistencia automáticamente:", error);
       }
     }
   });
-
-  const [highlightPlan, setHighlightPlan] = useState(false);
 
   const handleUserNotFound = useCallback((documentId: string) => {
     handleUserOpen();
@@ -108,11 +99,24 @@ export default function DailyView() {
     try {
       const user = await getUserByDocumentIdService(documentId);
       handleUserOpen(user);
-      setHighlightPlan(true);
+      // setHighlightPlan(true); // This state is not used anymore, remove it
     } catch (error) {
       console.error("Error al obtener el usuario:", error);
     }
   }, [handleUserOpen]);
+
+  const { 
+    documentId, 
+    loading: attendanceSubmitLoading, 
+    error: attendanceSubmitError, 
+    handleDocumentIdChange, 
+    handleSubmit: handleAttendanceSubmit, 
+    clearDocumentId 
+  } = useAttendance(
+    () => loadAttendance(), // Only reload attendance after submission
+    handleUserNotFound,
+    handleUserNoPlan
+  );
 
   const getCurrentDate = () => {
     return new Date().toLocaleDateString("es-CO", {
@@ -150,7 +154,7 @@ export default function DailyView() {
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <AttendanceCard 
-          onSuccess={reloadAllData}
+          onSuccess={loadAttendance} // Call specific loader
           onUserNotFound={handleUserNotFound}
           onUserNoPlan={handleUserNoPlan}
         />
@@ -163,18 +167,18 @@ export default function DailyView() {
       <section className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <AttendanceTable 
           attendance={attendance}
-          loading={attendanceLoading}
-          error={attendanceError}
+          loading={dailyViewLoading}
+          error={dailyViewError}
         />
         <SalesTable 
           sales={sales}
-          loading={salesLoading}
-          error={salesError}
+          loading={dailyViewLoading}
+          error={dailyViewError}
         />
         <UserPlansTable 
           userPlans={userPlans}
-          loading={userPlansLoading}
-          error={userPlansError}
+          loading={dailyViewLoading}
+          error={dailyViewError}
         />
       </section>
 
@@ -195,7 +199,7 @@ export default function DailyView() {
         open={userModalOpen}
         onClose={() => {
           handleUserClose();
-          setHighlightPlan(false);
+          // setHighlightPlan(false); // This state is not used anymore, remove it
         }}
         form={userForm}
         onChange={handleUserChange}
@@ -207,7 +211,7 @@ export default function DailyView() {
         gyms={modalGyms}
         gymsLoading={gymsLoading}
         gymsError={gymsError}
-        highlightPlan={highlightPlan}
+        // highlightPlan={highlightPlan} // This prop is not used anymore, remove it
       />
     </main>
   );
