@@ -7,11 +7,20 @@ import {
   SaleResponseSchema,
 } from "@/schemas/sale.schemas";
 
-export async function getDailySalesService(date: string): Promise<Sale[]> {
+export async function getDailySalesService(
+  date: string,
+  gymId?: number,
+  trainerId?: number
+): Promise<Sale[]> {
   try {
-    const res = await fetchWithAuth(
-      `${SALES_ENDPOINTS.SALES_DAILY}?sale_date=${date}`
-    );
+    const params = new URLSearchParams();
+    params.append('sale_date', date);
+    if (gymId) params.append('gym_id', gymId.toString());
+    if (trainerId) params.append('trainer_id', trainerId.toString());
+
+    const url = `${SALES_ENDPOINTS.SALES_DAILY}?${params.toString()}`;
+
+    const res = await fetchWithAuth(url);
 
     if (!res.ok) {
       throw new Error(`Error HTTP ${res.status}`);

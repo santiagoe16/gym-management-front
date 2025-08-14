@@ -4,9 +4,20 @@ import { ATTENDANCE_ENDPOINTS } from "@/constants/apiEndopoints";
 import { AttendanceListResponseSchema, AttendanceResponseSchema } from "@/schemas/attendance.schemas";
 import { Console } from "console";
 
-export async function getDailyAttendanceService(date: string): Promise<Attendance[]> {
+export async function getDailyAttendanceService(
+  date: string,
+  gymId?: number,
+  trainerId?: number
+): Promise<Attendance[]> {
   try {
-    const res = await fetchWithAuth(`${ATTENDANCE_ENDPOINTS.ATTENDANCE_DAILY}${date}`);
+    const params = new URLSearchParams();
+    if (gymId) params.append('gym_id', gymId.toString());
+    if (trainerId) params.append('trainer_id', trainerId.toString());
+
+    const queryString = params.toString();
+    const url = `${ATTENDANCE_ENDPOINTS.ATTENDANCE_DAILY}${date}${queryString ? `?${queryString}` : ''}`;
+    
+    const res = await fetchWithAuth(url);
     
     if (!res.ok) {
       throw new Error(`Error HTTP ${res.status}`);

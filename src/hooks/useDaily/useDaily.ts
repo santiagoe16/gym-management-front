@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Attendance } from "@/types/attendance";
 import { Sale } from "@/types/sale";
 import { getDailyAttendanceService } from "@/services/attendanceService";
 import { getDailySalesService } from "@/services/salesService";
 import { getColombiaCurrentDateYMD } from "@/utils/formatDate";
 
-export function useDaily() {
+export function useDaily(gymId?: number, trainerId?: number) {
   const [attendance, setAttendance] = useState<Attendance[]>([]);
   const [sales, setSales] = useState<Sale[]>([]);
   const [attendanceLoading, setAttendanceLoading] = useState(false);
@@ -14,19 +14,16 @@ export function useDaily() {
   const [salesError, setSalesError] = useState<string | null>(null);
 
   const getCurrentDate = () => {
-    // Use Colombia date for daily operations since backend expects date in YYYY-MM-DD format
-    const date = getColombiaCurrentDateYMD();
-    return date;
+    return getColombiaCurrentDateYMD();
   };
 
-  const loadDailyData = async () => {
+  const loadDailyData = useCallback(async () => {
     const date = getCurrentDate();
     
-    // Load attendance
     setAttendanceLoading(true);
     setAttendanceError(null);
     try {
-      const attendanceData = await getDailyAttendanceService(date);
+      const attendanceData = await getDailyAttendanceService(date, gymId, trainerId);
       setAttendance(attendanceData);
     } catch (error) {
       setAttendanceError(error instanceof Error ? error.message : "Error al cargar asistencias");
@@ -34,22 +31,21 @@ export function useDaily() {
       setAttendanceLoading(false);
     }
 
-    // Load sales
     setSalesLoading(true);
     setSalesError(null);
     try {
-      const salesData = await getDailySalesService(date);
+      const salesData = await getDailySalesService(date, gymId, trainerId);
       setSales(salesData);
     } catch (error) {
       setSalesError(error instanceof Error ? error.message : "Error al cargar ventas");
     } finally {
       setSalesLoading(false);
     }
-  };
+  }, [gymId, trainerId]);
 
   useEffect(() => {
     loadDailyData();
-  }, []);
+  }, [loadDailyData]);
 
   return {
     attendance,
