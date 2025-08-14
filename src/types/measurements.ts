@@ -1,4 +1,5 @@
 import {User} from "@/types/user";
+import { recordedBy } from "./attendance";
 
 export interface UserMeasurements {
   id: number;
@@ -21,7 +22,8 @@ export interface UserMeasurements {
   measurementDate: string; 
   createdAt: string; 
   updatedAt: string; 
-  user: User
+  user: User; 
+  recordedBy: recordedBy;
 }
 export interface CreateMeasurementsDTO {
   userId: number;

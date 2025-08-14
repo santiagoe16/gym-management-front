@@ -28,6 +28,7 @@ export const ActivePlanSchema: z.ZodType<ActivePlan> = z
     expires_at: z.string(),
     created_by_id: z.number(),
     payment_type: z.enum(["cash", "transfer"]).optional(),
+    days: z.number().nullable(),
     plan: PlanResponseSchema,
   })
   .transform(
@@ -40,6 +41,7 @@ export const ActivePlanSchema: z.ZodType<ActivePlan> = z
       expiresAt: data.expires_at,
       createdById: data.created_by_id,
       paymentType: data.payment_type as PaymentType,
+      days: data.days,
       plan: data.plan,
     })
   );
@@ -53,8 +55,8 @@ export const UserResponseSchema: z.ZodType<User> = z
     phone_number: z.string(),
     gym: GymSchema,
     active_plan: ActivePlanSchema.nullable(),
-    created_at: z.string(), // ISO datetime string
-    updated_at: z.string(), // ISO datetime string
+    created_at: z.string(), 
+    updated_at: z.string(), 
   })
   .transform(
     (data): User => ({

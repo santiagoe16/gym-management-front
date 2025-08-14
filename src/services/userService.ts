@@ -38,6 +38,27 @@ export async function getUserByIdService(
   }
 }
 
+export async function getUserByDocumentIdService(
+  documentId: string
+): Promise<User> {
+  try {
+    const res = await fetchWithAuth(
+      `${USER_ENDPOINTS.USER_BY_DOCUMENT_ID}${documentId}`
+    );
+    const data = await res.json();
+
+    try {
+      const user: User = UserResponseSchema.parse(data);
+      return user;
+    } catch (err) {
+      throw new Error("Error al parsear la respuesta del servidor");
+    }
+  } catch (err) {
+    console.error("getUserByDocumentIdService error:", err);
+    throw err;
+  }
+}
+
 export async function addUserService(
   user: CreateUserDTO
 ): Promise<User> {

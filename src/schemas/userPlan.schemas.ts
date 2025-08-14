@@ -4,7 +4,7 @@ import { PlanResponseSchema } from "./plan.schemas";
 import { PaymentType } from "@/types/paymentType";
 
 // Schema para el creador (createdBy)
-const CreatedBySchema = z.object({
+export const CreatedBySchema = z.object({
   document_id: z.string(),
   full_name: z.string(),
   email: z.string().optional(),

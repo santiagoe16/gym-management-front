@@ -78,6 +78,7 @@ export default function UsersView() {
                 <th className="px-6 py-3">Cedula</th>
                 <th className="px-6 py-3">Celular</th>
                 <th className="px-6 py-3">Plan</th>
+                <th className="px-6 py-3">Inicio plan</th>
                 <th className="px-6 py-3">Vigencia</th>
                 <th className="px-6 py-3">Gimnasio</th>
                 <th className="px-6 py-3">Acciones</th>
@@ -93,12 +94,17 @@ export default function UsersView() {
                   <td className="px-6 py-4">{user.documentId}</td>
                   <td className="px-6 py-4">{user.phoneNumber}</td>
                   <td className="px-6 py-4">
-                    {user.activePlan?.plan.name || "Plan inactivo"}{" "}
+                    {user.activePlan?.plan.name || "Inactivo"}{" "}
+                  </td>
+                  <td className="px-6 py-4">
+                    {user.activePlan?.purchasedAt
+                      ? utcToColombiaDate(user.activePlan.purchasedAt)
+                      : "Inactivo"}
                   </td>
                   <td className="px-6 py-4">
                     {user.activePlan?.expiresAt
                       ? utcToColombiaDate(user.activePlan.expiresAt)
-                      : "Sin fecha"}
+                      : "Inactivo"}
                   </td>
                   <td className="px-6 py-4">{user.gym.name}</td>
                   <td className="px-6 py-4">

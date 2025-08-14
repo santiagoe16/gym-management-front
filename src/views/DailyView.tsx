@@ -11,8 +11,14 @@ import { useAuth } from "@/context/authContext";
 import { useGyms } from "@/hooks/useGym/useGyms";
 import { useTrainers } from "@/hooks/useTrainer/useTrainers";
 import { createAttendanceService } from "@/services/attendanceService";
-import { utcISOToColombiaDate, utcISOToColombiaTime, utcISOToColombiaDateTime, colombiaISOToColombiaTime, colombiaISOToColombiaDate } from "@/utils/formatDate";
+import {
+  colombiaISOToColombiaTime,
+  colombiaISOToColombiaDate,
+} from "@/utils/formatDate";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { getUserByDocumentIdService } from "@/services/userService";
+import { PaymentType } from "@/types/paymentType";
+import Link from "next/link";
 
 export default function DailyView() {
   const { user } = useAuth();
@@ -60,7 +66,8 @@ export default function DailyView() {
 
     return attendance.filter((record) => {
       const matchesGym = !selectedGymId || record.gymId === selectedGymId;
-      const matchesTrainer = !selectedTrainerId || record.recordedById === selectedTrainerId;
+      const matchesTrainer =
+        !selectedTrainerId || record.recordedById === selectedTrainerId;
       return matchesGym && matchesTrainer;
     });
   };
@@ -72,7 +79,8 @@ export default function DailyView() {
 
     return sales.filter((sale) => {
       const matchesGym = !selectedGymId || sale.gymId === selectedGymId;
-      const matchesTrainer = !selectedTrainerId || sale.soldById === selectedTrainerId;
+      const matchesTrainer =
+        !selectedTrainerId || sale.soldById === selectedTrainerId;
       return matchesGym && matchesTrainer;
     });
   };
@@ -83,13 +91,19 @@ export default function DailyView() {
     }
 
     // Encontrar el documentId del trainer seleccionado
-    const selectedTrainer = trainers.find(trainer => trainer.id === selectedTrainerId);
+    const selectedTrainer = trainers.find(
+      (trainer) => trainer.id === selectedTrainerId
+    );
     const selectedTrainerDocumentId = selectedTrainer?.documentId;
 
     return userPlans.filter((userPlan) => {
       // Para user plans, necesitamos filtrar por el gimnasio del usuario y el creador
-      const matchesGym = !selectedGymId || userPlan.user.gym.id === selectedGymId;
-      const matchesTrainer = !selectedTrainerId || (userPlan.createdBy && userPlan.createdBy.documentId === selectedTrainerDocumentId);
+      const matchesGym =
+        !selectedGymId || userPlan.user.gym.id === selectedGymId;
+      const matchesTrainer =
+        !selectedTrainerId ||
+        (userPlan.createdBy &&
+          userPlan.createdBy.documentId === selectedTrainerDocumentId);
       return matchesGym && matchesTrainer;
     });
   };
@@ -138,6 +152,8 @@ export default function DailyView() {
     }
   });
 
+  const [highlightPlan, setHighlightPlan] = useState(false);
+
   // Función para manejar cuando el usuario no existe
   const handleUserNotFound = (documentId: string) => {
     // Pre-llenar el formulario con el documento de identificación
@@ -152,6 +168,17 @@ export default function DailyView() {
     handleUserChange(event);
   };
 
+  // Función para manejar cuando el usuario no tiene plan activo
+  const handleUserNoPlan = async (documentId: string) => {
+    try {
+      const user = await getUserByDocumentIdService(documentId);
+      handleUserOpen(user);
+      setHighlightPlan(true);
+    } catch (error) {
+      console.error("Error al obtener el usuario:", error);
+    }
+  };
+
   const {
     documentId,
     loading: attendanceSubmitLoading,
@@ -159,7 +186,11 @@ export default function DailyView() {
     handleDocumentIdChange,
     handleSubmit: handleAttendanceSubmit,
     clearDocumentId,
-  } = useAttendance(() => loadDailyData(), handleUserNotFound);
+  } = useAttendance(
+    () => loadDailyData(),
+    handleUserNotFound,
+    handleUserNoPlan
+  );
 
   const {
     open: saleModalOpen,
@@ -181,7 +212,7 @@ export default function DailyView() {
       year: "numeric",
       month: "long",
       day: "numeric",
-      timeZone: "America/Bogota"
+      timeZone: "America/Bogota",
     });
   };
 
@@ -191,13 +222,13 @@ export default function DailyView() {
       (total, sale) => total + parseFloat(sale.totalAmount),
       0
     );
-    
+
     // Sumar ventas de planes
     const planSales = userPlans.reduce(
       (total, userPlan) => total + parseFloat(userPlan.plan.price),
       0
     );
-    
+
     return productSales + planSales;
   };
 
@@ -408,6 +439,7 @@ export default function DailyView() {
                     <th className="px-4 py-3 text-xs">Plan</th>
                     <th className="px-4 py-3 text-xs">Vigencia</th>
                     <th className="px-4 py-3 text-xs">Registrado por</th>
+                    <th className="px-4 py-3 text-xs">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 text-gray-700">
@@ -431,14 +463,27 @@ export default function DailyView() {
                       </td>
                       <td className="px-4 py-3 text-sm">
                         {record.user.activePlan?.plan.name}
+                        {record.user.activePlan?.days
+                          ? ` - ${record.user.activePlan?.days} días`
+                          : ""}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         {record.user.activePlan?.expiresAt
-                          ? colombiaISOToColombiaDate(record.user.activePlan.expiresAt)
+                          ? colombiaISOToColombiaDate(
+                              record.user.activePlan.expiresAt
+                            )
                           : "Sin fecha"}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         {record.recordedBy.fullName}
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        <Link
+                          href={`users/${record.userId}`}
+                          className="text-blue-600 hover:underline ml-2"
+                        >
+                          Ver usuario
+                        </Link>
                       </td>
                     </tr>
                   ))}
@@ -494,7 +539,9 @@ export default function DailyView() {
                         {sale.soldBy.fullName}
                       </td>
                       <td className="px-4 py-3 text-sm">
-                        {sale.paymentType}
+                        {sale.paymentType === PaymentType.CASH
+                          ? "Efectivo"
+                          : "Transferencia"}
                       </td>
                     </tr>
                   ))}
@@ -554,9 +601,13 @@ export default function DailyView() {
                           </p>
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-sm">{userPlan.createdBy.fullName}</td>
                       <td className="px-4 py-3 text-sm">
-                        {userPlan.paymentType}
+                        {userPlan.createdBy.fullName}
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        {userPlan.paymentType === PaymentType.CASH
+                          ? "Efectivo"
+                          : "Transferencia"}
                       </td>
                     </tr>
                   ))}
@@ -584,7 +635,10 @@ export default function DailyView() {
       {/* User Registration Modal */}
       <UserModal
         open={userModalOpen}
-        onClose={handleUserClose}
+        onClose={() => {
+          handleUserClose();
+          setHighlightPlan(false);
+        }}
         form={userForm}
         onChange={handleUserChange}
         onSubmit={handleUserSubmit}
@@ -595,6 +649,7 @@ export default function DailyView() {
         gyms={modalGyms}
         gymsLoading={gymsLoading}
         gymsError={gymsError}
+        highlightPlan={highlightPlan}
       />
     </main>
   );

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { UserMeasurements, CreateMeasurementsDTO } from "@/types/measurements";
 import { UserResponseSchema } from "./user.schemas";
+import { CreatedBySchema } from "./userPlan.schemas";
 
 // 1. Schema para la respuesta (GET)
 export const UserMeasurementsResponseSchema: z.ZodType<UserMeasurements> = z
@@ -22,10 +23,11 @@ export const UserMeasurementsResponseSchema: z.ZodType<UserMeasurements> = z
     calves_left: z.number(),
     calves_right: z.number(),
     notes: z.string(),
-    measurement_date: z.string(), // ISO datetime string
-    created_at: z.string(), // ISO datetime string
-    updated_at: z.string(), // ISO datetime string
+    measurement_date: z.string(), 
+    created_at: z.string(), 
+    updated_at: z.string(), 
     user: UserResponseSchema,
+    recorded_by: CreatedBySchema,
   })
   .transform((data): UserMeasurements => ({
     id: data.id,
@@ -48,7 +50,8 @@ export const UserMeasurementsResponseSchema: z.ZodType<UserMeasurements> = z
     measurementDate: data.measurement_date,
     createdAt: data.created_at,
     updatedAt: data.updated_at,
-    user: data.user
+    user: data.user,
+    recordedBy: data.recorded_by,
   }));
 
 // 2. Lista de mediciones

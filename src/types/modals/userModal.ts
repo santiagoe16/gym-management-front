@@ -17,4 +17,5 @@ export default interface UserModalProps {
   gyms: Gym[];
   gymsLoading: boolean;
   gymsError: string | null;
+  highlightPlan?: boolean;
 }

@@ -7,12 +7,13 @@ export const AUTH_ENDPOINTS = {
 }
 
 export const USER_ENDPOINTS = {
-    USERS_ALL: `${API_BASE_URL}/api/v1/users/users/`,
-    USERS_ADD: `${API_BASE_URL}/api/v1/users/with-plan`,
-    USERS_UPDATE: `${API_BASE_URL}/api/v1/users/`,
-    USERS_DELETE: `${API_BASE_URL}/api/v1/users/`,
-    USER_BY_ID: `${API_BASE_URL}/api/v1/users/`,
-}
+  USERS_ALL: `${API_BASE_URL}/api/v1/users/`,
+  USER_BY_ID: `${API_BASE_URL}/api/v1/users/`,
+  USER_BY_DOCUMENT_ID: `${API_BASE_URL}/api/v1/users/search/document/`,
+  USERS_ADD: `${API_BASE_URL}/api/v1/users/with-plan`,
+  USERS_UPDATE: `${API_BASE_URL}/api/v1/users/`,
+  USERS_DELETE: `${API_BASE_URL}/api/v1/users/`,
+};
 
 export const GYM_ENDPOINTS = {
     GYM_BASE: `${API_BASE_URL}/api/v1/gyms/`,

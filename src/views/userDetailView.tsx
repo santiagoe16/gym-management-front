@@ -127,7 +127,7 @@ export default function UserDetailView({ userId }: Props) {
         </div>
 
         {/* Información del plan activo */}
-        {user.activePlan && (
+        {user.activePlan ? (
           <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
             <div className="flex items-center justify-between">
               <div>
@@ -137,9 +137,27 @@ export default function UserDetailView({ userId }: Props) {
                 <p className="text-sm text-green-600">
                   Expira: {utcToColombiaDate(user.activePlan.expiresAt)}
                 </p>
+                {user.activePlan.days && (
+                  <p className="text-sm text-green-600">
+                    Días restantes: {user.activePlan?.days}
+                  </p>
+                )}
               </div>
               <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
                 Activo
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-4 p-4 bg-red-50 rounded-lg border border-red-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-red-800">
+                  Plan Inactivo
+                </h3>
+              </div>
+              <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-medium">
+                Inactivo
               </span>
             </div>
           </div>
@@ -250,7 +268,7 @@ export default function UserDetailView({ userId }: Props) {
                       {measurement.hips}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {measurement.user.fullName}
+                      {measurement.recordedBy.fullName}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
                       {measurement.notes || "-"}

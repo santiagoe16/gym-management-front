@@ -12,6 +12,7 @@ export type ActivePlan = {
   createdById: number;
   paymentType?: PaymentType;
   plan: Plan;
+  days: number | null;
 };
 
 export type User = {

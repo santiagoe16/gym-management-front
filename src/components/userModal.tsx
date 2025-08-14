@@ -16,6 +16,7 @@ export default function UserModal({
   gyms = [],
   gymsLoading = false,
   gymsError = null,
+  highlightPlan = false,
 }: UserModalProps) {
   if (!open) return null;
 
@@ -135,13 +136,20 @@ export default function UserModal({
                   required
                 />
               </div>
-              <div className="col-span-2">
+              <div
+                className={`col-span-2 p-4 border rounded-lg ${highlightPlan ? "border-red-500" : "border-gray-200"}`}>
                 <label
                   htmlFor="planId"
                   className="block mb-1 text-sm font-medium text-gray-900"
                 >
                   Plan
                 </label>
+                {highlightPlan && (
+                  <p className="text-sm text-red-500 mb-2">
+                    El usuario no tiene un plan activo. Por favor, selecciona un
+                    nuevo plan.
+                  </p>
+                )}
                 {plansLoading ? (
                   <p className="text-gray-500 text-sm">Cargando planes...</p>
                 ) : plansError ? (

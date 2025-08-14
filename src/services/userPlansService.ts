@@ -3,6 +3,8 @@ import { UserPlan } from "@/types/userPlan";
 import { UserPlanListResponseSchema } from "@/schemas/userPlan.schemas";
 import { USER_PLANS_ENDPOINTS } from "@/constants/apiEndopoints";
 import { PaymentType } from "@/types/paymentType";
+import { getColombiaCurrentDateYMD } from "@/utils/formatDate";
+
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001";
 
@@ -21,12 +23,12 @@ export const getDailyUserPlans = async (
   const params = new URLSearchParams();
   
   // Si no se proporciona fecha, usar la fecha actual en formato YYYY-MM-DD
-  const dateToUse = purchasedAt || new Date().toISOString().split('T')[0];
-  params.append('purchased_at', dateToUse);
+  const currentDate = getColombiaCurrentDateYMD()
+  params.append('purchased_at', currentDate);
   
   if (gymId) params.append('gym_id', gymId.toString());
   if (trainerId) params.append('trainer_id', trainerId.toString());
-  
+   
   url += `?${params.toString()}`;
   console.log(url)
   const response = await fetchWithAuth(url);

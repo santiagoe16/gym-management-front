@@ -5,6 +5,8 @@ import { useUserModal } from "@/hooks/useUser/useUserModal";
 import { useUserDelete } from "@/hooks/useUser/useUserDelete";
 import ConfirmModal from "@/components/ConfirmModal";
 import { useUsers } from "@/hooks/useUser/useUsers";
+import Link from "next/link";
+import { utcToColombiaDate } from "@/utils/formatDate";
 
 export default function UsersView() {
   const { users, loading, error, getUsers } = useUsers();
@@ -24,8 +26,6 @@ export default function UsersView() {
     gymsLoading,
     gymsError,
   } = useUserModal(getUsers);
-
-
 
   return (
     <main className="min-h-screen">
@@ -67,6 +67,8 @@ export default function UsersView() {
                 <th className="px-6 py-3">Cedula</th>
                 <th className="px-6 py-3">Celular</th>
                 <th className="px-6 py-3">Plan</th>
+                <th className="px-6 py-3">Inicio plan</th>
+                <th className="px-6 py-3">Vigencia</th>
                 <th className="px-6 py-3">Gimnasio</th>
                 <th className="px-6 py-3">Acciones</th>
               </tr>
@@ -80,7 +82,17 @@ export default function UsersView() {
                   <td className="px-6 py-4">{user.fullName}</td>
                   <td className="px-6 py-4">{user.documentId}</td>
                   <td className="px-6 py-4">{user.phoneNumber}</td>
-                  <td className="px-6 py-4">{user.activePlan?.plan.name}</td>
+                  <td className="px-6 py-4">{user.activePlan?.plan.name || "Inactivo"}{" "}</td>
+                  <td className="px-6 py-4">
+                    {user.activePlan?.purchasedAt
+                      ? utcToColombiaDate(user.activePlan.purchasedAt)
+                      : "Inactivo"}
+                  </td>
+                  <td className="px-6 py-4">
+                    {user.activePlan?.expiresAt
+                      ? utcToColombiaDate(user.activePlan.expiresAt)
+                      : "Inactivo"}
+                  </td>
                   <td className="px-6 py-4">{user.gym?.name}</td>
                   <td className="px-6 py-4">
                     <button
@@ -90,11 +102,17 @@ export default function UsersView() {
                       Editar
                     </button>
                     <button
-                      className="text-blue-600 hover:underline"
+                      className="text-blue-600 hover:underline ml-2"
                       onClick={() => handleOpen(user)}
                     >
                       Medidas
                     </button>
+                    <Link
+                      href={`users/${user.id}`}
+                      className="text-blue-600 hover:underline ml-2"
+                    >
+                      Ver usuario
+                    </Link>
                   </td>
                 </tr>
               ))}
