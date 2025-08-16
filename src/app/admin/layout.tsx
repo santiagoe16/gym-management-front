@@ -12,7 +12,7 @@ export default function AdminLayout({
   return (
     <RoleProtectedRoute allowedRoles={["admin"]}>
       <Sidebar>
-        <main className="bg-gray-100">
+        <main className="bg-[#fafafa] min-h-screen">
           <LayoutContainer>{children}</LayoutContainer>
         </main>
       </Sidebar>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Product } from "@/types/product";
-import { CreateSaleDTO } from "@/types/sale";
+import { CreateSaleDTO } from "@/types/activity";
 import { PaymentType } from "@/types/paymentType";
 import { createSaleService } from "@/services/salesService";
 import { getActiveProductsService } from "@/services/productsService";

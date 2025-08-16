@@ -2,6 +2,7 @@
 import { AuthProvider } from "@/context/authContext";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
+import { HeroUIProvider } from "@heroui/react";
 
 export const metadata: Metadata = {
   title: "Sistema de gimnasio",
@@ -15,8 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className="bg-gray-100 min-h-screen ">
-        <AuthProvider>{children}</AuthProvider>
+      <body className="min-h-screen ">
+        <HeroUIProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </HeroUIProvider>
       </body>
     </html>
   );

@@ -2,18 +2,13 @@
 import React from "react";
 import { useProducts } from "@/hooks/useProduct/useProducts";
 import { formatCurrency } from "@/utils/formatCurrency";
+import SpinnerLoader from "@/components/SpinnerLoader";
 
 export default function TrainerProductsView() {
   const { products, loading, error } = useProducts();
 
   if (loading) {
-    return (
-      <main>
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-        </div>
-      </main>
-    );
+    return <SpinnerLoader />;
   }
 
   if (error) {

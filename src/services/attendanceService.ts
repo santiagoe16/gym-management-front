@@ -1,4 +1,4 @@
-import { Attendance, CreateAttendanceDTO } from "@/types/attendance";
+import { Attendance, CreateAttendanceDTO } from "@/types/activity";
 import fetchWithAuth from "@/utils/fetchWithAuth";
 import { ATTENDANCE_ENDPOINTS } from "@/constants/apiEndopoints";
 import { AttendanceListResponseSchema, AttendanceResponseSchema } from "@/schemas/attendance.schemas";

@@ -6,8 +6,11 @@ import { useTrainersActivity } from "@/hooks/useTrainersActivity/useTrainersActi
 import ActivitySummaryCard from "@/components/ActivitySummaryCard";
 import DateRangePicker from "@/components/DateRangePicker";
 import { formatCurrency } from "@/utils/formatCurrency";
-import { utcToColombiaDate, utcToColombiaTime } from "@/utils/formatDate";
-import { PaymentTypeLabels } from "@/types/paymentType";
+import SpinnerLoader from "@/components/SpinnerLoader";
+import UserPlansTable from "@/components/Tables/UserPlansTable";
+import SalesTable from "@/components/Tables/SalesTable";
+import NewUsersTable from "@/components/Tables/NewUsersTable";
+import AttendanceTable from "@/components/Tables/AttendanceTable";
 
 export default function TrainersActivityView() {
   const { trainers, loading: trainersLoading } = useTrainers();
@@ -43,6 +46,10 @@ export default function TrainersActivityView() {
       gymId: gymId ? Number(gymId) : undefined 
     });
   };
+
+  if (loading || trainersLoading || gymsLoading) {
+    return <SpinnerLoader />;
+  }
 
   return (
     <main>
@@ -227,52 +234,11 @@ export default function TrainersActivityView() {
               Planes Vendidos ({data.userPlans.length})
             </h2>
           </div>
-          <div className="overflow-x-auto">
+          <div className="h-auto">
             {data.userPlans.length === 0 ? (
               <p className="text-gray-500 p-6">No hay planes vendidos en este período</p>
             ) : (
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-200 text-left text-gray-600 uppercase text-sm font-medium">
-                  <tr>
-                    <th className="px-4 py-3 text-xs">Cliente</th>
-                    <th className="px-4 py-3 text-xs">Plan</th>
-                    <th className="px-4 py-3 text-xs">Precio</th>
-                    <th className="px-4 py-3 text-xs">Pago</th>
-                    <th className="px-4 py-3 text-xs">Vendedor</th>
-                    <th className="px-4 py-3 text-xs">Fecha</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 text-gray-700">
-                  {data.userPlans.map((userPlan) => (
-                    <tr
-                      key={userPlan.id}
-                      className="odd:bg-white even:bg-gray-100 hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-4 py-3">
-                        <div>
-                          <p className="font-medium text-sm">{userPlan.user.fullName}</p>
-                          <p className="text-xs text-gray-500">DC: {userPlan.user.documentId}</p>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-sm">{userPlan.plan.name}</td>
-                      <td className="px-4 py-3 text-sm font-medium text-green-600">
-                        {formatCurrency(userPlan.plan.price)}
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <span className={`px-2 py-1 text-xs rounded-full ${
-                          userPlan.paymentType === 'cash' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-blue-100 text-blue-800'
-                        }`}>
-                          {PaymentTypeLabels[userPlan.paymentType] || 'N/A'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-sm">{userPlan.createdBy?.fullName || "N/A"}</td>
-                      <td className="px-4 py-3 text-sm">{utcToColombiaDate(userPlan.createdAt)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <UserPlansTable userPlans={data.userPlans} />
             )}
           </div>
         </div>
@@ -284,47 +250,11 @@ export default function TrainersActivityView() {
               Ventas de Productos ({data.sales.length})
             </h2>
           </div>
-          <div className="overflow-x-auto">
+          <div className="h-auto">
             {data.sales.length === 0 ? (
               <p className="text-gray-500 p-6">No hay ventas de productos en este período</p>
             ) : (
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-200 text-left text-gray-600 uppercase text-sm font-medium">
-                  <tr>
-                    <th className="px-4 py-3 text-xs">Producto</th>
-                    <th className="px-4 py-3 text-xs">Cantidad</th>
-                    <th className="px-4 py-3 text-xs">Total</th>
-                    <th className="px-4 py-3 text-xs">Pago</th>
-                    <th className="px-4 py-3 text-xs">Vendedor</th>
-                    <th className="px-4 py-3 text-xs">Fecha</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 text-gray-700">
-                  {data.sales.map((sale) => (
-                    <tr
-                      key={sale.id}
-                      className="odd:bg-white even:bg-gray-100 hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-4 py-3 font-medium text-sm">{sale.product.name}</td>
-                      <td className="px-4 py-3 text-sm">{sale.quantity}</td>
-                      <td className="px-4 py-3 font-medium text-green-600 text-sm">
-                        {formatCurrency(sale.totalAmount)}
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <span className={`px-2 py-1 text-xs rounded-full ${
-                          sale.paymentType === 'cash' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-blue-100 text-blue-800'
-                        }`}>
-                          {PaymentTypeLabels[sale.paymentType] || 'N/A'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-sm">{sale.soldBy.fullName}</td>
-                      <td className="px-4 py-3 text-sm">{utcToColombiaDate(sale.saleDate)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <SalesTable sales={data.sales} />
             )}
           </div>
         </div>
@@ -336,76 +266,27 @@ export default function TrainersActivityView() {
               Usuarios Registrados ({data.newUsers.length})
             </h2>
           </div>
-          <div className="overflow-x-auto">
+          <div className="h-auto">
             {data.newUsers.length === 0 ? (
               <p className="text-gray-500 p-6">No hay usuarios registrados en este período</p>
             ) : (
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-200 text-left text-gray-600 uppercase text-sm font-medium">
-                  <tr>
-                    <th className="px-4 py-3 text-xs">Nombre</th>
-                    <th className="px-4 py-3 text-xs">Documento</th>
-                    <th className="px-4 py-3 text-xs">Gimnasio</th>
-                    <th className="px-4 py-3 text-xs">Fecha</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 text-gray-700">
-                  {data.newUsers.map((user) => (
-                    <tr
-                      key={user.id}
-                      className="odd:bg-white even:bg-gray-100 hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-4 py-3 font-medium text-sm">{user.fullName}</td>
-                      <td className="px-4 py-3 text-sm">{user.documentId}</td>
-                      <td className="px-4 py-3 text-sm">{user.gym.name}</td>
-                      <td className="px-4 py-3 text-sm">{utcToColombiaDate(user.createdAt)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <NewUsersTable newUsers={data.newUsers} />
             )}
           </div>
         </div>
 
         {/* Asistencias */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-300">
+        <div className="bg-white rounded-lg shadow-lg border border-gray-300 mb-10">
           <div className="p-6 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-gray-800">
               Asistencias ({data.attendance.length})
             </h2>
           </div>
-          <div className="overflow-x-auto">
+          <div className="h-auto">
             {data.attendance.length === 0 ? (
               <p className="text-gray-500 p-6">No hay asistencias registradas en este período</p>
             ) : (
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-200 text-left text-gray-600 uppercase text-sm font-medium">
-                  <tr>
-                    <th className="px-4 py-3 text-xs">Usuario</th>
-                    <th className="px-4 py-3 text-xs">Hora</th>
-                    <th className="px-4 py-3 text-xs">Registrado por</th>
-                    <th className="px-4 py-3 text-xs">Fecha</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 text-gray-700">
-                  {data.attendance.map((record) => (
-                    <tr
-                      key={record.id}
-                      className="odd:bg-white even:bg-gray-100 hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-4 py-3">
-                        <div>
-                          <p className="font-medium text-sm">{record.user.fullName}</p>
-                          <p className="text-xs text-gray-500">DC: {record.user.documentId}</p>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-sm">{utcToColombiaTime(record.checkInTime)}</td>
-                      <td className="px-4 py-3 text-sm">{record.recordedBy.fullName}</td>
-                      <td className="px-4 py-3 text-sm">{utcToColombiaDate(record.checkInTime)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <AttendanceTable attendance={data.attendance} />
             )}
           </div>
         </div>

@@ -7,6 +7,7 @@ import { usePlanDelete } from "@/hooks/usePlan/usePlanDelete";
 import { usePlans } from "@/hooks/usePlan/usePlans";
 import { useGyms } from "@/hooks/useGym/useGyms";
 import { formatCurrency } from "@/utils/formatCurrency";
+import SpinnerLoader from "@/components/SpinnerLoader";
 
 export default function PlansView() {
   const {
@@ -36,6 +37,10 @@ export default function PlansView() {
     showConfirm,
     planToDelete,
   } = usePlanDelete(getPlans);
+
+  if (plansLoading) {
+    return <SpinnerLoader />;
+  }
 
   return (
     <main>

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAuth } from "@/context/authContext";
+import SpinnerLoader from "./SpinnerLoader";
 
 interface PrivateRouteProps {
   children: React.ReactNode;
@@ -19,7 +20,7 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
   }, [user, loading, router]);
 
   if (loading || !user) {
-    return <p className="text-center mt-10">Cargando...</p>; // Spinner opcional
+    return <SpinnerLoader />;
   }
 
   return <>{children}</>;

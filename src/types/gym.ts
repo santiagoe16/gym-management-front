@@ -3,14 +3,3 @@ export interface Gym {
   name: string;
   address: string;
 }
-
-export interface CreateGymDTO {
-  name: string;
-  address: string;
-}
-
-export interface UpdateGymDTO {
-  id: number;
-  name?: string;
-  address?: string;
-}

@@ -51,27 +51,11 @@ export default function TrainerModal({
           </div>
           <form className="p-4 md:p-5" onSubmit={onSubmit}>
             {error && (
-              <div className="mb-4 text-red-600 text-sm font-medium">{error}</div>
+              <div className="mb-4 text-red-600 text-sm font-medium">
+                {error}
+              </div>
             )}
             <div className="grid gap-4 mb-4 grid-cols-2">
-              <div className="col-span-2">
-                <label
-                  htmlFor="email"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Email
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  id="email"
-                  value={form.email}
-                  onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Nombre del entrenador"
-                  required={mode === "add"}
-                />
-              </div>
               <div className="col-span-2">
                 <label
                   htmlFor="fullName"
@@ -84,6 +68,24 @@ export default function TrainerModal({
                   name="fullName"
                   id="fullName"
                   value={form.fullName}
+                  onChange={onChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="Nombre del entrenador"
+                  required={mode === "add"}
+                />
+              </div>
+              <div className="col-span-2">
+                <label
+                  htmlFor="email"
+                  className="block mb-1 text-sm font-medium text-gray-900"
+                >
+                  Email
+                </label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  value={form.email}
                   onChange={onChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="Nombre del entrenador"
@@ -223,11 +225,7 @@ export default function TrainerModal({
               </div>
             </div>
             <div className="flex justify-end w-full">
-              <button
-                type="submit"
-                className="btn-primary"
-                disabled={loading}
-              >
+              <button type="submit" className="btn-primary" disabled={loading}>
                 {loading ? (
                   <span>Guardando...</span>
                 ) : (
@@ -254,4 +252,4 @@ export default function TrainerModal({
       </div>
     </div>
   );
-} 
+}

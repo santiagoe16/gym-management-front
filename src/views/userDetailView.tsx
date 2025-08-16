@@ -7,6 +7,7 @@ import BodyMeasurementsDisplay from "@/components/BodyMeasurementsDisplay";
 import { useUserModal } from "@/hooks/useUser/useUserModal";
 import UserModal from "@/components/userModal";
 import { utcToColombiaDate } from "@/utils/formatDate";
+import SpinnerLoader from "@/components/SpinnerLoader";
 
 type Props = {
   userId: number;
@@ -32,6 +33,7 @@ export default function UserDetailView({ userId }: Props) {
     open,
     mode,
     form,
+    loading: modalLoading,
     handleOpen,
     handleClose,
     handleChange,
@@ -48,7 +50,7 @@ export default function UserDetailView({ userId }: Props) {
 
   const error = userError || measurementsError;
 
-  if (userLoading) return <p>Loading...</p>;
+  if (userLoading || measurementsLoading) return <SpinnerLoader />;
   if (error) return <p>Error: {error}</p>;
   if (!user) return <p>Usuario no encontrado.</p>;
 
@@ -291,6 +293,7 @@ export default function UserDetailView({ userId }: Props) {
         onChange={handleChange}
         onSubmit={handleSubmit}
         mode={mode}
+        loading={modalLoading}
         plans={plans}
         plansLoading={plansLoading}
         plansError={plansError}

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAuth } from "@/context/authContext";
+import SpinnerLoader from "./SpinnerLoader";
 
 interface RoleProtectedRouteProps {
   children: React.ReactNode;
@@ -39,15 +40,15 @@ export default function RoleProtectedRoute({
   }, [user, loading, router, allowedRoles]);
 
   if (loading) {
-    return <p className="text-center mt-10">Cargando...</p>;
+    return <SpinnerLoader />;
   }
 
   if (!user) {
-    return <p className="text-center mt-10">Redirigiendo...</p>;
+    return <SpinnerLoader />;
   }
 
   if (!allowedRoles.includes(user.role)) {
-    return <p className="text-center mt-10">Acceso denegado. Redirigiendo...</p>;
+    return <SpinnerLoader />;
   }
 
   return <>{children}</>;

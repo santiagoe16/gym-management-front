@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import ProductModal from "@/components/ProductModal";
 import ConfirmModal from "@/components/ConfirmModal";
 import { useProductModal } from "@/hooks/useProduct/useProductModal";
 import { useProductDelete } from "@/hooks/useProduct/useProductDelete";
 import { useProducts } from "@/hooks/useProduct/useProducts";
-import { formatCurrency } from "@/utils/formatCurrency";
+import SpinnerLoader from "@/components/SpinnerLoader";
+import ProductsTable from "@/components/Tables/ProductsTable";
 
 export default function ProductsView() {
   const { products, loading, error, getProducts } = useProducts();
@@ -31,7 +32,9 @@ export default function ProductsView() {
     productDelete,
   } = useProductDelete(getProducts);
 
-  // Ejemplo de datos de producto
+  if (loading) {
+    return <SpinnerLoader />;
+  }
 
   return (
     <main>
@@ -42,57 +45,12 @@ export default function ProductsView() {
         </h1>
       </header>
 
-      {/* Sección de acciones */}
-      <section className="flex justify-end mb-16">
-        <button
-          className="btn-primary"
-          onClick={() => handleOpen()}
-        >
-          + Agregar producto
-        </button>
-      </section>
+      <ProductsTable
+        products={products}
+        handleOpen={handleOpen}
+        handleDeleteClick={handleDeleteClick}
+      />
 
-      {/* Sección de la tabla de productos */}
-      <section className="overflow-x-auto bg-white rounded-lg shadow-lg border-gray-300 border">
-        <table className="min-w-full divide-y divide-gray-300">
-          <thead className="bg-gray-200 text-left text-gray-600 uppercase text-sm font-medium">
-            <tr className="whitespace-nowrap">
-              <th className="px-6 py-3">Producto</th>
-              <th className="px-6 py-3">Precio</th>
-              <th className="px-6 py-3">Cantidad</th>
-              <th className="px-6 py-3">Gimnasio</th>
-              <th className="px-6 py-3">Acciones</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 text-gray-700">
-            {products.map((product, idx) => (
-              <tr
-                key={idx}
-                className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
-              >
-                <td className="px-6 py-4">{product.name}</td>
-                <td className="px-6 py-4">{formatCurrency(product.price)}</td>
-                <td className="px-6 py-4">{product.quantity}</td>
-                <td className="px-6 py-4">{product.gym.name}</td>
-                <td className="px-6 py-4">
-                  <button
-                    className="text-blue-600 hover:underline"
-                    onClick={() => handleOpen(product)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="text-blue-600 hover:underline ml-2"
-                    onClick={() => handleDeleteClick(product)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
       <ProductModal
         open={open}
         onClose={handleClose}

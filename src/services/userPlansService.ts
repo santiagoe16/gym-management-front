@@ -1,5 +1,5 @@
 import fetchWithAuth from "@/utils/fetchWithAuth";
-import { UserPlan } from "@/types/userPlan";
+import { UserPlan } from "@/types/activity";
 import { UserPlanListResponseSchema } from "@/schemas/userPlan.schemas";
 import { USER_PLANS_ENDPOINTS } from "@/constants/apiEndopoints";
 import { PaymentType } from "@/types/paymentType";

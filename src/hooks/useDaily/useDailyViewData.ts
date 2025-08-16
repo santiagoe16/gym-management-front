@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Attendance } from "@/types/attendance";
-import { Sale } from "@/types/sale";
-import { UserPlan } from "@/types/userPlan";
+import { Attendance, Sale, UserPlan } from "@/types/activity";
 import { Gym } from "@/types/gym";
 import { Trainer } from "@/types/trainer";
 
@@ -57,7 +55,7 @@ export function useDailyViewData(
   }, [currentDate, gymId, trainerId]);
 
   const fetchUserPlans = useCallback(async () => {
-    const userPlansData = await getDailyUserPlans(undefined, gymId, trainerId);
+    const userPlansData = await getDailyUserPlans(currentDate, gymId, trainerId);
     return Array.from(new Map(userPlansData.map(item => [item.id, item])).values());
   }, [gymId, trainerId]);
 

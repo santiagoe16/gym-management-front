@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Attendance, CreateAttendanceDTO } from "@/types/attendance";
+import { Attendance, CreateAttendanceDTO } from "@/types/activity";
 import { UserResponseSchema } from "./user.schemas";
 
 // Schema para recorded_by (usuario que registró)

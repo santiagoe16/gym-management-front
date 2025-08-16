@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Attendance } from "@/types/attendance";
-import { Sale } from "@/types/sale";
+import { Attendance, Sale } from "@/types/activity";
 import { getDailyAttendanceService } from "@/services/attendanceService";
 import { getDailySalesService } from "@/services/salesService";
 import { getColombiaCurrentDateYMD } from "@/utils/formatDate";

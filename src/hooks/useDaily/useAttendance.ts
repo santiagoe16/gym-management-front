@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CreateAttendanceDTO } from "@/types/attendance";
+import { CreateAttendanceDTO } from "@/types/activity";
 import { createAttendanceService } from "@/services/attendanceService";
 
 export function useAttendance(onSuccess: () => void, onUserNotFound?: (documentId: string) => void, onUserNoPlan?: (documentId: string) => void) {

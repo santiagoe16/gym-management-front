@@ -10,6 +10,7 @@ export default interface UserModalProps {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;
   onSubmit: (e: React.FormEvent) => void;
+  loading: boolean;
   mode?: "add" | "edit";
   plans: Plan[];
   plansLoading: boolean;

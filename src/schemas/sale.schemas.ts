@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Sale, CreateSaleDTO } from "@/types/sale";
+import { Sale, CreateSaleDTO } from "@/types/activity";
 import { ProductResponseSchema } from "./product.schemas";
 import { UserResponseSchema } from "./user.schemas";
 import { PaymentType } from "@/types/paymentType";

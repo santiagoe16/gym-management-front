@@ -82,7 +82,7 @@ export default function DailyView() {
     if (userForm.documentId) {
       try {
         await createAttendanceService(userForm.documentId, {});
-        loadAttendance(); // Only reload attendance after auto-register
+        loadAttendance(); // Reload attendance after creating it
       } catch (error) {
         console.error("Error al registrar asistencia automáticamente:", error);
       }
@@ -99,7 +99,6 @@ export default function DailyView() {
     try {
       const user = await getUserByDocumentIdService(documentId);
       handleUserOpen(user);
-      // setHighlightPlan(true); // This state is not used anymore, remove it
     } catch (error) {
       console.error("Error al obtener el usuario:", error);
     }
@@ -199,8 +198,8 @@ export default function DailyView() {
         open={userModalOpen}
         onClose={() => {
           handleUserClose();
-          // setHighlightPlan(false); // This state is not used anymore, remove it
         }}
+        loading={userLoading}
         form={userForm}
         onChange={handleUserChange}
         onSubmit={handleUserSubmit}
@@ -211,7 +210,6 @@ export default function DailyView() {
         gyms={modalGyms}
         gymsLoading={gymsLoading}
         gymsError={gymsError}
-        // highlightPlan={highlightPlan} // This prop is not used anymore, remove it
       />
     </main>
   );

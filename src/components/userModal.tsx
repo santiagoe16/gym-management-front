@@ -1,7 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import UserModalProps from "@/types/modals/userModal";
-import { PaymentType, PaymentTypeLabels } from "@/types/paymentType";
+import { PaymentTypeLabels } from "@/types/paymentType";
+import { Button } from "@heroui/react";
+import { PlusIcon } from "./Icons";
 
 export default function UserModal({
   open,
@@ -9,6 +11,7 @@ export default function UserModal({
   form,
   onChange,
   onSubmit,
+  loading = false,
   mode = "add",
   plans = [],
   plansLoading = false,
@@ -137,7 +140,10 @@ export default function UserModal({
                 />
               </div>
               <div
-                className={`col-span-2 p-4 border rounded-lg ${highlightPlan ? "border-red-500" : "border-gray-200"}`}>
+                className={`col-span-2 p-4 border rounded-lg ${
+                  highlightPlan ? "border-red-500" : "border-gray-200"
+                }`}
+              >
                 <label
                   htmlFor="planId"
                   className="block mb-1 text-sm font-medium text-gray-900"
@@ -168,7 +174,8 @@ export default function UserModal({
                     </option>
                     {plans.map((plan) => (
                       <option key={plan.id} value={plan.id}>
-                        {plan.name} - {plan.durationDays} días - {plan.days && `${plan.days} -`} ${plan.price}
+                        {plan.name} - {plan.durationDays} días -{" "}
+                        {plan.days && `${plan.days} -`} ${plan.price}
                       </option>
                     ))}
                   </select>
@@ -229,21 +236,9 @@ export default function UserModal({
               </div>
             </div>
             <div className="flex justify-end w-full">
-              <button type="submit" className="btn-primary">
-                <svg
-                  className="me-1 -ms-1 w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
+              <Button color="primary" isLoading={loading} startContent={loading ?  "" : <PlusIcon />} type="submit" className="font-semibold">
                 {mode === "edit" ? "Guardar cambios" : "Agregar usuario"}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

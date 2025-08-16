@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from 'next/image';
-import logoLine from '../../public/logoLinefit.png';
+import Image from "next/image";
+import logoLine from "../../public/logoLinefit.png";
 import { useAuth } from "@/context/authContext";
 
 export default function AdminSidebar({
@@ -56,12 +56,12 @@ export default function AdminSidebar({
 
       <aside
         id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform bg-white ${
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform  ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } sm:translate-x-0`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-[#fafafa] shadow-[1px_0px_8px_rgba(0,0,0,0.1)]">
           <a
             href=""
             className={`flex items-center ps-2 mb-5 ${
@@ -72,6 +72,7 @@ export default function AdminSidebar({
               src={logoLine}
               className="h-15 w-44 me-3"
               alt="Line fitness logo"
+              priority
             />
           </a>
           <ul className="space-y-2 font-medium">
@@ -229,10 +230,12 @@ export default function AdminSidebar({
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
-                  <path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 7h12v9H4V7z"/>
-                  <path d="M7 10h2v2H7v-2zm4 0h2v2h-2v-2z"/>
+                  <path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 7h12v9H4V7z" />
+                  <path d="M7 10h2v2H7v-2zm4 0h2v2h-2v-2z" />
                 </svg>
-                <span className="flex-1 ms-3 whitespace-nowrap">Resumen Diario</span>
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  Resumen Diario
+                </span>
               </Link>
             </li>
             <li>
@@ -261,7 +264,9 @@ export default function AdminSidebar({
                   />
                 </svg>
 
-                <span className="flex-1 ms-2 whitespace-nowrap">Cerrar sesión</span>
+                <span className="flex-1 ms-2 whitespace-nowrap">
+                  Cerrar sesión
+                </span>
               </button>
             </li>
             {/* <li>
