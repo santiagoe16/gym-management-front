@@ -32,5 +32,5 @@ export function usePlanDelete(getPlans: () => void) {
     setPlanToDelete(null);
   };
 
-  return { handleDeleteClick, handleConfirmDelete, handleCancelDelete, showConfirm, planToDelete };
+  return { handleDeleteClick, handleConfirmDelete, handleCancelDelete, showConfirm, planToDelete, loading, error };
 }

@@ -32,10 +32,16 @@ export default function TrainersView() {
     handleCancelDelete,
     showConfirm,
     trainerToDelete,
+    loading: deleteLoading,
+    error: deleteError,
   } = useTrainerDelete(getTrainers);
 
   if (loading) {
     return <SpinnerLoader />;
+  }
+
+  if (error) {
+    return <p className="text-red-500">Error al cargar los entrenadores: {error}</p>;
   }
 
   return (
@@ -71,7 +77,13 @@ export default function TrainersView() {
         open={showConfirm}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        message={`¿Seguro que deseas eliminar "${trainerToDelete?.fullName}"?`}
+        message={
+          deleteLoading
+            ? "Eliminando..."
+            : deleteError
+            ? `Error: ${deleteError}`
+            : `¿Seguro que deseas eliminar "${trainerToDelete?.fullName}"?`
+        }
       />
     </main>
   );

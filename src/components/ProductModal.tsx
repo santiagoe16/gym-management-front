@@ -163,6 +163,7 @@ export default function ProductModal({
                 )}
               </div>
             </div>
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="flex justify-end w-full">
               <Button
                 color="primary"

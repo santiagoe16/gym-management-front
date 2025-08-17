@@ -19,4 +19,5 @@ export default interface UserModalProps {
   gymsLoading: boolean;
   gymsError: string | null;
   highlightPlan?: boolean;
+  error: string | null;
 }

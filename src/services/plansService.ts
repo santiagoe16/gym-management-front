@@ -34,12 +34,16 @@ export async function addPlanService(
   const validPlan = parseResult.data;
 
   try {
-    // Enviar el cuerpo validado al backend
     const res = await fetchWithAuth(PLAN_ENDPOINTS.PLAN_BASE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(validPlan),
     });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.detail || "Error al agregar plan");
+    }
 
     const data = await res.json();
 
@@ -71,6 +75,11 @@ export async function updatePlanService(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(filteredForm),
     });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.detail || "Error al actualizar plan");
+    }
 
     const data = await res.json();
    

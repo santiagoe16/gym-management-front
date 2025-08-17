@@ -20,6 +20,7 @@ export default function UserModal({
   gymsLoading = false,
   gymsError = null,
   highlightPlan = false,
+  error = null,
 }: UserModalProps) {
   if (!open) return null;
 
@@ -216,45 +217,50 @@ export default function UserModal({
                   ))}
                 </Select>
               </div>
-              <div className="col-span-2">
-                {gymsError ? (
-                  <p className="text-red-500 text-sm">{gymsError}</p>
-                ) : (
-                  <Select
-                    isLoading={gymsLoading}
-                    label={
-                      <span className="text-gray-900 font-medium">
-                        Gimnasio
-                      </span>
-                    }
-                    labelPlacement="outside"
-                    id="gymId"
-                    name="gymId"
-                    placeholder="Selecciona un gimnasio"
-                    selectedKeys={form.gymId ? [String(form.gymId)] : []}
-                    onSelectionChange={(keys) => {
-                      // simular el mismo comportamiento que un <select> nativo
-                      const key = Array.from(keys).pop() as string | undefined;
-                      const event = {
-                        target: {
-                          name: "gymId",
-                          value: key ? Number(key) : 0,
-                        },
-                      } as unknown as React.ChangeEvent<HTMLSelectElement>;
-                      onChange(event);
-                    }}
-                    className="w-full"
-                    variant="faded"
-                  >
-                    {gyms.map((gym) => (
-                      <SelectItem key={String(gym.id)} textValue={gym.name}>
-                        {gym.name} - {gym.address}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                )}
-              </div>
+              {mode == "edit" && (
+                <div className="col-span-2">
+                  {gymsError ? (
+                    <p className="text-red-500 text-sm">{gymsError}</p>
+                  ) : (
+                    <Select
+                      isLoading={gymsLoading}
+                      label={
+                        <span className="text-gray-900 font-medium">
+                          Gimnasio
+                        </span>
+                      }
+                      labelPlacement="outside"
+                      id="gymId"
+                      name="gymId"
+                      placeholder="Selecciona un gimnasio"
+                      selectedKeys={form.gymId ? [String(form.gymId)] : []}
+                      onSelectionChange={(keys) => {
+                        // simular el mismo comportamiento que un <select> nativo
+                        const key = Array.from(keys).pop() as
+                          | string
+                          | undefined;
+                        const event = {
+                          target: {
+                            name: "gymId",
+                            value: key ? Number(key) : 0,
+                          },
+                        } as unknown as React.ChangeEvent<HTMLSelectElement>;
+                        onChange(event);
+                      }}
+                      className="w-full"
+                      variant="faded"
+                    >
+                      {gyms.map((gym) => (
+                        <SelectItem key={String(gym.id)} textValue={gym.name}>
+                          {gym.name} - {gym.address}
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  )}
+                </div>
+              )}
             </div>
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="flex justify-end w-full">
               <Button
                 color="primary"

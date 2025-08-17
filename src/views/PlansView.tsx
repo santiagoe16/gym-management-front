@@ -38,10 +38,16 @@ export default function PlansView() {
     handleCancelDelete,
     showConfirm,
     planToDelete,
+    loading: deleteLoading,
+    error: deleteError,
   } = usePlanDelete(getPlans);
 
   if (plansLoading) {
     return <SpinnerLoader />;
+  }
+
+  if (plansError) {
+    return <p className="text-red-500">Error al cargar los planes: {plansError}</p>;
   }
 
   return (
@@ -71,7 +77,13 @@ export default function PlansView() {
         open={showConfirm}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        message={`¿Seguro que deseas eliminar "${planToDelete?.name}"?`}
+        message={
+          deleteLoading
+            ? "Eliminando..."
+            : deleteError
+            ? `Error: ${deleteError}`
+            : `¿Seguro que deseas eliminar "${planToDelete?.name}"?`
+        }
       />
     </main>
   );

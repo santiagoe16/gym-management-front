@@ -36,6 +36,10 @@ export default function GymsView() {
     return <SpinnerLoader />;
   }
 
+  if (error) {
+    return <p className="text-red-500">Error al cargar los gimnasios: {error}</p>;
+  }
+
   return (
     <main >
       <header className="mb-4">

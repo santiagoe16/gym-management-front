@@ -86,9 +86,9 @@ export async function addUserService(
     // Validar respuesta del servidor
     const addedUser: User = UserResponseSchema.parse(data);
     return addedUser;
-  } catch (err) {
-    console.error("addUserService error:", err);
-    throw new Error("Error al agregar entrenador");
+  } catch (error) {
+    console.error("addUserService error:", error);
+    throw error;
   }
 }
 

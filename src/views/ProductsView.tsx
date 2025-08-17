@@ -32,10 +32,16 @@ export default function ProductsView() {
     handleCancelDelete,
     showConfirm,
     productDelete,
+    loading: deleteLoading,
+    error: deleteError,
   } = useProductDelete(getProducts);
 
   if (loading) {
     return <SpinnerLoader />;
+  }
+
+  if (error) {
+    return <p className="text-red-500">Error al cargar los productos: {error}</p>;
   }
 
   return (
@@ -70,7 +76,13 @@ export default function ProductsView() {
         open={showConfirm}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        message={`¿Seguro que deseas eliminar "${productDelete?.name}"?`}
+        message={
+          deleteLoading
+            ? "Eliminando..."
+            : deleteError
+            ? `Error: ${deleteError}`
+            : `¿Seguro que deseas eliminar "${productDelete?.name}"?`
+        }
       />
     </main>
   );

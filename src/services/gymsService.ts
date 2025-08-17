@@ -31,12 +31,16 @@ export async function addGymService(gym: CreateGymDTO): Promise<Gym> {
   // Validación de entrada
 
   try {
-    // Enviar el cuerpo validado al backend
     const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(gym),
     });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.detail || "Error al agregar gimnasio");
+    }
 
     const data = await res.json();
 
@@ -56,6 +60,11 @@ export async function updateGymService(gym: Gym): Promise<Gym> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(gym),
     });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.detail || "Error al actualizar gimnasio");
+    }
 
     const data = await res.json();
 

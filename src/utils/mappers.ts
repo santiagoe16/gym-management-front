@@ -1,10 +1,10 @@
 // src/utils/mappers.ts
 import { Trainer, CreateTrainerDTO } from "@/types/trainer"; // Ajusta la ruta si es necesario
-import { Gym, CreateGymDTO } from "@/types/gym";
+import { Gym } from "@/types/gym";
 import { CreateUserDTO, User } from "@/types/user";
 import { PaymentType } from "@/types/paymentType";
 
-export function mapTrainerToCreateDTO(trainer: Trainer): CreateTrainerDTO {
+export function mapTrainerToCreateDTO(trainer: Trainer) {
   return {
     email: trainer.email,
     fullName: trainer.fullName,
@@ -30,7 +30,7 @@ export function mapUserToCreateDTO(user: User): CreateUserDTO {
   };
 }
 
-export function mapGymToCreateDTO(gym: Gym): CreateGymDTO {
+export function mapGymToCreateDTO(gym: Gym) {
   return {
     name: gym.name,
     address: gym.address,

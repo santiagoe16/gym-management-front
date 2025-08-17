@@ -33,5 +33,5 @@ export function useProductDelete(getProducts: () => void) {
       setProductDelete(null);
     };
   
-    return { handleDeleteClick, handleConfirmDelete, handleCancelDelete, showConfirm, productDelete };
+    return { handleDeleteClick, handleConfirmDelete, handleCancelDelete, showConfirm, productDelete, loading, error };
 }

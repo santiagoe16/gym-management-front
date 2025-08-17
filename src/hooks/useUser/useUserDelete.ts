@@ -40,5 +40,7 @@ export function useUserDelete(getUsers: () => void) {
     handleCancelDelete,
     showConfirm,
     userToDelete,
+    loading,
+    error,
   };
 }

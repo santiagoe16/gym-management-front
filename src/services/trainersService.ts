@@ -40,12 +40,16 @@ export async function addTrainerService(
   const validTrainer = parseResult.data;
 
   try {
-    // Enviar el cuerpo validado al backend
     const res = await fetchWithAuth(TRAINER_ENDPOINTS.TRAINERS_ADD, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(validTrainer),
     });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.detail || "Error al agregar entrenador");
+    }
 
     const data = await res.json();
 
@@ -78,6 +82,11 @@ export async function updateTrainerService(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(filteredForm),
     });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.detail || "Error al actualizar entrenador");
+    }
 
     const data = await res.json();
    

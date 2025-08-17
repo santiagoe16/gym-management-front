@@ -27,6 +27,7 @@ export default function UsersView() {
     gyms,
     gymsLoading,
     gymsError,
+    error: modalError,
   } = useUserModal(getUsers);
 
   const {
@@ -35,10 +36,16 @@ export default function UsersView() {
     handleCancelDelete,
     showConfirm,
     userToDelete,
+    loading: deleteLoading,
+    error: deleteError,
   } = useUserDelete(getUsers);
 
   if (loading) {
     return <SpinnerLoader/>;
+  }
+
+  if (error) {
+    return <p className="text-red-500">Error al cargar los usuarios: {error}</p>;
   }
 
   return (
@@ -69,12 +76,19 @@ export default function UsersView() {
         gyms={gyms}
         gymsLoading={gymsLoading}
         gymsError={gymsError}
+        error={modalError}
       />
       <ConfirmModal
         open={showConfirm}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        message={`¿Seguro que deseas eliminar "${userToDelete?.fullName}"?`}
+        message={
+          deleteLoading
+            ? "Eliminando..."
+            : deleteError
+            ? `Error: ${deleteError}`
+            : `¿Seguro que deseas eliminar "${userToDelete?.fullName}"?`
+        }
       />
     </main>
   );

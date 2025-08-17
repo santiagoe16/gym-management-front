@@ -79,13 +79,15 @@ export function useUserModal(getUsers?: () => void) {
           await updateUserService(editId, user);
         }
         getUsers?.();
+        if (isMountedRef.current) {
+          handleClose();
+        }
       } catch (err: any) {
         if (isMountedRef.current) {
           setError(err.message || "Error en la operación");
         }
       } finally {
         if (isMountedRef.current) {
-          handleClose();
           setLoading(false);
         }
       }

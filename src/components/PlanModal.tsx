@@ -80,13 +80,16 @@ export default function PlanModal({
                       Nombre del plan
                     </span>
                   }
+                  id="name"
+                  name="name"
                   labelPlacement="outside"
                   size="md"
                   variant="faded"
                   placeholder="Nombre del plan"
                   type="text"
                   value={form.name}
-                  onChange={(e) => onChange(e)}
+                  onChange={(e) =>
+                      onChange(e as React.ChangeEvent<HTMLInputElement>)}
                   required
                 />
               </div>
@@ -218,6 +221,7 @@ export default function PlanModal({
                 />
               </div>
             </div>
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="flex justify-end w-full">
               <Button type="submit" className="btn-primary" startContent={loading ? "" : <PlusIcon />}>
                 {mode === "edit" ? "Guardar cambios" : "Agregar plan"}

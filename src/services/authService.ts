@@ -41,7 +41,7 @@ export async function loginService(credentials: LoginRequest): Promise<LoginResp
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error al iniciar sesión");
+        throw new Error(errorData.detail || "Error al iniciar sesión");
       }
 
       const data: LoginResponse = await response.json();

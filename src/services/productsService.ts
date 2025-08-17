@@ -51,12 +51,16 @@ export async function addProductService(
   const validProduct = parseResult.data;
 
   try {
-    // Enviar el cuerpo validado al backend
     const res = await fetchWithAuth(PRODUCT_ENDPOINTS.PRODUCTS_ADD, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(validProduct),
     });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.detail || "Error al agregar producto");
+    }
 
     const data = await res.json();
 
@@ -88,6 +92,11 @@ export async function updateProductService(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(filteredForm),
     });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.detail || "Error al actualizar producto");
+    }
 
     const data = await res.json();
    
