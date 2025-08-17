@@ -58,7 +58,7 @@ export async function addTrainerService(
     return trainer;
   } catch (err) {
     console.error("addTrainerService error:", err);
-    throw new Error("Error al agregar entrenador");
+    throw err;
   }
 }
 

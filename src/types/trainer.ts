@@ -19,6 +19,8 @@ export interface CreateTrainerDTO {
   scheduleStart: string;
   scheduleEnd: string;
   gymId: number;
+  role?: "trainer";
+  password?: string;
 }
 
 export interface EditTrainerDTO {
@@ -29,4 +31,11 @@ export interface EditTrainerDTO {
   scheduleStart?: string;
   scheduleEnd?: string;
   gymId?: number;
+  password?: string;
 }
+
+export interface TrainerListResponse extends Trainer {}
+
+export interface TrainerResponse extends Trainer {}
+
+

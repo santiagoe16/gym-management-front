@@ -68,8 +68,9 @@ export async function addProductService(
     const addedProduct: Product = ProductResponseSchema.parse(data);
     return addedProduct;
   } catch (err) {
-    console.error("addPlanService error:", err);
-    throw new Error("Error al agregar plan");
+    console.error("addProductService error:", err);
+
+    throw err;
   }
 }
 
@@ -105,7 +106,7 @@ export async function updateProductService(
     return updatedProduct;
   } catch (err) {
     console.error("updatePlanService error:", err);
-    throw new Error("Error al actualizar plan");
+    throw err;
   }
 }
 

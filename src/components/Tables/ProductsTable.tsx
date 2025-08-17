@@ -22,8 +22,8 @@ const columns = [
 
 interface ProductsTableProps {
   products: Product[];
-  handleOpen: (product?: Product) => void;
-  handleDeleteClick: (product: Product) => void;
+  handleOpen?: (product?: Product) => void;
+  handleDeleteClick?: (product: Product) => void;
 }
 
 export default function ProductsTable({
@@ -34,6 +34,13 @@ export default function ProductsTable({
   const [filterValue, setFilterValue] = React.useState("");
 
   const hasSearchFilter = Boolean(filterValue);
+
+  const visibleColumns = React.useMemo(() => {
+    if (handleOpen && handleDeleteClick) {
+      return columns;
+    }
+    return columns.filter((column) => column.uid !== "actions");
+  }, [handleOpen, handleDeleteClick]);
 
   const filteredItems = React.useMemo(() => {
     let filteredProducts = [...products];
@@ -47,41 +54,54 @@ export default function ProductsTable({
     return filteredProducts;
   }, [products, filterValue]);
 
-  const renderCell = React.useCallback((product: Product, columnKey: React.Key) => {
-    const cellValue = columnKey.toString().includes('.') 
-      ? columnKey.toString().split('.').reduce((acc: any, key: string) => acc ? acc[key] : '', product)
-      : product[columnKey as keyof Product];
+  const renderCell = React.useCallback(
+    (product: Product, columnKey: React.Key) => {
+      const cellValue =
+        columnKey.toString().includes(".")
+          ? columnKey
+              .toString()
+              .split(".")
+              .reduce(
+                (acc: any, key: string) => (acc ? acc[key] : ""),
+                product
+              )
+          : product[columnKey as keyof Product];
 
-    switch (columnKey) {
-      case "price":
-        return formatCurrency(cellValue as number);
-      case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem key="edit" onClick={() => handleOpen(product)}>
-                  Editar
-                </DropdownItem>
-                <DropdownItem
-                  key="delete"
-                  onClick={() => handleDeleteClick(product)}
-                >
-                  Eliminar
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue as React.ReactNode;
-    }
-  }, []);
+      switch (columnKey) {
+        case "price":
+          return formatCurrency(cellValue as number);
+        case "actions":
+          return (
+            <div className="relative flex justify-end items-center gap-2">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="sm" variant="light">
+                    <VerticalDotsIcon className="text-default-300" />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem
+                    key="edit"
+                    onClick={() => handleOpen && handleOpen(product)}
+                  >
+                    Editar
+                  </DropdownItem>
+                  <DropdownItem
+                    key="delete"
+                    onClick={() => handleDeleteClick && handleDeleteClick(product)}
+                  >
+                    Eliminar
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          );
+        default:
+          return cellValue as React.ReactNode;
+      }
+    },
+    [handleOpen, handleDeleteClick]
+  );
 
   const onSearchChange = React.useCallback((value?: string) => {
     if (value) {
@@ -110,13 +130,15 @@ export default function ProductsTable({
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            <Button
-              color="primary"
-              startContent={<PlusIcon />}
-              onPress={() => handleOpen()}
-            >
-              Agregar Nuevo
-            </Button>
+            {handleOpen && (
+              <Button
+                color="primary"
+                startContent={<PlusIcon />}
+                onPress={() => handleOpen()}
+              >
+                Agregar Nuevo
+              </Button>
+            )}
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -130,7 +152,7 @@ export default function ProductsTable({
 
   return (
     <ReusableTable<Product>
-      columns={columns}
+      columns={visibleColumns}
       data={filteredItems}
       renderCell={renderCell}
       topContent={topContent}

@@ -12,7 +12,7 @@ export default function TrainerLayout({
   return (
     <RoleProtectedRoute allowedRoles={["trainer"]}>
       <TrainerSidebar>
-        <main className="bg-gray-100">
+        <main className="bg-[#fafafa] min-h-screen">
           <LayoutContainer>{children}</LayoutContainer>
         </main>
       </TrainerSidebar>

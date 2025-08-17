@@ -84,7 +84,8 @@ export function useUserModal(getUsers?: () => void) {
         }
       } catch (err: any) {
         if (isMountedRef.current) {
-          setError(err.message || "Error en la operación");
+          const errorMessage = err.response?.data?.detail || err.message || "Error en la operación";
+          setError(errorMessage);
         }
       } finally {
         if (isMountedRef.current) {

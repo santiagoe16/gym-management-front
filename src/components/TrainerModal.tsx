@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import TrainerModalProps from "@/types/modals/trainerModal";
+import { Button, Input, Select, SelectItem } from "@heroui/react";
+import { PlusIcon } from "./Icons";
 
 export default function TrainerModal({
   open,
@@ -18,7 +20,7 @@ export default function TrainerModal({
   if (!open) return null;
 
   return (
-    <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full bg-black/50 bg-opacity-40">
+    <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full bg-black/50">
       <div className="relative p-4 w-full max-w-md max-h-full">
         <div className="relative bg-white rounded-lg shadow-xs">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
@@ -50,202 +52,192 @@ export default function TrainerModal({
             </button>
           </div>
           <form className="p-4 md:p-5" onSubmit={onSubmit}>
-            {error && (
-              <div className="mb-4 text-red-600 text-sm font-medium">
-                {error}
-              </div>
-            )}
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2">
-                <label
-                  htmlFor="fullName"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Nombre
-                </label>
-                <input
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">Nombre</span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Nombre del entrenador"
                   type="text"
                   name="fullName"
                   id="fullName"
                   value={form.fullName}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Nombre del entrenador"
-                  required={mode === "add"}
+                  isRequired
                 />
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="email"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Email
-                </label>
-                <input
-                  type="text"
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">Email</span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Correo electrónico"
+                  type="email"
                   name="email"
                   id="email"
                   value={form.email}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Nombre del entrenador"
-                  required={mode === "add"}
+                  isRequired
                 />
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="documentId"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Cédula
-                </label>
-                <input
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">Cédula</span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Cédula"
                   type="number"
                   name="documentId"
                   id="documentId"
                   value={form.documentId}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Cédula"
-                  required={mode === "add"}
-                  onKeyDown={(e) => {
-                    if (["e", "E", "-"].includes(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                />
-              </div>
-              <div className="col-span-2">
-                <label
-                  htmlFor="phoneNumber"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Celular
-                </label>
-                <input
-                  type="text"
-                  name="phoneNumber"
-                  id="phoneNumber"
-                  value={form.phoneNumber}
-                  onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Celular"
-                  required={mode === "add"}
-                  onKeyDown={(e) => {
+                  isRequired
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                     if (["e", "E", "+", "-"].includes(e.key)) {
                       e.preventDefault();
                     }
                   }}
                 />
               </div>
+              <div className="col-span-2">
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">Celular</span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Celular"
+                  type="number"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  value={form.phoneNumber}
+                  onChange={onChange}
+                  isRequired
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (["e", "E", "-"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                />
+              </div>
               <div className="col-span-1">
-                <label
-                  htmlFor="horario"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Horario de entrada
-                </label>
-                <input
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">
+                      Horario de entrada
+                    </span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="5 a.m."
                   type="text"
                   name="scheduleStart"
                   id="scheduleStart"
                   value={form.scheduleStart}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="5 a.m."
-                  required
+                  isRequired
                 />
               </div>
               <div className="col-span-1">
-                <label
-                  htmlFor="scheduleEnd"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Horario de salida
-                </label>
-                <input
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">
+                      Horario de salida
+                    </span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="1 p.m."
                   type="text"
                   name="scheduleEnd"
                   id="scheduleEnd"
                   value={form.scheduleEnd}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="1 p.m."
-                  required
+                  isRequired
                 />
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="gym"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Gimnasio
-                </label>
-                {gymsLoading ? (
-                  <p className="text-gray-500 text-sm">Cargando gimnasios...</p>
-                ) : gymsError ? (
+                {gymsError ? (
                   <p className="text-red-500 text-sm">{gymsError}</p>
                 ) : (
-                  <select
+                  <Select
+                    id="gymId"
                     name="gymId"
-                    id="gym"
-                    value={form.gymId}
-                    onChange={onChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required={mode === "add"}
+                    variant="faded"
+                    label={
+                      <span className="text-gray-900 font-medium">
+                        Gimnasio
+                      </span>
+                    }
+                    placeholder="Selecciona un gimnasio"
+                    labelPlacement="outside"
+                    selectedKeys={form.gymId ? [String(form.gymId)] : []}
+                    onSelectionChange={(keys) => {
+                      const key = Array.from(keys).pop() ?? "";
+                      const event = {
+                        target: {
+                          name: "gymId",
+                          value: key,
+                        },
+                      } as unknown as React.ChangeEvent<HTMLSelectElement>;
+                      onChange(event);
+                    }}
+                    className="w-full"
+                    isRequired
+                    isLoading={gymsLoading}
                   >
-                    <option value={0} disabled>
-                      Selecciona un gimnasio
-                    </option>
                     {gyms.map((gym) => (
-                      <option key={gym.id} value={gym.id}>
+                      <SelectItem key={gym.id} textValue={gym.name}>
                         {gym.name} - {gym.address}
-                      </option>
+                      </SelectItem>
                     ))}
-                  </select>
+                  </Select>
                 )}
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="password"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Contraseña
-                </label>
-                <input
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">
+                      Contraseña
+                    </span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Contraseña"
                   type="password"
                   name="password"
                   id="password"
                   value={form.password}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Contraseña"
-                  required={mode === "add"}
+                  isRequired={mode === "add"}
                 />
               </div>
             </div>
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="flex justify-end w-full">
-              <button type="submit" className="btn-primary" disabled={loading}>
-                {loading ? (
-                  <span>Guardando...</span>
-                ) : (
-                  <>
-                    <svg
-                      className="me-1 -ms-1 w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                    {mode === "edit" ? "Guardar cambios" : "Agregar entrenador"}
-                  </>
-                )}
-              </button>
+              <Button
+                color="primary"
+                isLoading={loading}
+                startContent={loading ? "" : <PlusIcon />}
+                type="submit"
+                className="font-semibold"
+              >
+                {mode === "edit" ? "Guardar cambios" : "Agregar entrenador"}
+              </Button>
             </div>
           </form>
         </div>

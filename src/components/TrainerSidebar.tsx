@@ -61,7 +61,7 @@ export default function TrainerSidebar({
         } sm:translate-x-0`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-[#fafafa] shadow-[1px_0px_8px_rgba(0,0,0,0.1)]">
           <a
             href=""
             className={`flex items-center ps-2 mb-5 ${
@@ -163,7 +163,7 @@ export default function TrainerSidebar({
       </aside>
 
       {/* Área del contenido principal de la página */}
-      <div className="p-4 sm:ml-64">{children}</div>
+      <div className="p-4 sm:ml-64 bg-[#fafafa]">{children}</div>
     </>
   );
 }

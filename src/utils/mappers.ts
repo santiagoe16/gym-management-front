@@ -11,7 +11,7 @@ export function mapTrainerToCreateDTO(trainer: Trainer) {
     documentId: trainer.documentId,
     phoneNumber: trainer.phoneNumber,
     gymId: trainer.gym.id,
-    role: "trainer",
+    role: "trainer" as const,
     scheduleStart: trainer.scheduleStart || "",
     scheduleEnd: trainer.scheduleEnd || "",
     password: "",

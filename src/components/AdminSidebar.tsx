@@ -295,7 +295,7 @@ export default function AdminSidebar({
       </aside>
 
       {/* Área del contenido principal de la página */}
-      <div className="sm:ml-64">{children}</div>
+      <div className="sm:ml-64 bg-[#fafafa]">{children}</div>
     </>
   );
 }
