@@ -3,6 +3,7 @@ import { AuthProvider } from "@/context/authContext";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { HeroUIProvider } from "@heroui/react";
+import {ToastProvider} from "@heroui/toast";
 
 export const metadata: Metadata = {
   title: "Sistema de gimnasio",
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="es">
       <body className="min-h-screen ">
         <HeroUIProvider>
+          <ToastProvider placement="top-center" maxVisibleToasts={10}/>
           <AuthProvider>{children}</AuthProvider>
         </HeroUIProvider>
       </body>

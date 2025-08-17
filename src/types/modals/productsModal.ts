@@ -5,6 +5,8 @@ export default interface ProductModalProps {
   open: boolean;
   onClose: () => void;
   form: CreateProductDTO;
+  loading?: boolean;
+  error?: string | null;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;

@@ -7,6 +7,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import { useUsers } from "@/hooks/useUser/useUsers";
 import UsersTable from "@/components/Tables/UsersTable";
 import SpinnerLoader from "@/components/SpinnerLoader";
+import ShowToast from "@/components/ShowToast";
 
 export default function UsersView() {
   const { users, loading, error, getUsers } = useUsers();

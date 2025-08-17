@@ -16,9 +16,14 @@ const columns = [
 
 interface UserPlansTableProps {
   userPlans: UserPlan[];
+  date?: boolean;
 }
 
-export default function UserPlansTable({ userPlans }: UserPlansTableProps) {
+export default function UserPlansTable({ userPlans, date = true }: UserPlansTableProps) {
+  const filteredColumns = date
+    ? columns
+    : columns.filter((col) => col.uid !== "createdAt");
+
   const renderCell = React.useCallback((userPlan: UserPlan, columnKey: React.Key) => {
     const cellValue = columnKey.toString().includes('.') 
       ? columnKey.toString().split('.').reduce((acc: any, key: string) => acc ? acc[key] : '', userPlan)
@@ -48,7 +53,7 @@ export default function UserPlansTable({ userPlans }: UserPlansTableProps) {
 
   return (
     <ReusableTable<UserPlan>
-      columns={columns}
+      columns={filteredColumns}
       data={userPlans}
       renderCell={renderCell}
     />

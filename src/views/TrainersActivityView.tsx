@@ -11,11 +11,12 @@ import UserPlansTable from "@/components/Tables/UserPlansTable";
 import SalesTable from "@/components/Tables/SalesTable";
 import NewUsersTable from "@/components/Tables/NewUsersTable";
 import AttendanceTable from "@/components/Tables/AttendanceTable";
+import { Select, SelectItem } from "@heroui/react";
 
 export default function TrainersActivityView() {
   const { trainers, loading: trainersLoading } = useTrainers();
   const { gyms, loading: gymsLoading } = useGyms();
-  
+
   const {
     data,
     summary,
@@ -36,14 +37,14 @@ export default function TrainersActivityView() {
   };
 
   const handleTrainerChange = (trainerId: string) => {
-    updateFilters({ 
-      trainerId: trainerId ? Number(trainerId) : undefined 
+    updateFilters({
+      trainerId: trainerId ? Number(trainerId) : undefined,
     });
   };
 
   const handleGymChange = (gymId: string) => {
-    updateFilters({ 
-      gymId: gymId ? Number(gymId) : undefined 
+    updateFilters({
+      gymId: gymId ? Number(gymId) : undefined,
     });
   };
 
@@ -65,7 +66,7 @@ export default function TrainersActivityView() {
       {/* Filtros */}
       <section className="bg-white rounded-lg shadow-lg border border-gray-300 p-6 mb-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Filtros</h2>
-        
+
         <div className="space-y-6">
           {/* Rango de fechas */}
           <div>
@@ -82,49 +83,55 @@ export default function TrainersActivityView() {
           {/* Filtros de entrenador y gimnasio */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="trainer"
-                className="block mb-2 text-sm font-medium text-gray-900"
+              <Select
+                label={<span className="text-sm font-medium text-gray-900">Entrenador</span>}
+                labelPlacement="outside"
+                placeholder="Todos los entrenadores"
+                size="md"
+                variant="faded"
+                selectedKeys={
+                  filters.trainerId ? [String(filters.trainerId)] : []
+                }
+                onSelectionChange={(keys) => {
+                  const key = Array.from(keys)[0];
+                  handleTrainerChange(String(key));
+                }}
+                className="w-full"
+                isDisabled={loading || trainersLoading}
               >
-                Entrenador
-              </label>
-              <select
-                id="trainer"
-                value={filters.trainerId || ""}
-                onChange={(e) => handleTrainerChange(e.target.value)}
-                disabled={loading || trainersLoading}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <option value="">Todos los entrenadores</option>
                 {trainers.map((trainer) => (
-                  <option key={trainer.id} value={trainer.id}>
+                  <SelectItem key={trainer.id} textValue={trainer.fullName}>
                     {trainer.fullName}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
+              </Select>
             </div>
 
             <div>
-              <label
-                htmlFor="gym"
-                className="block mb-2 text-sm font-medium text-gray-900"
+              <Select
+                label={
+                  <span className="text-sm font-medium text-gray-900">
+                    Gimnasio
+                  </span>
+                }
+                labelPlacement="outside"
+                placeholder="Todos los gimnasios"
+                size="md"
+                variant="faded"
+                selectedKeys={filters.gymId ? [String(filters.gymId)] : []}
+                onSelectionChange={(keys) => {
+                  const key = Array.from(keys)[0];
+                  handleGymChange(String(key));
+                }}
+                className="w-full"
+                isDisabled={loading || gymsLoading}
               >
-                Gimnasio
-              </label>
-              <select
-                id="gym"
-                value={filters.gymId || ""}
-                onChange={(e) => handleGymChange(e.target.value)}
-                disabled={loading || gymsLoading}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <option value="">Todos los gimnasios</option>
                 {gyms.map((gym) => (
-                  <option key={gym.id} value={gym.id}>
+                  <SelectItem key={gym.id} textValue={gym.name}>
                     {gym.name}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
+              </Select>
             </div>
           </div>
 
@@ -209,7 +216,11 @@ export default function TrainersActivityView() {
           color="purple"
           icon={
             <svg fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5zM9 9a1 1 0 012 0v4a1 1 0 11-2 0V9z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5zM9 9a1 1 0 012 0v4a1 1 0 11-2 0V9z"
+                clipRule="evenodd"
+              />
             </svg>
           }
         />
@@ -236,7 +247,9 @@ export default function TrainersActivityView() {
           </div>
           <div className="h-auto">
             {data.userPlans.length === 0 ? (
-              <p className="text-gray-500 p-6">No hay planes vendidos en este período</p>
+              <p className="text-gray-500 p-6">
+                No hay planes vendidos en este período
+              </p>
             ) : (
               <UserPlansTable userPlans={data.userPlans} />
             )}
@@ -252,7 +265,9 @@ export default function TrainersActivityView() {
           </div>
           <div className="h-auto">
             {data.sales.length === 0 ? (
-              <p className="text-gray-500 p-6">No hay ventas de productos en este período</p>
+              <p className="text-gray-500 p-6">
+                No hay ventas de productos en este período
+              </p>
             ) : (
               <SalesTable sales={data.sales} />
             )}
@@ -268,7 +283,9 @@ export default function TrainersActivityView() {
           </div>
           <div className="h-auto">
             {data.newUsers.length === 0 ? (
-              <p className="text-gray-500 p-6">No hay usuarios registrados en este período</p>
+              <p className="text-gray-500 p-6">
+                No hay usuarios registrados en este período
+              </p>
             ) : (
               <NewUsersTable newUsers={data.newUsers} />
             )}
@@ -284,7 +301,9 @@ export default function TrainersActivityView() {
           </div>
           <div className="h-auto">
             {data.attendance.length === 0 ? (
-              <p className="text-gray-500 p-6">No hay asistencias registradas en este período</p>
+              <p className="text-gray-500 p-6">
+                No hay asistencias registradas en este período
+              </p>
             ) : (
               <AttendanceTable attendance={data.attendance} />
             )}

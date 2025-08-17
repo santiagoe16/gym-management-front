@@ -100,6 +100,7 @@ export default function GymsTable({
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
+            variant="faded"
           />
           <div className="flex gap-3">
             <Button

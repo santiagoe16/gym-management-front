@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CreateAttendanceDTO } from "@/types/activity";
 import { createAttendanceService } from "@/services/attendanceService";
+import ShowToast from "@/components/ShowToast";
 
 export function useAttendance(onSuccess: () => void, onUserNotFound?: (documentId: string) => void, onUserNoPlan?: (documentId: string) => void) {
   const [loading, setLoading] = useState(false);
@@ -25,10 +26,11 @@ export function useAttendance(onSuccess: () => void, onUserNotFound?: (documentI
 
     try {
       const attendanceData: CreateAttendanceDTO = {
-        // notes: undefined // Por ahora sin funcionalidad
+        notes: "registrado"
       };
 
-      await createAttendanceService(documentId.trim(), attendanceData);
+      const user = await createAttendanceService(documentId.trim(), attendanceData);
+      ShowToast(user);
       setDocumentId("");
       onSuccess();
     } catch (error) {

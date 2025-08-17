@@ -6,6 +6,7 @@ import logoLine2 from "../../public/logoLinefit2.png";
 import Image from "next/image";
 import { useAuth } from "@/context/authContext";
 import { useGyms } from "@/hooks/useGym/useGyms";
+import { Button, Input, Select, SelectItem } from "@heroui/react";
 
 export default function LoginView() {
   const { gyms, loading, error: gymError, getGyms } = useGyms();
@@ -66,76 +67,62 @@ export default function LoginView() {
               className="w-full max-w-md bg-white shadow-lg rounded-lg p-8"
             >
               <div className="flex flex-col w-full mb-2">
-                {loading ? (
-                  <p className="text-gray-500 text-sm">Cargando gimnasios...</p>
-                ) : gymError ? (
+                { gymError ? (
                   <p className="text-red-500 text-sm">{gymError}</p>
                 ) : (
-                  <select
-                    name="gymId"
-                    id="gymId"
-                    value={selectedGymId ?? 0}
-                    onChange={(e) => setSelectedGymId(Number(e.target.value))}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required
+                  <Select
+                    label="Gimnasio"
+                    isLoading={loading}
+                    placeholder="Selecciona un gimnasio"
+                    selectedKeys={selectedGymId ? [String(selectedGymId)] : []}
+                    onSelectionChange={(keys) => {
+                      const key = Array.from(keys)[0];
+                      setSelectedGymId(Number(key));
+                    }}
+                    className="w-full"
                   >
-                    <option value={0} disabled>
-                      Selecciona un gimnasio
-                    </option>
                     {gyms.map((gym) => (
-                      <option key={gym.id} value={gym.id}>
+                      <SelectItem key={gym.id} textValue={gym.name}>
                         {gym.name} - {gym.address}
-                      </option>
+                      </SelectItem>
                     ))}
-                  </select>
+                  </Select>
                 )}
               </div>
+
               <div className="flex flex-col w-full mb-2">
-                <label
-                  htmlFor="email"
-                  className="mb-2 text-gray-900 font-medium"
-                >
-                  Correo electrónico
-                </label>
-                <input
+                <Input
+                  label={<span className="text-gray-900 font-medium">Correo electrónico</span>}
+                  labelPlacement="outside"
+                  size={"lg"}
+                  placeholder="ingresa tu correo electrónico"
                   type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Escribe tu correo electrónico"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="form-input"
                   required
                 />
               </div>
               <div className="flex flex-col w-full">
-                <label
-                  htmlFor="password"
-                  className="mb-2 text-gray-900 font-medium"
-                >
-                  Contraseña
-                </label>
-                <input
+                <Input
+                  label={<span className="text-gray-900 font-medium">Contraseña</span>}
+                  labelPlacement="outside"
+                  size={"lg"}
+                  placeholder="ingresa tu contraseña"
                   type="password"
-                  name="password"
-                  id="password"
-                  minLength={8}
-                  placeholder="Escribe tu confirmación"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="form-input"
                   required
                 />
               </div>
 
               {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
 
-              <button
+              <Button
                 type="submit"
                 className="uppercase w-full h-[40px] mt-6 mb-2 bg-blue-600 hover:bg-blue-700  text-white py-2  rounded-[8px]"
               >
                 Iniciar sesión
-              </button>
+              </Button>
             </form>
           </div>
         </div>

@@ -5,6 +5,8 @@ export default interface PlanModaltype {
   open: boolean;
   onClose: () => void;
   form: CreatePlanDTO;
+  loading: boolean;
+  error: string | null;
   onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;

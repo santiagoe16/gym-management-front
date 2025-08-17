@@ -6,7 +6,7 @@ import { usePlanModal } from "@/hooks/usePlan/usePlanModal";
 import { usePlanDelete } from "@/hooks/usePlan/usePlanDelete";
 import { usePlans } from "@/hooks/usePlan/usePlans";
 import { useGyms } from "@/hooks/useGym/useGyms";
-import { formatCurrency } from "@/utils/formatCurrency";
+import PlansTable from "@/components/Tables/PlansTable";
 import SpinnerLoader from "@/components/SpinnerLoader";
 
 export default function PlansView() {
@@ -25,6 +25,8 @@ export default function PlansView() {
     handleClose,
     handleChange,
     handleSubmit,
+    loading,
+    error,
     gyms,
     gymsLoading,
     gymsError
@@ -44,66 +46,21 @@ export default function PlansView() {
 
   return (
     <main>
-      {/* Encabezado de la página */}
       <header className="mb-4">
-        <h1 className="text-4xl font-semibold text-gray-800">Planes</h1>
+        <h1 className="text-4xl font-semibold text-gray-800">
+          Listado de Planes
+        </h1>
       </header>
 
-      {/* Sección de acciones */}
-      <section className="flex justify-end mb-16">
-        <button className="btn-primary" onClick={() => handleOpen()}>
-          + Agregar plan
-        </button>
-      </section>
-
       {/* Sección de la tabla de planes */}
-      <section className="overflow-x-auto bg-white rounded-lg shadow-lg border-gray-300 border">
-        <table className="min-w-full divide-y divide-gray-300">
-          <thead className="bg-gray-200 text-left text-gray-600 uppercase text-sm font-medium">
-            <tr className="whitespace-nowrap">
-              <th className="px-6 py-3">Plan</th>
-              <th className="px-6 py-3">Precio</th>
-              <th className="px-6 py-3">Duración (días)</th>
-              <th className="px-6 py-3">Taquilla</th>
-              <th className="px-6 py-3">Gimnasio</th>
-              <th className="px-6 py-3">Acciones</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 text-gray-700">
-            {plans.map((plan, idx) => (
-              <tr
-                key={idx}
-                className="odd:bg-white even:bg-gray-100 border-b border-gray-200 hover:bg-[#ebebeb] transition-colors whitespace-nowrap"
-              >
-                <td className="px-6 py-4">{plan.name}</td>
-                <td className="px-6 py-4">{formatCurrency(plan.price)}</td>
-                <td className="px-6 py-4">{plan.durationDays}</td>
-                <td className="px-6 py-4">{plan.days}</td>
-                <td className="px-6 py-4">{plan.gym?.name}</td>
-                <td className="px-6 py-4">
-                  <button
-                    className="text-blue-600 hover:underline"
-                    onClick={() => handleOpen(plan)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="text-blue-600 hover:underline ml-2"
-                    onClick={() => handleDeleteClick(plan)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+      <PlansTable plans={plans} handleOpen={handleOpen} handleDeleteClick={handleDeleteClick} />
       <PlanModal
         open={open}
         onClose={handleClose}
         form={form}
         onChange={handleChange}
+        loading={loading}
+        error={error}
         onSubmit={handleSubmit}
         mode={mode}
         gyms={gyms}

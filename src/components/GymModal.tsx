@@ -1,4 +1,5 @@
 "use client";
+import { Input } from "@heroui/react";
 import React from "react";
 
 export default function GymModal({
@@ -47,52 +48,46 @@ export default function GymModal({
           </div>
           <form className="p-4 md:p-5" onSubmit={onSubmit}>
             {error && (
-              <div className="mb-4 text-red-600 text-sm font-medium">{error}</div>
+              <div className="mb-4 text-red-600 text-sm font-medium">
+                {error}
+              </div>
             )}
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2">
-                <label
-                  htmlFor="name"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Nombre
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={form.name}
-                  onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">
+                      Nombre del gimnasio
+                    </span>
+                  }
+                  variant="faded"
+                  labelPlacement="outside"
+                  size="md"
                   placeholder="Nombre del gimnasio"
+                  type="text"
+                  value={form.name}
+                  onChange={(e) => onChange(e)}
                   required
                 />
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="address"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Dirección
-                </label>
-                <input
-                  type="text"
-                  name="address"
-                  id="address"
-                  value={form.address}
-                  onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">Dirección</span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
                   placeholder="Dirección"
+                  type="text"
+                  value={form.address}
+                  onChange={(e) => onChange(e)}
                   required
                 />
               </div>
             </div>
             <div className="flex justify-end w-full">
-              <button
-                type="submit"
-                className="btn-primary"
-                disabled={loading}
-              >
+              <button type="submit" className="btn-primary" disabled={loading}>
                 {loading ? (
                   <span>Guardando...</span>
                 ) : (
@@ -119,4 +114,4 @@ export default function GymModal({
       </div>
     </div>
   );
-} 
+}

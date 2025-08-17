@@ -21,9 +21,10 @@ export function useProductModal(getProducts: () => void) {
 
   const handleOpen = (editData?: Product) => {
     setOpen(true);
+
     if (editData) {
-      const { id, ...formData } = editData;
-      setForm(formData);
+      const { id, gym, price, ...formData } = editData;
+      setForm({ gymId: gym.id, price: price.toString(), ...formData });
       setEditId(id);
       setMode("edit");
     } else {
@@ -99,6 +100,8 @@ export function useProductModal(getProducts: () => void) {
     handleClose,
     handleChange,
     handleSubmit,
+    loading,
+    error,
     gyms,
     gymsLoading,
     gymsError,

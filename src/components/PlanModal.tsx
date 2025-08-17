@@ -1,12 +1,20 @@
 "use client";
 import React from "react";
 import PlanModaltype from "@/types/modals/plansModal";
-import { formatPriceInput, handlePriceInputChange, parsePriceInput } from "@/utils/formatCurrency";
+import {
+  formatPriceInput,
+  handlePriceInputChange,
+  parsePriceInput,
+} from "@/utils/formatCurrency";
+import { Button, Input, Select, SelectItem } from "@heroui/react";
+import { PlusIcon } from "./Icons";
 
 export default function PlanModal({
   open,
   onClose,
   form,
+  loading,
+  error,
   onChange,
   onSubmit,
   mode = "add",
@@ -19,15 +27,15 @@ export default function PlanModal({
   const handlePriceChange = (value: string) => {
     const formattedValue = formatPriceInput(value);
     const numericValue = parsePriceInput(formattedValue);
-    
+
     // Crear un evento sintético para mantener compatibilidad
     const syntheticEvent = {
       target: {
-        name: 'price',
-        value: numericValue.toString()
-      }
+        name: "price",
+        value: numericValue.toString(),
+      },
     } as React.ChangeEvent<HTMLInputElement>;
-    
+
     onChange(syntheticEvent);
   };
 
@@ -66,93 +74,101 @@ export default function PlanModal({
           <form className="p-4 md:p-5" onSubmit={onSubmit}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2">
-                <label
-                  htmlFor="name"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Nombre del Plan
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={form.name}
-                  onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">
+                      Nombre del plan
+                    </span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
                   placeholder="Nombre del plan"
+                  type="text"
+                  value={form.name}
+                  onChange={(e) => onChange(e)}
                   required
                 />
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="gymId"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Gimnasio
-                </label>
-                {gymsLoading ? (
-                  <p className="text-gray-500 text-sm">Cargando gimnasios...</p>
-                ) : gymsError ? (
+                {gymsError ? (
                   <p className="text-red-500 text-sm">{gymsError}</p>
                 ) : (
-                  <select
-                    name="gymId"
+                  <Select
+                    isLoading={gymsLoading}
+                    label={
+                      <span className="text-gray-900 font-medium">
+                        Gimnasio
+                      </span>
+                    }
+                    labelPlacement="outside"
                     id="gymId"
-                    value={form.gymId}
-                    onChange={onChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required
+                    name="gymId"
+                    placeholder="Selecciona un gimnasio"
+                    selectedKeys={form.gymId ? [String(form.gymId)] : []}
+                    onSelectionChange={(keys) => {
+                      // simular el mismo comportamiento que un <select> nativo
+                      const key = Array.from(keys).pop() as string | undefined;
+                      const event = {
+                        target: {
+                          name: "gymId",
+                          value: key ? Number(key) : 0,
+                        },
+                      } as unknown as React.ChangeEvent<HTMLSelectElement>;
+                      onChange(event);
+                    }}
+                    className="w-full"
+                    variant="faded"
                   >
-                    <option value={0} disabled>
-                      Selecciona un gimnasio
-                    </option>
                     {gyms.map((gym) => (
-                      <option key={gym.id} value={gym.id}>
+                      <SelectItem key={String(gym.id)} textValue={gym.name}>
                         {gym.name} - {gym.address}
-                      </option>
+                      </SelectItem>
                     ))}
-                  </select>
+                  </Select>
                 )}
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="role"
-                  className="block mb-1 text-sm font-medium text-gray-900"
+                <Select
+                  label={
+                    <span className="text-gray-900 font-medium">
+                      Tipo de Plan
+                    </span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Selecciona un tipo de plan"
+                  selectedKeys={[form.role]}
+                  onSelectionChange={(keys) => {
+                    const key = Array.from(keys)[0];
+                    onChange({
+                      target: { name: "role", value: key },
+                    } as React.ChangeEvent<HTMLSelectElement>);
+                  }}
+                  isRequired
                 >
-                  Tipo de Plan
-                </label>
-                <select
-                  name="role"
-                  id="role"
-                  value={form.role}
-                  onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  required
-                >
-                  <option value={"regular"} >
-                    Regular
-                  </option>
-                  <option value={"taquillero"}>
-                    Taquillero
-                  </option>
-                </select>
+                  <SelectItem key="regular">Regular</SelectItem>
+                  <SelectItem key="taquillero">Taquillero</SelectItem>
+                </Select>
               </div>
-              {form.role === "taquillero" &&
+              {form.role === "taquillero" && (
                 <div className="col-span-2">
-                  <label
-                    htmlFor="days"
-                    className="block mb-1 text-sm font-medium text-gray-900"
-                  >
-                    Dias de duracion de taquilla
-                  </label>
-                  <input
+                  <Input
+                    label={
+                      <span className="text-gray-900 font-medium">
+                        Días de duración de taquilla
+                      </span>
+                    }
+                    labelPlacement="outside"
+                    size="md"
+                    variant="faded"
                     type="number"
-                    name="days"
-                    id="days"
-                    value={form.days === 0 ? "" : form.days}
-                    onChange={onChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     placeholder="Duración en días"
+                    value={form.days === 0 ? "" : String(form.days)}
+                    onChange={(e) =>
+                      onChange(e as React.ChangeEvent<HTMLInputElement>)
+                    }
                     required
                     onKeyDown={(e) => {
                       if (["e", "E", "+", "-"].includes(e.key)) {
@@ -160,65 +176,52 @@ export default function PlanModal({
                       }
                     }}
                   />
-                </div>}
+                </div>
+              )}
               <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="price"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Precio
-                </label>
-                <input
+                <Input
                   type="text"
                   name="price"
                   id="price"
-                  value={formatPriceInput(form.price.toString())}
-                  onChange={(e) => handlePriceChange(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  labelPlacement="outside"
+                  label={
+                    <span className="text-gray-900 font-medium">Precio</span>
+                  }
+                  variant="faded"
                   placeholder="Ej: 50,000"
-                  required
+                  isRequired
+                  value={
+                    form.price ? formatPriceInput(form.price.toString()) : ""
+                  }
+                  onChange={(e) => handlePriceChange(e.target.value)}
+                  className="max-w-xs"
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="durationDays"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Duración (días)
-                </label>
-                <input
+                <Input
                   type="number"
                   name="durationDays"
                   id="durationDays"
-                  value={form.durationDays === 0 ? "" : form.durationDays}
-                  onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  label={<span className="text-gray-900 font-medium">Duración en días</span>}
+                  labelPlacement="outside"
+                  variant="faded"
                   placeholder="Duración en días"
-                  required
+                  isRequired
+                  value={form.durationDays === 0 ? "" : form.durationDays.toString()}
+                  onChange={onChange}
                   onKeyDown={(e) => {
                     if (["e", "E", "+", "-"].includes(e.key)) {
                       e.preventDefault();
                     }
                   }}
+                  className="max-w-xs"
                 />
               </div>
             </div>
             <div className="flex justify-end w-full">
-              <button type="submit" className="btn-primary">
-                <svg
-                  className="me-1 -ms-1 w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
+              <Button type="submit" className="btn-primary" startContent={loading ? "" : <PlusIcon />}>
                 {mode === "edit" ? "Guardar cambios" : "Agregar plan"}
-              </button>
+              </Button>
             </div>
           </form>
         </div>

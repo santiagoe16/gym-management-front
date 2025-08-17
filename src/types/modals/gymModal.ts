@@ -1,4 +1,4 @@
-import Gym from "@/types/gym";
+import {Gym} from "@/types/gym";
 
 export interface GymModalProps {
   open: boolean;

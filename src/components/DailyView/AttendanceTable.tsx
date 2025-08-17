@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Attendance } from '@/types/attendance';
+import { Attendance } from '@/types/activity';
 import { colombiaISOToColombiaTime, colombiaISOToColombiaDate } from '@/utils/formatDate';
 
 interface AttendanceTableProps {

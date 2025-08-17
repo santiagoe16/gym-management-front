@@ -2,7 +2,7 @@
 import React from "react";
 import UserModalProps from "@/types/modals/userModal";
 import { PaymentTypeLabels } from "@/types/paymentType";
-import { Button } from "@heroui/react";
+import { Button, Input, Select, SelectItem } from "@heroui/react";
 import { PlusIcon } from "./Icons";
 
 export default function UserModal({
@@ -58,40 +58,40 @@ export default function UserModal({
           <form className="p-4 md:p-5" onSubmit={onSubmit}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2">
-                <label
-                  htmlFor="fullName"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Nombre
-                </label>
-                <input
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">
+                      Nombre del usuario
+                    </span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Nombre del usuario"
                   type="text"
                   name="fullName"
                   id="fullName"
                   value={form.fullName}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Nombre del usuario"
-                  required
+                  isRequired
                 />
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="documentId"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Cedula
-                </label>
-                <input
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">Cédula</span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Cédula"
                   type="number"
                   name="documentId"
                   id="documentId"
                   value={form.documentId}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Cédula"
-                  required
-                  onKeyDown={(e) => {
+                  isRequired
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                     if (["e", "E", "+", "-"].includes(e.key)) {
                       e.preventDefault();
                     }
@@ -99,22 +99,21 @@ export default function UserModal({
                 />
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="phoneNumber"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Celular
-                </label>
-                <input
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">Celular</span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Celular"
                   type="number"
                   name="phoneNumber"
                   id="phoneNumber"
                   value={form.phoneNumber}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Celular"
-                  required
-                  onKeyDown={(e) => {
+                  isRequired
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                     if (["e", "E", "-"].includes(e.key)) {
                       e.preventDefault();
                     }
@@ -122,21 +121,22 @@ export default function UserModal({
                 />
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="email"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Correo electronico
-                </label>
-                <input
+                <Input
+                  label={
+                    <span className="text-gray-900 font-medium">
+                      Correo electrónico
+                    </span>
+                  }
+                  labelPlacement="outside"
+                  size="md"
+                  variant="faded"
+                  placeholder="Ingresa tu correo electrónico"
                   type="email"
                   name="email"
                   id="email"
                   value={form.email}
                   onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="Correo electronico"
-                  required
+                  isRequired
                 />
               </div>
               <div
@@ -144,99 +144,125 @@ export default function UserModal({
                   highlightPlan ? "border-red-500" : "border-gray-200"
                 }`}
               >
-                <label
-                  htmlFor="planId"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Plan
-                </label>
                 {highlightPlan && (
                   <p className="text-sm text-red-500 mb-2">
                     El usuario no tiene un plan activo. Por favor, selecciona un
                     nuevo plan.
                   </p>
                 )}
-                {plansLoading ? (
-                  <p className="text-gray-500 text-sm">Cargando planes...</p>
-                ) : plansError ? (
+                {plansError ? (
                   <p className="text-red-500 text-sm">{plansError}</p>
                 ) : (
-                  <select
-                    name="planId"
+                  <Select
                     id="planId"
-                    value={form.planId}
-                    onChange={onChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required
+                    name="planId"
+                    variant="faded"
+                    label={
+                      <span className="text-gray-900 font-medium">Plan</span>
+                    }
+                    placeholder="Selecciona un plan"
+                    labelPlacement="outside"
+                    selectedKeys={form.planId ? [String(form.planId)] : []}
+                    onSelectionChange={(keys) => {
+                      const key = Array.from(keys).pop() ?? "";
+                      const event = {
+                        target: {
+                          name: "planId",
+                          value: key,
+                        },
+                      } as unknown as React.ChangeEvent<HTMLSelectElement>;
+                      onChange(event);
+                    }}
+                    className="w-full"
+                    isRequired
                   >
-                    <option value={0} disabled>
-                      Selecciona un plan
-                    </option>
                     {plans.map((plan) => (
-                      <option key={plan.id} value={plan.id}>
+                      <SelectItem key={plan.id} textValue={plan.name}>
                         {plan.name} - {plan.durationDays} días -{" "}
                         {plan.days && `${plan.days} -`} ${plan.price}
-                      </option>
+                      </SelectItem>
                     ))}
-                  </select>
+                  </Select>
                 )}
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="paymentType"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Tipo de Pago
-                </label>
-                <select
-                  name="paymentType"
+                <Select
                   id="paymentType"
-                  value={form.paymentType}
-                  onChange={onChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  required
+                  name="paymentType"
+                  label={
+                    <span className="text-gray-900 font-medium">
+                      Método de pago
+                    </span>
+                  }
+                  placeholder="Selecciona un método de pago"
+                  labelPlacement="outside"
+                  selectedKeys={form.paymentType ? [form.paymentType] : []}
+                  onSelectionChange={(keys) => {
+                    const key = Array.from(keys).pop() as string | undefined;
+                    const event = {
+                      target: {
+                        name: "paymentType",
+                        value: key ?? "",
+                      },
+                    } as unknown as React.ChangeEvent<HTMLSelectElement>;
+                    onChange(event);
+                  }}
+                  className="w-full"
+                  variant="faded"
+                  isRequired
                 >
                   {Object.entries(PaymentTypeLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
+                    <SelectItem key={value}>{label}</SelectItem>
                   ))}
-                </select>
+                </Select>
               </div>
               <div className="col-span-2">
-                <label
-                  htmlFor="gymId"
-                  className="block mb-1 text-sm font-medium text-gray-900"
-                >
-                  Gimnasio
-                </label>
-                {gymsLoading ? (
-                  <p className="text-gray-500 text-sm">Cargando gimnasios...</p>
-                ) : gymsError ? (
+                {gymsError ? (
                   <p className="text-red-500 text-sm">{gymsError}</p>
                 ) : (
-                  <select
-                    name="gymId"
+                  <Select
+                    isLoading={gymsLoading}
+                    label={
+                      <span className="text-gray-900 font-medium">
+                        Gimnasio
+                      </span>
+                    }
+                    labelPlacement="outside"
                     id="gymId"
-                    value={form.gymId}
-                    onChange={onChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    required
+                    name="gymId"
+                    placeholder="Selecciona un gimnasio"
+                    selectedKeys={form.gymId ? [String(form.gymId)] : []}
+                    onSelectionChange={(keys) => {
+                      // simular el mismo comportamiento que un <select> nativo
+                      const key = Array.from(keys).pop() as string | undefined;
+                      const event = {
+                        target: {
+                          name: "gymId",
+                          value: key ? Number(key) : 0,
+                        },
+                      } as unknown as React.ChangeEvent<HTMLSelectElement>;
+                      onChange(event);
+                    }}
+                    className="w-full"
+                    variant="faded"
                   >
-                    <option value={0} disabled>
-                      Selecciona un gimnasio
-                    </option>
                     {gyms.map((gym) => (
-                      <option key={gym.id} value={gym.id}>
+                      <SelectItem key={String(gym.id)} textValue={gym.name}>
                         {gym.name} - {gym.address}
-                      </option>
+                      </SelectItem>
                     ))}
-                  </select>
+                  </Select>
                 )}
               </div>
             </div>
             <div className="flex justify-end w-full">
-              <Button color="primary" isLoading={loading} startContent={loading ?  "" : <PlusIcon />} type="submit" className="font-semibold">
+              <Button
+                color="primary"
+                isLoading={loading}
+                startContent={loading ? "" : <PlusIcon />}
+                type="submit"
+                className="font-semibold"
+              >
                 {mode === "edit" ? "Guardar cambios" : "Agregar usuario"}
               </Button>
             </div>

@@ -146,7 +146,7 @@ export async function getAttendanceInRange(filters: TrainersActivityFilters): Pr
       params.append('gym_id', filters.gymId.toString());
     }
 
-    const url = `${ATTENDANCE_ENDPOINTS.ATTENDANCE_ALL}?${params.toString()}`;
+    const url = `${ATTENDANCE_ENDPOINTS.ATTENDANCE_ALL}daily/2025-08-16`;
     const res = await fetchWithAuth(url);
 
     if (!res.ok) {

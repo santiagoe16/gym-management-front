@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { UserPlan } from '@/types/userPlan';
+import { UserPlan } from '@/types/activity';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { PaymentType } from '@/types/paymentType';
 
@@ -38,7 +38,7 @@ export const UserPlansTable: React.FC<UserPlansTableProps> = React.memo(({ userP
             <tbody className="divide-y divide-gray-200 text-gray-700">
               {userPlans.map((userPlan, index) => (
                 <tr
-                      key={`${userPlan.userId}`}
+                      key={`${userPlan.user.id}`}
                       className="odd:bg-white even:bg-gray-100 hover:bg-gray-50 transition-colors" 
                     >
                   <td className="px-4 py-3">

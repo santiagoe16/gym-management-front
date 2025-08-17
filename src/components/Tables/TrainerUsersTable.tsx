@@ -105,6 +105,7 @@ export default function TrainerUsersTable({
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
+            variant="faded"
             placeholder="Buscar por nombre..."
             startContent={<SearchIcon />}
             value={filterValue}

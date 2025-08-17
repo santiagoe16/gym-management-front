@@ -8,53 +8,68 @@ import {
   DropdownItem,
 } from "@heroui/react";
 import ReusableTable from "../ReusableTable";
-import { VerticalDotsIcon, SearchIcon, PlusIcon } from "../Icons";
-import type { Product } from "@/types/product";
+import {
+  PlusIcon,
+  VerticalDotsIcon,
+  SearchIcon,
+  ChevronDownIcon,
+} from "../Icons";
+import type { Plan } from "@/types/plan";
 import { formatCurrency } from "@/utils/formatCurrency";
 
 const columns = [
-  { name: "PRODUCTO", uid: "name", sortable: true },
+  { name: "NOMBRE", uid: "name", sortable: true },
   { name: "PRECIO", uid: "price", sortable: true },
-  { name: "CANTIDAD", uid: "quantity", sortable: true },
-  { name: "GIMNASIO", uid: "gym.name", sortable: true },
+  { name: "GIMNASIO", uid: "gym" },
+  { name: "DURACIÓN (días)", uid: "duration", sortable: true },
+  { name: "TAQUILLERA", uid: "taquillera" },
   { name: "ACCIONES", uid: "actions" },
 ];
 
-interface ProductsTableProps {
-  products: Product[];
-  handleOpen: (product?: Product) => void;
-  handleDeleteClick: (product: Product) => void;
+interface PlansTableProps {
+  plans: Plan[];
+  handleOpen: (plan?: Plan) => void;
+  handleDeleteClick: (plan: Plan) => void;
 }
 
-export default function ProductsTable({
-  products,
+export default function PlansTable({
+  plans,
   handleOpen,
   handleDeleteClick,
-}: ProductsTableProps) {
+}: PlansTableProps) {
   const [filterValue, setFilterValue] = React.useState("");
 
   const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = React.useMemo(() => {
-    let filteredProducts = [...products];
+    let filteredPlans = [...plans];
 
     if (hasSearchFilter) {
-      filteredProducts = filteredProducts.filter((product) =>
-        product.name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredPlans = filteredPlans.filter((plan) =>
+        plan.name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
-    return filteredProducts;
-  }, [products, filterValue]);
+    return filteredPlans;
+  }, [plans, filterValue]);
 
-  const renderCell = React.useCallback((product: Product, columnKey: React.Key) => {
-    const cellValue = columnKey.toString().includes('.') 
-      ? columnKey.toString().split('.').reduce((acc: any, key: string) => acc ? acc[key] : '', product)
-      : product[columnKey as keyof Product];
+  const renderCell = React.useCallback((plan: Plan, columnKey: React.Key) => {
+    const cellValue = plan[columnKey as keyof Plan];
 
     switch (columnKey) {
+      case "gym":
+        if (!plan.gym) return "Sin gimnasio asignado";
+        return plan.gym.name;
+      
+      case "duration":
+        return plan.durationDays;
+
       case "price":
-        return formatCurrency(cellValue as number);
+        return formatCurrency(plan.price);
+
+      case "taquillera":
+        return plan.days 
+        
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
@@ -65,12 +80,12 @@ export default function ProductsTable({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem key="edit" onClick={() => handleOpen(product)}>
+                <DropdownItem key="edit" onClick={() => handleOpen(plan)}>
                   Editar
                 </DropdownItem>
                 <DropdownItem
                   key="delete"
-                  onClick={() => handleDeleteClick(product)}
+                  onClick={() => handleDeleteClick(plan)}
                 >
                   Eliminar
                 </DropdownItem>
@@ -121,15 +136,15 @@ export default function ProductsTable({
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {products.length} productos
+            Total {plans.length} planes
           </span>
         </div>
       </div>
     );
-  }, [filterValue, onSearchChange, onClear, products.length, handleOpen]);
+  }, [filterValue, onSearchChange, plans.length, handleOpen]);
 
   return (
-    <ReusableTable<Product>
+    <ReusableTable<Plan>
       columns={columns}
       data={filteredItems}
       renderCell={renderCell}

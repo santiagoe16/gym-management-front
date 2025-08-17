@@ -7,3 +7,9 @@ export interface Product {
   quantity: number;
   gym: Gym;
 }
+export interface CreateProductDTO {
+  name: string;
+  price: string; // String to handle currency formatting
+  quantity: number;
+  gymId: number;
+}

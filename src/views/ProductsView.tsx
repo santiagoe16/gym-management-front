@@ -19,6 +19,8 @@ export default function ProductsView() {
     handleClose,
     handleChange,
     handleSubmit,
+    loading: productLoading,
+    error: productError,
     gyms,
     gymsLoading,
     gymsError
@@ -57,6 +59,8 @@ export default function ProductsView() {
         form={form}
         onChange={handleChange}
         onSubmit={handleSubmit}
+        loading={productLoading}
+        error={productError}
         mode={mode}
         gyms={gyms}
         gymsLoading={gymsLoading}

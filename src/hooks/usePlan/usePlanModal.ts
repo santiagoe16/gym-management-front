@@ -99,6 +99,8 @@ export function usePlanModal(getPlans: () => void) {
     handleClose,
     handleChange,
     handleSubmit,
+    loading,
+    error,
     gyms,
     gymsLoading,
     gymsError,

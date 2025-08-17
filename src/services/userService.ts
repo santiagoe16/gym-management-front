@@ -4,6 +4,7 @@ import fetchWithAuth from "@/utils/fetchWithAuth";
 import { USER_ENDPOINTS } from "@/constants/apiEndopoints";
 import { UserListResponseSchema, UserRequestSchema, UserResponseSchema } from "@/schemas/user.schemas";
 import { removeEmptyFields } from "@/utils/removeEmptyFields";
+import ShowToast from "@/components/ShowToast";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -13,7 +14,8 @@ export async function getUsersService(): Promise<User[]> {
   const data = await res.json();
 
   try {
-    return UserListResponseSchema.parse(data);
+    const list = UserListResponseSchema.parse(data);
+    return list;
   } catch {
     throw new Error("Respuesta del servidor inválida");
   }

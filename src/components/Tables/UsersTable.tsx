@@ -150,14 +150,7 @@ export default function UsersTable({
           <Input
             isClearable
             className="w-full sm:max-w-[44%] "
-            classNames={{
-              inputWrapper: [
-                "bg-[#dfe3eb]", // fondo normal
-                "data-[hover=true]:bg-gray-300", // hover
-                "focus-within:bg-gray-300", // cuando está en focus
-              ],
-              input: "text-black placeholder:text-gray-700",
-            }}
+            variant="faded"
             placeholder="Buscar por nombre..."
             startContent={<SearchIcon />}
             value={filterValue}
