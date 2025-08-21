@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { Attendance, Sale, UserPlan } from "@/types/activity";
+import { Attendance, Sale } from "@/types/activity";
+import { UserPlan } from "@/types/userPlan";
 import { Gym } from "@/types/gym";
 import { Trainer } from "@/types/trainer";
 

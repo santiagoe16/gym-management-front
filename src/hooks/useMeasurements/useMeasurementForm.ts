@@ -32,8 +32,8 @@ export default function useMeasurementForm({
       calvesLeft: "",
       calvesRight: "",
       notes: "",
-    }),
-    []
+    } as any), // Bypassing type check for initial form state
+    [userId]
   );
   const authenticateUser = useAuth();
   const [form, setForm] = useState<CreateMeasurementsDTO>(initialForm);

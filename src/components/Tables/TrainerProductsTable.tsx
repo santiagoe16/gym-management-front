@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  Input,
-} from "@heroui/react";
+import { Input } from "@heroui/input";
 import ReusableTable from "../ReusableTable";
 import { SearchIcon } from "../Icons";
 import type { Product } from "@/types/product";

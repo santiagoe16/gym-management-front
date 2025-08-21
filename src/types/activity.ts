@@ -3,14 +3,7 @@ import { Plan } from "./plan";
 import { Product } from "./product";
 import { Gym } from "./gym";
 
-export interface UserPlan {
-  id: number;
-  user: User;
-  plan: Plan;
-  paymentType: string;
-  createdBy: createdBy;
-  createdAt: string;
-}
+
 
 export interface Sale {
   id: number;
@@ -57,10 +50,5 @@ export interface CreateAttendanceDTO {
   // notes: undefined // Por ahora sin funcionalidad
 }
 
-export interface CreateSaleDTO {
-  productId: number;
-  quantity: number;
-  paymentType: string;
-  gymId: number;
-}
+
 

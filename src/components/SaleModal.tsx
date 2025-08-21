@@ -188,7 +188,7 @@ export default function SaleModal({
                     Cantidad: {form.quantity}
                   </p>
                   <p className="text-sm font-medium text-gray-900">
-                    Total: {formatCurrency((parseFloat(selectedProduct.price) * form.quantity).toString())}
+                    Total: {formatCurrency(selectedProduct.price * form.quantity)}
                   </p>
                 </div>
               )}

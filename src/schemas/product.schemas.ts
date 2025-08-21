@@ -31,10 +31,9 @@ export const ProductResponseSchema: z.ZodType<Product> = z
     (data): Product => ({
       id: data.id,
       name: data.name,
-      price: data.price,
+      price: parseFloat(data.price),
       quantity: data.quantity,
-      gym: data.gym, 
-      gymId: data.gym_id,
+      gym: data.gym,
     })
   );
 

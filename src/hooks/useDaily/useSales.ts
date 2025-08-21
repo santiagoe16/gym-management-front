@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Product } from "@/types/product";
-import { CreateSaleDTO } from "@/types/activity";
+import { CreateSaleDTO } from "@/types/sale";
 import { PaymentType } from "@/types/paymentType";
 import { createSaleService } from "@/services/salesService";
 import { getActiveProductsService } from "@/services/productsService";
@@ -90,10 +90,10 @@ export function useSales(onSuccess: () => void) {
 
     try {
       const saleData: CreateSaleDTO = {
-        productId: form.product_id,
+        product_id: form.product_id,
         quantity: form.quantity,
-        paymentType: form.paymentType,
-        gymId: selectedProduct?.gymId || 0,
+        payment_type: form.paymentType,
+        gym_id: selectedProduct?.gym.id || 0,
       };
 
       await createSaleService(saleData);

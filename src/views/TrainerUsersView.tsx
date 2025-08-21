@@ -14,6 +14,7 @@ export default function TrainerUsersView() {
     mode,
     form,
     loading: modalLoading,
+    error: modalError,
     handleOpen,
     handleClose,
     handleChange,
@@ -47,6 +48,7 @@ export default function TrainerUsersView() {
         form={form}
         onChange={handleChange}
         onSubmit={handleSubmit}
+        error={modalError}
         mode={mode}
         plans={plans}
         loading={modalLoading}

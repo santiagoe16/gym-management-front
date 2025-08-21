@@ -1,4 +1,5 @@
-import { Attendance, Sale, UserPlan } from "@/types/activity";
+import { Attendance, Sale } from "@/types/activity";
+import { UserPlan } from "@/types/userPlan";
 import { User } from "@/types/user";
 import fetchWithAuth from "@/utils/fetchWithAuth";
 import { 

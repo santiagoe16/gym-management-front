@@ -1,5 +1,5 @@
 import fetchWithAuth from "@/utils/fetchWithAuth";
-import { UserPlan } from "@/types/activity";
+import { UserPlan } from "@/types/userPlan";
 import { UserPlanListResponseSchema } from "@/schemas/userPlan.schemas";
 import { USER_PLANS_ENDPOINTS } from "@/constants/apiEndopoints";
 import { PaymentType } from "@/types/paymentType";
@@ -38,7 +38,6 @@ export const getDailyUserPlans = async (
   }
   
   const data = await response.json();
-  console.log("respuesta del servidor userPlans", data);
   return UserPlanListResponseSchema.parse(data);
 };
 

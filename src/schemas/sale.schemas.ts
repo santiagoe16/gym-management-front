@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { Sale, CreateSaleDTO } from "@/types/activity";
+import { Sale, CreateSaleDTO } from "@/types/sale";
 import { ProductResponseSchema } from "./product.schemas";
 import { UserResponseSchema } from "./user.schemas";
 import { PaymentType } from "@/types/paymentType";
 
 // Schema para Sale Response (convierte snake_case a camelCase)
-export const SaleResponseSchema: z.ZodType<Sale> = z
+export const SaleResponseSchema = z
   .object({
     // Snake case desde API
     id: z.number(),

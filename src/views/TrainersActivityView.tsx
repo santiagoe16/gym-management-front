@@ -11,7 +11,7 @@ import UserPlansTable from "@/components/Tables/UserPlansTable";
 import SalesTable from "@/components/Tables/SalesTable";
 import NewUsersTable from "@/components/Tables/NewUsersTable";
 import AttendanceTable from "@/components/Tables/AttendanceTable";
-import { Select, SelectItem } from "@heroui/react";
+import { Select, SelectItem } from "@heroui/select";
 
 export default function TrainersActivityView() {
   const { trainers, loading: trainersLoading } = useTrainers();

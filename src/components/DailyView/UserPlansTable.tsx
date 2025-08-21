@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react';
-import { UserPlan } from '@/types/activity';
+import { UserPlan } from '@/types/userPlan';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { PaymentType } from '@/types/paymentType';
 

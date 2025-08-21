@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import logoLine from "../../public/logoLinefit.png";
 import logoLine2 from "../../public/logoLinefit2.png";
 import Image from "next/image";
 import { useAuth } from "@/context/authContext";
 import { useGyms } from "@/hooks/useGym/useGyms";
-import { Button, Input, Select, SelectItem } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
 
 export default function LoginView() {
   const { gyms, loading, error: gymError, getGyms } = useGyms();
@@ -40,7 +41,7 @@ export default function LoginView() {
 
     try {
       await login(email, password, selectedGymId);
-      router.push("/admin/users");
+      router.push("/admin/daily");
     } catch (err: any) {
       setError(err.message || "Error al iniciar sesión. Intenta de nuevo.");
     }

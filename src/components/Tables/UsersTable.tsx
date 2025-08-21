@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  Input,
-  Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  Chip,
-  User as HeroUser,
-} from "@heroui/react";
+import { Input } from "@heroui/input";
+import { Button } from "@heroui/button";
+import { DropdownTrigger, Dropdown, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import { Chip } from "@heroui/chip";
+import { User as HeroUser } from "@heroui/user";
 import ReusableTable from "../ReusableTable";
 import { capitalize } from "@/utils/stringUtils";
 import {

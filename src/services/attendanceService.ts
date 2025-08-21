@@ -24,7 +24,6 @@ export async function getDailyAttendanceService(
     }
     
     const data = await res.json();
-    console.log("respuesta del servidor attendance", data)
     return AttendanceListResponseSchema.parse(data);
   } catch (err) {
     console.error("getDailyAttendanceService error:", err);

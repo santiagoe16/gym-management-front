@@ -1,5 +1,5 @@
 "use client";
-import { Input } from "@heroui/react";
+import { Input } from "@heroui/input";
 import React from "react";
 
 export default function GymModal({

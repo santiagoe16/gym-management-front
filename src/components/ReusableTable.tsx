@@ -8,9 +8,9 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Pagination,
   SortDescriptor,
-} from "@heroui/react";
+} from "@heroui/table";
+import { Pagination } from "@heroui/pagination";
 
 interface Column {
   uid: string;

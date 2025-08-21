@@ -2,7 +2,7 @@
 import React from "react";
 import { Gym } from "@/types/gym";
 import { Trainer } from "@/types/trainer";
-import { Select, SelectItem } from "@heroui/react";
+import { Select, SelectItem } from "@heroui/select";
 
 interface AdminFiltersProps {
   gyms: Gym[];
@@ -38,6 +38,7 @@ export const AdminFilters: React.FC<AdminFiltersProps> = ({
 
           <Select
             id="selectedGym"
+            aria-label="Gimnasio"
             placeholder="Todos los gimnasios"
             selectedKeys={selectedGymId ? [String(selectedGymId)] : []}
             onSelectionChange={(keys) => {
@@ -65,6 +66,7 @@ export const AdminFilters: React.FC<AdminFiltersProps> = ({
           </label>
           <Select
             id="selectedTrainer"
+            aria-label="Entrenador"
             placeholder="Todos los entrenadores"
             selectedKeys={selectedTrainerId ? [String(selectedTrainerId)] : []}
             onSelectionChange={(keys) => {
@@ -75,7 +77,7 @@ export const AdminFilters: React.FC<AdminFiltersProps> = ({
             variant="bordered"
           >
             {trainers.map((trainer) => (
-              <SelectItem key={String(trainer.id)}>
+              <SelectItem key={String(trainer.id)} textValue={trainer.fullName}>
                 {trainer.fullName}
               </SelectItem>
             ))}

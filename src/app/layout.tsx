@@ -2,7 +2,7 @@
 import { AuthProvider } from "@/context/authContext";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
-import { HeroUIProvider } from "@heroui/react";
+import { HeroUIProvider } from '@heroui/system';
 import {ToastProvider} from "@heroui/toast";
 
 export const metadata: Metadata = {

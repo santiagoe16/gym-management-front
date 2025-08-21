@@ -1,5 +1,11 @@
 "use client";
-import React, { useState, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+  useEffect,
+} from "react";
 import SaleModal from "@/components/SaleModal";
 import UserModal from "@/components/userModal";
 import { useUserModal } from "@/hooks/useUser/useUserModal";
@@ -18,6 +24,7 @@ import AttendanceTable from "@/components/Tables/AttendanceTable";
 import SalesTable from "@/components/Tables/SalesTable";
 import UserPlansTable from "@/components/Tables/UserPlansTable";
 import ShowToast from "@/components/ShowToast";
+import { addToast } from "@heroui/toast";
 
 export default function DailyView() {
   const { user } = useAuth();
@@ -126,7 +133,7 @@ export default function DailyView() {
     handleSubmit: handleAttendanceSubmit,
     clearDocumentId,
   } = useAttendance(
-    () => loadAttendance(), 
+    () => loadAttendance(),
     handleUserNotFound,
     handleUserNoPlan
   );
@@ -153,6 +160,37 @@ export default function DailyView() {
     return productSales + planSales;
   }, [sales, userPlans]);
 
+  const ws = useRef<WebSocket | null>(null);
+
+  useEffect(() => {
+    ws.current = new WebSocket(`ws://localhost:8001/user/${user?.id}`);
+
+    ws.current.onopen = () => {
+      console.log("Conectado al servidor de huellas");
+    };
+
+    ws.current.onmessage = (event) => {
+      console.log("Respuesta del backend:", event.data);
+      const response = JSON.parse(event.data);
+      if (response.type === "fingerprint_connected") {
+        addToast({
+          title: "Conexión de huella dactilar establecida",
+          description: "La conexión de huella dactilar se ha establecido correctamente.",
+          color: "success",
+          timeout: 10000,
+        });
+      }
+    };
+
+    ws.current.onclose = () => {
+      console.log("Conexión cerrada");
+    };
+
+    return () => {
+      ws.current?.close();
+    };
+  }, []);
+
   return (
     <main>
       <header className="mb-6">
@@ -175,7 +213,7 @@ export default function DailyView() {
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <AttendanceCard
-          onSuccess={loadAttendance} 
+          onSuccess={loadAttendance}
           onUserNotFound={handleUserNotFound}
           onUserNoPlan={handleUserNoPlan}
         />
@@ -270,6 +308,7 @@ export default function DailyView() {
         gyms={modalGyms}
         gymsLoading={gymsLoading}
         gymsError={gymsError}
+        error={userError}
       />
     </main>
   );

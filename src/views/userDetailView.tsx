@@ -300,6 +300,7 @@ export default function UserDetailView({ userId }: Props) {
         gyms={gyms}
         gymsLoading={gymsLoading}
         gymsError={gymsError}
+        error={error}
       />
     </main>
   );

@@ -9,6 +9,10 @@ export interface Trainer {
   scheduleStart: string;
   scheduleEnd: string;
   gym: Gym;
+  role: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreateTrainerDTO {

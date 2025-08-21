@@ -1,7 +1,9 @@
 "use client";
 import React from "react";
 import TrainerModalProps from "@/types/modals/trainerModal";
-import { Button, Input, Select, SelectItem } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
 import { PlusIcon } from "./Icons";
 
 export default function TrainerModal({

@@ -1,6 +1,6 @@
 import React from "react";
 import ReusableTable from "../ReusableTable";
-import type { UserPlan } from "@/types/activity";
+import type { UserPlan } from "@/types/userPlan";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { utcToColombiaDate } from "@/utils/formatDate";
 import { PaymentTypeLabels } from "@/types/paymentType";

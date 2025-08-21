@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { Button } from '@heroui/react';
+import { Button } from '@heroui/button';
 
 interface SummaryCardProps {
   totalSales: number;

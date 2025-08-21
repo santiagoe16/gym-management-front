@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  Input,
-  Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-} from "@heroui/react";
+import { Input } from "@heroui/input";
+import { Button } from "@heroui/button";
+import { DropdownTrigger, Dropdown, DropdownMenu, DropdownItem } from "@heroui/dropdown";
 import ReusableTable from "../ReusableTable";
 import { VerticalDotsIcon, SearchIcon, PlusIcon } from "../Icons";
 import type { Trainer } from "@/types/trainer";

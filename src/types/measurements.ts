@@ -1,5 +1,10 @@
 import {User} from "@/types/user";
-import { recordedBy } from "./attendance";
+export interface RecordedByUser {
+  documentId: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+}
 
 export interface UserMeasurements {
   id: number;
@@ -23,7 +28,7 @@ export interface UserMeasurements {
   createdAt: string; 
   updatedAt: string; 
   user: User; 
-  recordedBy: recordedBy;
+  recordedBy: RecordedByUser;
 }
 export interface CreateMeasurementsDTO {
   userId: number;

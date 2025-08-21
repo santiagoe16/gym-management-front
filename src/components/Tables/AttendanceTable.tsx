@@ -3,13 +3,8 @@ import ReusableTable from "../ReusableTable";
 import type { Attendance } from "@/types/activity";
 import { utcToColombiaDate, utcToColombiaTime } from "@/utils/formatDate";
 import { User as HeroUser } from "@heroui/user";
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/dropdown";
 import { VerticalDotsIcon } from "../Icons";
 import Link from "next/link";
 

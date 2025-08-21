@@ -6,13 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "set \"ANALYZE=true\" && next build"
   },
   "dependencies": {
-    "@heroui/react": "^2.8.2",
+    "@heroui/button": "^2.2.24",
+    "@heroui/chip": "^2.2.20",
+    "@heroui/dropdown": "^2.3.24",
+    "@heroui/input": "^2.4.25",
+    "@heroui/pagination": "^2.2.22",
+    "@heroui/select": "^2.4.25",
+    "@heroui/spinner": "^2.2.21",
     "@heroui/system": "^2.4.20",
     "@heroui/table": "^2.2.24",
     "@heroui/theme": "^2.4.20",
+    "@heroui/toast": "^2.0.14",
+    "@heroui/user": "^2.2.20",
     "framer-motion": "^12.23.12",
     "next": "15.3.4",
     "react": "^19.1.1",
@@ -21,6 +30,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^15.4.7",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -28,7 +38,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.11",
+    "tailwindcss": "^4.1.12",
     "typescript": "^5"
   }
 }

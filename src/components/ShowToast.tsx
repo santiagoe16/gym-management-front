@@ -1,7 +1,9 @@
-import { addToast, Button, cn } from "@heroui/react";
+import { addToast } from "@heroui/toast";
+import { Button } from "@heroui/button";
 import { User } from "@/types/user";
 import { colombiaISOToColombiaDate } from "@/utils/formatDate";
 import getRemainingDays from "@/utils/getRemainingDays";
+import cn from "clsx";
 
 export default function ShowToast({ user }: { user: User }) {
   return addToast({

@@ -6,7 +6,9 @@ import {
   handlePriceInputChange,
   parsePriceInput,
 } from "@/utils/formatCurrency";
-import { Button, Input, Select, SelectItem } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
 import { PlusIcon } from "./Icons";
 
 export default function PlanModal({

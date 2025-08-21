@@ -27,7 +27,6 @@ export async function getDailySalesService(
     }
 
     const data = await res.json();
-    console.log("respuesta del servidor sales", data);
     return SaleListResponseSchema.parse(data);
   } catch (err) {
     console.error("getDailySalesService error:", err);

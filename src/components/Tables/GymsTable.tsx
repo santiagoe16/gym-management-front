@@ -1,12 +1,14 @@
 import React from "react";
 import {
   Input,
-  Button,
+} from "@heroui/input";
+import {
   DropdownTrigger,
   Dropdown,
   DropdownMenu,
   DropdownItem,
-} from "@heroui/react";
+} from "@heroui/dropdown";
+import {Button} from "@heroui/button";
 import ReusableTable from "../ReusableTable";
 import { VerticalDotsIcon, SearchIcon, PlusIcon } from "../Icons";
 import type { Gym } from "@/types/gym";
