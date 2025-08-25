@@ -35,6 +35,7 @@ export async function getDailySalesService(
 }
 
 export async function createSaleService(sale: CreateSaleDTO): Promise<Sale> {
+  console.log("Datos de venta a enviar:", sale);
   const parseResult = SaleRequestSchema.safeParse(sale);
   if (!parseResult.success) {
     console.log(parseResult.error.issues);

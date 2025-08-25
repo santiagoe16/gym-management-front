@@ -12,12 +12,12 @@ export default interface UserModalProps {
   onSubmit: (e: React.FormEvent) => void;
   loading: boolean;
   mode?: "add" | "edit";
+  editId?: number | null;
   plans: Plan[];
   plansLoading: boolean;
   plansError: string | null;
   gyms: Gym[];
   gymsLoading: boolean;
   gymsError: string | null;
-  highlightPlan?: boolean;
   error: string | null;
 }

@@ -5,6 +5,7 @@ export interface Plan {
   name: string;
   price: string;
   gymId: number,
+  isActive: boolean,
   gym?: Gym;
   durationDays: number;
   days?: number,
@@ -21,8 +22,9 @@ export interface CreatePlanDTO {
 }
 
 export interface UpdatePlanDTO {
-  id: number;
+  id?: number;
   price: string;
+  name?: string;
   durationDays: number;
   gymId: number,
   days?: number

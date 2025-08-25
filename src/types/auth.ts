@@ -10,7 +10,7 @@ export interface LoginResponse {
   user: {
     role: string;
     id: number;
-    name: string;
+    full_name: string;
     email: string;
     gym_id: number;
   };
@@ -18,10 +18,10 @@ export interface LoginResponse {
 
 export interface UserAutenticate {
   id: number;
-  name: string;
+  fullName: string;
   email: string;
   role: string;
-  gym_id: number;
+  gymId: number;
 }
 
 export interface RegisterData {

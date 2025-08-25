@@ -1,4 +1,3 @@
-// components/AuthProvider.tsx
 "use client";
 
 import {
@@ -41,7 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(data.user);
 
     localStorage.setItem("user", JSON.stringify(data.user));
-    localStorage.setItem("token", data.access_token);
+    localStorage.setItem("token", data.accessToken);
 
     if (data.user.role == "trainer") {
       router.push("/trainer/users");

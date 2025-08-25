@@ -2,7 +2,7 @@ import React from "react";
 import ReusableTable from "../ReusableTable";
 import type { Sale } from "@/types/activity";
 import { formatCurrency } from "@/utils/formatCurrency";
-import { utcToColombiaDate } from "@/utils/formatDate";
+import { colombiaISOToColombiaDate } from "@/utils/formatDate";
 import { PaymentTypeLabels } from "@/types/paymentType";
 
 const columns = [
@@ -54,7 +54,7 @@ export default function SalesTable({ sales, date = true }: SalesTableProps) {
           </span>
         );
       case "saleDate":
-        return utcToColombiaDate(cellValue as string);
+        return colombiaISOToColombiaDate(cellValue as string);
       default:
         return cellValue as React.ReactNode;
     }

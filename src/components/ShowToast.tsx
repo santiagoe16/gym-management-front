@@ -1,5 +1,4 @@
 import { addToast } from "@heroui/toast";
-import { Button } from "@heroui/button";
 import { User } from "@/types/user";
 import { colombiaISOToColombiaDate } from "@/utils/formatDate";
 import getRemainingDays from "@/utils/getRemainingDays";

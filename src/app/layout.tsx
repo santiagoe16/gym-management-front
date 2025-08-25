@@ -2,8 +2,9 @@
 import { AuthProvider } from "@/context/authContext";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
-import { HeroUIProvider } from '@heroui/system';
-import {ToastProvider} from "@heroui/toast";
+import { HeroUIProvider } from "@heroui/system";
+import { ToastProvider } from "@heroui/toast";
+import { WebSocketProvider } from "@/context/WebSocketContext";
 
 export const metadata: Metadata = {
   title: "Sistema de gimnasio",
@@ -19,8 +20,10 @@ export default function RootLayout({
     <html lang="es">
       <body className="min-h-screen ">
         <HeroUIProvider>
-          <ToastProvider placement="top-center" maxVisibleToasts={10}/>
-          <AuthProvider>{children}</AuthProvider>
+          <ToastProvider placement="top-center" maxVisibleToasts={10} />
+          <AuthProvider>
+            <WebSocketProvider>{children}</WebSocketProvider>
+          </AuthProvider>
         </HeroUIProvider>
       </body>
     </html>

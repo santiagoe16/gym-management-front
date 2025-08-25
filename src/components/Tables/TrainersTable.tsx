@@ -5,6 +5,7 @@ import { DropdownTrigger, Dropdown, DropdownMenu, DropdownItem } from "@heroui/d
 import ReusableTable from "../ReusableTable";
 import { VerticalDotsIcon, SearchIcon, PlusIcon } from "../Icons";
 import type { Trainer } from "@/types/trainer";
+import { User as HeroUser } from "@heroui/user";
 
 const columns = [
   { name: "NOMBRE", uid: "fullName", sortable: true },
@@ -49,6 +50,10 @@ export default function TrainersTable({
       : trainer[columnKey as keyof Trainer];
 
     switch (columnKey) {
+      case "fullName":
+        return (
+          <HeroUser name={cellValue as string} description={trainer.email} />
+        );
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">

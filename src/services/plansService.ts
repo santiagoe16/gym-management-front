@@ -6,7 +6,7 @@ import { removeEmptyFields } from "@/utils/removeEmptyFields";
 
 export async function getPlansService(): Promise<Plan[]> {
   try {
-    const res = await fetchWithAuth(PLAN_ENDPOINTS.PLAN_BASE);
+    const res = await fetchWithAuth(PLAN_ENDPOINTS.PLAN_ACTIVE);
     const data = await res.json();
 
     try {
@@ -49,6 +49,12 @@ export async function addPlanService(
 
     // Validar respuesta del servidor
     const addedPlan: Plan = PlanResponseSchema.parse(data);
+    console.log("addedPlan", addedPlan)
+    if (!addedPlan.isActive && addedPlan.name === plan.name) {
+      const { name, ...updatedPlan } = { ...plan};
+      console.log("updatedPlan", updatedPlan)
+      await updatePlanService(addedPlan.id, updatedPlan);
+    }
     return addedPlan;
   } catch (err) {
     console.error("addPlanService error:", err);

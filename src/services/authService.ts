@@ -1,4 +1,4 @@
-import { RegisterData } from "@/types/auth";
+import { RegisterData, UserAutenticate } from "@/types/auth";
 import { LoginRequest, LoginResponse } from "@/types/auth";
 import { AUTH_ENDPOINTS } from "@/constants/apiEndopoints";
 
@@ -29,7 +29,7 @@ export async function registerUserService(data: RegisterData) {
   return resData;
 }
 
-export async function loginService(credentials: LoginRequest): Promise<LoginResponse> {
+export async function loginService(credentials: LoginRequest) {
     try {
       const response = await fetch(AUTH_ENDPOINTS.lOGIN, {
         method: "POST",
@@ -43,9 +43,19 @@ export async function loginService(credentials: LoginRequest): Promise<LoginResp
         const errorData = await response.json();
         throw new Error(errorData.detail || "Error al iniciar sesión");
       }
-
       const data: LoginResponse = await response.json();
-      return data;
+      const parseData = {
+        accessToken: data.access_token,
+        tokenType: data.token_type,
+        user: {
+          id: data.user.id,
+          fullName: data.user.full_name,
+          email: data.user.email,
+          role: data.user.role,
+          gymId: data.user.gym_id,
+        },
+      };
+      return parseData;
     } catch (error) {
       console.error("Error en el login:", error);
       throw error;

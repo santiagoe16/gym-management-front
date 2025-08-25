@@ -6,7 +6,7 @@ import { removeEmptyFields } from "@/utils/removeEmptyFields";
 
 export async function getProductsService(): Promise<Product[]> {
   try {
-    const res = await fetchWithAuth(PRODUCT_ENDPOINTS.PRODUCTS_ALL);
+    const res = await fetchWithAuth(PRODUCT_ENDPOINTS.PRODUCTS_ACTIVE);
     const data = await res.json();
 
     try {
@@ -105,7 +105,7 @@ export async function updateProductService(
     const updatedProduct: Product = ProductResponseSchema.parse(data);
     return updatedProduct;
   } catch (err) {
-    console.error("updatePlanService error:", err);
+    console.error("updateProductService error:", err);
     throw err;
   }
 }

@@ -1,7 +1,12 @@
 import React from "react";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import { DropdownTrigger, Dropdown, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import {
+  DropdownTrigger,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
 import { Chip } from "@heroui/chip";
 import { User as HeroUser } from "@heroui/user";
 import ReusableTable from "../ReusableTable";
@@ -14,16 +19,7 @@ import {
 } from "../Icons";
 import type { User } from "@/types/user";
 import { useRouter } from "next/navigation";
-
-const columns = [
-  { name: "NOMBRE", uid: "fullName", sortable: true },
-  { name: "CÉDULA", uid: "documentId" },
-  { name: "CELULAR", uid: "phoneNumber" },
-  { name: "PLAN", uid: "activePlan" },
-  { name: "GIMNASIO", uid: "gym" },
-  { name: "ESTADO", uid: "status" },
-  { name: "ACCIONES", uid: "actions" },
-];
+import { colombiaISOToColombiaDate } from "@/utils/formatDate";
 
 const statusOptions = [
   { name: "Activo", uid: "active" },
@@ -33,17 +29,33 @@ const statusOptions = [
 interface UsersTableProps {
   users: User[];
   handleOpen: (user?: User) => void;
-  handleDeleteClick: (user: User) => void;
+  handleDeleteClick?: (user: User) => void;
+  role: "admin" | "trainer";
 }
 
 export default function UsersTable({
   users,
   handleOpen,
   handleDeleteClick,
+  role,
 }: UsersTableProps) {
   const [filterValue, setFilterValue] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState<any>("all");
   const router = useRouter();
+
+  const isAdmin = role === "admin";
+
+  const columns = React.useMemo(() => [
+    { name: "NOMBRE", uid: "fullName", sortable: true },
+    { name: "CÉDULA", uid: "documentId" },
+    { name: "CELULAR", uid: "phoneNumber" },
+    { name: "PLAN", uid: "activePlan" },
+    { name: "INICIO PLAN", uid: "activePlan.purchasedAt" },
+    { name: "VIGENCIA", uid: "activePlan.expiresAt" },
+    { name: "GIMNASIO", uid: "gym" },
+    ...(isAdmin ? [{ name: "ESTADO", uid: "status" }] : []),
+    { name: "ACCIONES", uid: "actions" },
+  ], [isAdmin]);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -56,6 +68,7 @@ export default function UsersTable({
       );
     }
     if (
+      isAdmin &&
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
@@ -67,7 +80,7 @@ export default function UsersTable({
     }
 
     return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+  }, [users, filterValue, statusFilter, isAdmin]);
 
   const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof User];
@@ -92,6 +105,11 @@ export default function UsersTable({
             {user.activePlan ? "Activo" : "Inactivo"}
           </Chip>
         );
+      case "activePlan.purchasedAt":
+      case "activePlan.expiresAt":
+        return user.activePlan
+          ? colombiaISOToColombiaDate(user.activePlan?.expiresAt as string)
+          : "Inactivo";
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
@@ -104,19 +122,23 @@ export default function UsersTable({
               <DropdownMenu>
                 <DropdownItem
                   key="view"
-                  onClick={() => router.push(`/admin/users/${user.id}`)}
+                  onClick={() => router.push(`/${role}/users/${user.id}`)}
                 >
                   Ver
                 </DropdownItem>
                 <DropdownItem key="edit" onClick={() => handleOpen(user)}>
                   Editar
                 </DropdownItem>
-                <DropdownItem
-                  key="delete"
-                  onClick={() => handleDeleteClick(user)}
-                >
-                  Eliminar
-                </DropdownItem>
+                                {isAdmin ? (
+                  <DropdownItem
+                    key="delete"
+                    onClick={() => handleDeleteClick && handleDeleteClick(user)}
+                    className="text-danger"
+                    color="danger"
+                  >
+                    Eliminar
+                  </DropdownItem>
+                ) : null}
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -124,7 +146,7 @@ export default function UsersTable({
       default:
         return cellValue as React.ReactNode;
     }
-  }, []);
+  }, [isAdmin, role, router, handleOpen, handleDeleteClick]);
 
   const onSearchChange = React.useCallback((value?: string) => {
     if (value) {
@@ -153,6 +175,7 @@ export default function UsersTable({
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            {isAdmin ? (
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -177,12 +200,13 @@ export default function UsersTable({
                 ))}
               </DropdownMenu>
             </Dropdown>
+            ) : null}
             <Button
               color="primary"
               startContent={<PlusIcon />}
               onPress={() => handleOpen()}
             >
-              Agregar Nuevo
+              {isAdmin ? "Agregar Nuevo" : "Agregar Usuario"}
             </Button>
           </div>
         </div>
@@ -193,7 +217,7 @@ export default function UsersTable({
         </div>
       </div>
     );
-  }, [filterValue, statusFilter, onSearchChange, users.length, handleOpen]);
+  }, [filterValue, statusFilter, onSearchChange, users.length, handleOpen, isAdmin]);
 
   return (
     <ReusableTable<User>

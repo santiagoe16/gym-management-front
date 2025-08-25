@@ -13,14 +13,12 @@ export function useTrainersActivity() {
     sales: [],
     userPlans: [],
     attendance: [],
-    newUsers: [],
   });
   
   const [summary, setSummary] = useState<TrainersActivitySummary>({
     totalSales: 0,
     totalPlans: 0,
     totalAttendance: 0,
-    totalNewUsers: 0,
     totalRevenue: 0,
   });
   
@@ -44,6 +42,7 @@ export function useTrainersActivity() {
     
     try {
       const filtersToUse = customFilters || filters;
+      console.log("Loading activity data with filters:", filtersToUse);
       const activityData = await getTrainersActivityData(filtersToUse);
       const activitySummary = calculateActivitySummary(activityData);
       

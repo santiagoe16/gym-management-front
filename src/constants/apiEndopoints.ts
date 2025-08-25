@@ -17,10 +17,12 @@ export const USER_ENDPOINTS = {
 
 export const GYM_ENDPOINTS = {
     GYM_BASE: `${API_BASE_URL}/api/v1/gyms/`,
+    GYM_ACTIVE: `${API_BASE_URL}/api/v1/gyms/active`,
 }
 
 export const PLAN_ENDPOINTS = {
     PLAN_BASE: `${API_BASE_URL}/api/v1/plans/`,
+    PLAN_ACTIVE: `${API_BASE_URL}/api/v1/plans/active`,
 }
 
 export const PRODUCT_ENDPOINTS = {
@@ -47,6 +49,7 @@ export const ATTENDANCE_ENDPOINTS = {
     ATTENDANCE_ALL: `${API_BASE_URL}/api/v1/attendance/`,
     ATTENDANCE_DAILY: `${API_BASE_URL}/api/v1/attendance/daily/`, //add date
     ATTENDANCE_CREATE: `${API_BASE_URL}/api/v1/attendance/`, //add document_id
+    ATTENDANCE_SUMMARY: `${API_BASE_URL}/api/v1/attendance/summary/`, 
 }
 
 export const SALES_ENDPOINTS = {

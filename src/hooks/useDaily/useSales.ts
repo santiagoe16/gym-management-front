@@ -13,7 +13,7 @@ export function useSales(onSuccess: () => void) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
-    product_id: 0,
+    productId: 0,
     quantity: 0,
     paymentType: PaymentType.CASH,
   });
@@ -41,7 +41,7 @@ export function useSales(onSuccess: () => void) {
     setOpen(true);
     setError(null);
     setForm({
-      product_id: 0,
+      productId: 0,
       quantity: 0,
       paymentType: PaymentType.CASH,
     });
@@ -51,7 +51,7 @@ export function useSales(onSuccess: () => void) {
     setOpen(false);
     setError(null);
     setForm({
-      product_id: 0,
+      productId: 0,
       quantity: 0,
       paymentType: PaymentType.CASH,
     });
@@ -61,15 +61,15 @@ export function useSales(onSuccess: () => void) {
     const { name, value } = e.target;
     setForm(prev => ({
       ...prev,
-      [name]: name === "product_id" || name === "quantity" ? parseInt(value) || 0 : value,
+      [name]: name === "productId" || name === "quantity" ? Number(value) || 0 : value,
     }));
     setError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (form.product_id === 0) {
+
+    if (form.productId === 0) {
       setError("Por favor selecciona un producto");
       return;
     }
@@ -79,7 +79,7 @@ export function useSales(onSuccess: () => void) {
       return;
     }
 
-    const selectedProduct = products.find(p => p.id === form.product_id);
+    const selectedProduct = products.find(p => p.id === form.productId);
     if (selectedProduct && form.quantity > selectedProduct.quantity) {
       setError(`Stock insuficiente. Disponible: ${selectedProduct.quantity}`);
       return;
@@ -90,10 +90,10 @@ export function useSales(onSuccess: () => void) {
 
     try {
       const saleData: CreateSaleDTO = {
-        product_id: form.product_id,
+        productId: form.productId,
         quantity: form.quantity,
-        payment_type: form.paymentType,
-        gym_id: selectedProduct?.gym.id || 0,
+        paymentType: form.paymentType,
+        gymId: selectedProduct?.gym.id || 0,
       };
 
       await createSaleService(saleData);

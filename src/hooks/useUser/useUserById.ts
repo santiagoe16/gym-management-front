@@ -3,7 +3,7 @@ import { getUserByIdService } from "@/services/userService";
 import { User } from "@/types/user";
 
 export function useUserById(userId: number) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

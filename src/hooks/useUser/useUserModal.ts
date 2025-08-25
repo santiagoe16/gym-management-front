@@ -5,6 +5,7 @@ import { useGyms } from "../useGym/useGyms";
 import { User, CreateUserDTO } from "@/types/user";
 import { PaymentType } from "@/types/paymentType";
 import { mapUserToCreateDTO } from "@/utils/mappers";
+import { addToast } from "@heroui/toast";
 
 export function useUserModal(getUsers?: () => void) {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ export function useUserModal(getUsers?: () => void) {
 
   const { plans, loading: plansLoading, error: plansError } = usePlans();
   const { gyms, loading: gymsLoading, error: gymsError } = useGyms();
+  
 
   const isMountedRef = useRef(true);
 
@@ -41,6 +43,7 @@ export function useUserModal(getUsers?: () => void) {
     if (editData) {
       setForm(mapUserToCreateDTO(editData));
       setEditId(editData.id);
+      console.log("editData", editData);
       setMode("edit");
     } else {
       setForm(initialForm);
@@ -74,14 +77,17 @@ export function useUserModal(getUsers?: () => void) {
       setError(null);
       try {
         if (mode === "add") {
-          await addUserService(user);
+          const userAdded = await addUserService(user);
+          console.log("userAdded", userAdded);
+          setLoading(false);
+
+          addToast({ title: "Usuario agregado", description: "El usuario ha sido agregado exitosamente", color: "success" });
+          handleOpen(userAdded);
+
         } else if (mode === "edit" && editId) {
           await updateUserService(editId, user);
         }
         getUsers?.();
-        if (isMountedRef.current) {
-          handleClose();
-        }
       } catch (err: any) {
         if (isMountedRef.current) {
           const errorMessage = err.response?.data?.detail || err.message || "Error en la operación";
@@ -93,7 +99,7 @@ export function useUserModal(getUsers?: () => void) {
         }
       }
     },
-    [mode, editId, getUsers, handleClose]
+    [mode, editId, getUsers]
   );
 
   const handleSubmit = useCallback(
@@ -114,6 +120,7 @@ export function useUserModal(getUsers?: () => void) {
     handleClose,
     handleChange,
     handleSubmit,
+    editId,
     plans,
     plansLoading,
     plansError,

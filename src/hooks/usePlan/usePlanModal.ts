@@ -17,7 +17,7 @@ export function usePlanModal(getPlans: () => void) {
   const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<"add" | "edit">("add");
   const [form, setForm] = useState<CreatePlanDTO>(initialForm);
-  const [editId, setEditId] = useState<number | null>(null);
+  const [editPlan, setEditPlan] = useState<Plan | null>(null);
   const { gyms, loading: gymsLoading, error: gymsError } = useGyms();
 
   const handleOpen = (editData?: Plan) => {
@@ -25,10 +25,10 @@ export function usePlanModal(getPlans: () => void) {
     if (editData) {
       const { id, ...formData } = editData;
       setForm(formData);
-      setEditId(id);
+      setEditPlan(editData);
       setMode("edit");
     } else {
-      setEditId(null);
+      setEditPlan(null);
       setForm(initialForm);
       setMode("add");
     }
@@ -36,7 +36,8 @@ export function usePlanModal(getPlans: () => void) {
 
   const handleClose = () => {
     setOpen(false);
-    setEditId(null);
+    setEditPlan(null);
+    setError(null);
     setForm(initialForm);
     setMode("add");
   };
@@ -68,11 +69,17 @@ export function usePlanModal(getPlans: () => void) {
   };
 
   const updatePlan = async (plan: any) => {
-    if (!editId) return;
+    if (!editPlan?.id) return;
     setLoading(true);
     setError(null);
     try {
-      await updatePlanService(editId, plan);
+      if(editPlan.name === plan.name) {
+        const { name, ...updatedPlan } = { ...plan};
+        await updatePlanService(editPlan.id, updatedPlan);
+      }
+      else {
+        await updatePlanService(editPlan.id, plan);
+      }
       getPlans();
       handleClose();
     } catch (err: any) {

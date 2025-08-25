@@ -1,7 +1,7 @@
 import React from "react";
 import ReusableTable from "../ReusableTable";
 import type { NewUser } from "@/types/activity";
-import { utcToColombiaDate } from "@/utils/formatDate";
+import { colombiaISOToColombiaDate } from "@/utils/formatDate";
 
 const columns = [
   { name: "NOMBRE", uid: "fullName" },
@@ -22,7 +22,7 @@ export default function NewUsersTable({ newUsers }: NewUsersTableProps) {
 
     switch (columnKey) {
       case "createdAt":
-        return utcToColombiaDate(cellValue as string);
+        return colombiaISOToColombiaDate(cellValue as string);
       default:
         return cellValue as React.ReactNode;
     }

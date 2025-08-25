@@ -1,12 +1,10 @@
 import React from "react";
 import ReusableTable from "../ReusableTable";
 import type { Attendance } from "@/types/activity";
-import { utcToColombiaDate, utcToColombiaTime } from "@/utils/formatDate";
+import { colombiaISOToColombiaDate, colombiaISOToColombiaTime } from "@/utils/formatDate";
 import { User as HeroUser } from "@heroui/user";
-import { Button } from "@heroui/button";
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/dropdown";
-import { VerticalDotsIcon } from "../Icons";
 import Link from "next/link";
+import { Eye } from "lucide-react";
 
 const columns = [
   { name: "USUARIO", uid: "user.fullName" },
@@ -41,25 +39,24 @@ export default function AttendanceTable({ attendance }: AttendanceTableProps) {
             />
           );
         case "planName":
-          console.log(record);
           return record.user.activePlan?.plan.name || "Sin plan";
 
         case "expiresAt":
           return record.user.activePlan?.expiresAt
-            ? utcToColombiaDate(record.user.activePlan.expiresAt)
+            ? colombiaISOToColombiaDate(record.user.activePlan.expiresAt)
             : "Sin fecha";
 
         case "checkInTime":
-          return utcToColombiaTime(record.checkInTime as string);
+          return colombiaISOToColombiaTime(record.checkInTime as string);
 
         case "checkInDate":
-          return utcToColombiaDate(record.checkInTime as string);
+          return colombiaISOToColombiaDate(record.checkInTime as string);
 
         case "recordedBy.fullName":
           return record.recordedBy.fullName;
 
         case "actions":
-          return <Link className="text-blue-500 hover:underline" href={`/admin/users/${record.user.id}`}>Ver</Link>;
+          return <Link href={`/admin/users/${record.user.id}`}><Eye strokeWidth={1.8} /></Link>;
 
         default:
           return cellValue as React.ReactNode;

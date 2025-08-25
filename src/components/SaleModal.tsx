@@ -11,7 +11,7 @@ interface SaleModalProps {
   productsLoading: boolean;
   productsError: string | null;
   form: {
-    product_id: number;
+    productId: number;
     quantity: number;
     paymentType: PaymentType;
   };
@@ -35,7 +35,7 @@ export default function SaleModal({
 }: SaleModalProps) {
   if (!open) return null;
 
-  const selectedProduct = products.find(p => p.id === form.product_id);
+  const selectedProduct = products.find(p => p.id === form.productId);
 
   return (
     <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-[calc(100%-1rem)] max-h-full bg-black/50">
@@ -91,9 +91,9 @@ export default function SaleModal({
                   <p className="text-red-500 text-sm">{productsError}</p>
                 ) : (
                   <select
-                    name="product_id"
-                    id="product_id"
-                    value={form.product_id}
+                    name="productId"
+                    id="productId"
+                    value={form.productId}
                     onChange={onChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     required
@@ -200,7 +200,7 @@ export default function SaleModal({
                 className="btn-primary"
                 disabled={
                   loading || 
-                  form.product_id === 0 || 
+                  form.productId === 0 || 
                   form.quantity === 0 || 
                   (selectedProduct && form.quantity > selectedProduct.quantity)
                 }

@@ -60,6 +60,7 @@ export default function GymModal({
                       Nombre del gimnasio
                     </span>
                   }
+                  name="name"
                   variant="faded"
                   labelPlacement="outside"
                   size="md"
@@ -75,6 +76,7 @@ export default function GymModal({
                   label={
                     <span className="text-gray-900 font-medium">Dirección</span>
                   }
+                  name="address"
                   labelPlacement="outside"
                   size="md"
                   variant="faded"

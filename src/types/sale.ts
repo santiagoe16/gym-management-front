@@ -22,4 +22,9 @@ export interface Sale {
   gym: Gym;
 }
 
-export type CreateSaleDTO = z.infer<typeof SaleRequestSchema>;
+export interface CreateSaleDTO {
+  productId: number;
+  quantity: number;
+  paymentType: PaymentType;
+  gymId: number;
+}

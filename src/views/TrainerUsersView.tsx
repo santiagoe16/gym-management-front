@@ -4,7 +4,7 @@ import UserModal from "@/components/userModal";
 import { useUserModal } from "@/hooks/useUser/useUserModal";
 import { useUsers } from "@/hooks/useUser/useUsers";
 import SpinnerLoader from "@/components/SpinnerLoader";
-import TrainerUsersTable from "@/components/Tables/TrainerUsersTable";
+import UsersTable from "@/components/Tables/UsersTable";
 
 export default function TrainerUsersView() {
   const { users, loading, error, getUsers } = useUsers();
@@ -40,7 +40,7 @@ export default function TrainerUsersView() {
         </h1>
       </header>
 
-      <TrainerUsersTable users={users} handleOpen={handleOpen} />
+      <UsersTable users={users} handleOpen={handleOpen} role="trainer" />
 
       <UserModal
         open={open}

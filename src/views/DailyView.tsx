@@ -25,6 +25,7 @@ import SalesTable from "@/components/Tables/SalesTable";
 import UserPlansTable from "@/components/Tables/UserPlansTable";
 import ShowToast from "@/components/ShowToast";
 import { addToast } from "@heroui/toast";
+import { useFingerprintAttendance } from "@/hooks/useDaily/useFingerprintAttendance";
 
 export default function DailyView() {
   const { user } = useAuth();
@@ -125,6 +126,8 @@ export default function DailyView() {
     [handleUserOpen]
   );
 
+  useFingerprintAttendance(loadAttendance, handleUserNoPlan);
+
   const {
     documentId,
     loading: attendanceSubmitLoading,
@@ -159,37 +162,6 @@ export default function DailyView() {
     );
     return productSales + planSales;
   }, [sales, userPlans]);
-
-  const ws = useRef<WebSocket | null>(null);
-
-  useEffect(() => {
-    ws.current = new WebSocket(`ws://localhost:8001/user/${user?.id}`);
-
-    ws.current.onopen = () => {
-      console.log("Conectado al servidor de huellas");
-    };
-
-    ws.current.onmessage = (event) => {
-      console.log("Respuesta del backend:", event.data);
-      const response = JSON.parse(event.data);
-      if (response.type === "fingerprint_connected") {
-        addToast({
-          title: "Conexión de huella dactilar establecida",
-          description: "La conexión de huella dactilar se ha establecido correctamente.",
-          color: "success",
-          timeout: 10000,
-        });
-      }
-    };
-
-    ws.current.onclose = () => {
-      console.log("Conexión cerrada");
-    };
-
-    return () => {
-      ws.current?.close();
-    };
-  }, []);
 
   return (
     <main>

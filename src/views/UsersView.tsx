@@ -1,13 +1,13 @@
-"use client";
-import React from "react";
-import UserModal from "@/components/userModal";
-import { useUserModal } from "@/hooks/useUser/useUserModal";
-import { useUserDelete } from "@/hooks/useUser/useUserDelete";
-import ConfirmModal from "@/components/ConfirmModal";
-import { useUsers } from "@/hooks/useUser/useUsers";
-import UsersTable from "@/components/Tables/UsersTable";
-import SpinnerLoader from "@/components/SpinnerLoader";
-import ShowToast from "@/components/ShowToast";
+'use client';
+import React from 'react';
+import UserModal from '@/components/userModal';
+import { useUserModal } from '@/hooks/useUser/useUserModal';
+import { useUserDelete } from '@/hooks/useUser/useUserDelete';
+import ConfirmModal from '@/components/ConfirmModal';
+import { useUsers } from '@/hooks/useUser/useUsers';
+import UsersTable from '@/components/Tables/UsersTable';
+import SpinnerLoader from '@/components/SpinnerLoader';
+import ShowToast from '@/components/ShowToast';
 
 export default function UsersView() {
   const { users, loading, error, getUsers } = useUsers();
@@ -21,6 +21,7 @@ export default function UsersView() {
     handleClose,
     handleChange,
     handleSubmit,
+    editId,
     plans,
     plansLoading,
     plansError,
@@ -60,6 +61,7 @@ export default function UsersView() {
         users={users}
         handleOpen={handleOpen}
         handleDeleteClick={handleDeleteClick}
+        role="admin"
       />
 
       <UserModal
@@ -69,6 +71,7 @@ export default function UsersView() {
         loading={modalLoading}
         onChange={handleChange}
         onSubmit={handleSubmit}
+        editId={editId}
         mode={mode}
         plans={plans}
         plansLoading={plansLoading}
@@ -84,7 +87,7 @@ export default function UsersView() {
         onConfirm={handleConfirmDelete}
         message={
           deleteLoading
-            ? "Eliminando..."
+            ? 'Eliminando...'
             : deleteError
             ? `Error: ${deleteError}`
             : `¿Seguro que deseas eliminar "${userToDelete?.fullName}"?`

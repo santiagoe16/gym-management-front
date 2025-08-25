@@ -12,6 +12,7 @@ import SalesTable from "@/components/Tables/SalesTable";
 import NewUsersTable from "@/components/Tables/NewUsersTable";
 import AttendanceTable from "@/components/Tables/AttendanceTable";
 import { Select, SelectItem } from "@heroui/select";
+import { FilePen, Handbag, UserCheck, Wallet } from "lucide-react";
 
 export default function TrainersActivityView() {
   const { trainers, loading: trainersLoading } = useTrainers();
@@ -195,9 +196,7 @@ export default function TrainersActivityView() {
           value={formatCurrency(summary.totalRevenue.toString())}
           color="green"
           icon={
-            <svg fill="currentColor" viewBox="0 0 20 20">
-              <path d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" />
-            </svg>
+            <Wallet />
           }
         />
         <ActivitySummaryCard
@@ -205,9 +204,7 @@ export default function TrainersActivityView() {
           value={summary.totalPlans}
           color="blue"
           icon={
-            <svg fill="currentColor" viewBox="0 0 20 20">
-              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+            <FilePen />
           }
         />
         <ActivitySummaryCard
@@ -215,13 +212,7 @@ export default function TrainersActivityView() {
           value={summary.totalSales}
           color="purple"
           icon={
-            <svg fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5zM9 9a1 1 0 012 0v4a1 1 0 11-2 0V9z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <Handbag />
           }
         />
         <ActivitySummaryCard
@@ -229,9 +220,7 @@ export default function TrainersActivityView() {
           value={summary.totalAttendance}
           color="orange"
           icon={
-            <svg fill="currentColor" viewBox="0 0 20 20">
-              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
-            </svg>
+            <UserCheck/>
           }
         />
       </section>
@@ -273,25 +262,7 @@ export default function TrainersActivityView() {
             )}
           </div>
         </div>
-
-        {/* Usuarios registrados */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-300">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-800">
-              Usuarios Registrados ({data.newUsers.length})
-            </h2>
-          </div>
-          <div className="h-auto">
-            {data.newUsers.length === 0 ? (
-              <p className="text-gray-500 p-6">
-                No hay usuarios registrados en este período
-              </p>
-            ) : (
-              <NewUsersTable newUsers={data.newUsers} />
-            )}
-          </div>
-        </div>
-
+        
         {/* Asistencias */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-300 mb-10">
           <div className="p-6 border-b border-gray-200">
