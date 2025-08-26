@@ -12,7 +12,7 @@ export function useUserModal(getUsers?: () => void) {
   const [mode, setMode] = useState<"add" | "edit">("add");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [editId, setEditId] = useState<number | null>(null);
+  const [editUser, setEditUser] = useState<User | null>(null);
 
   const initialForm: CreateUserDTO = {
     email: "",
@@ -42,22 +42,23 @@ export function useUserModal(getUsers?: () => void) {
     setOpen(true);
     if (editData) {
       setForm(mapUserToCreateDTO(editData));
-      setEditId(editData.id);
+      setEditUser(editData);
       console.log("editData", editData);
       setMode("edit");
     } else {
       setForm(initialForm);
       setMode("add");
-      setEditId(null);
+      setEditUser(null);
     }
   }, []);
 
   const handleClose = useCallback(() => {
-    setOpen(false);
+    console.log("Modal closed");
     setForm(initialForm);
     setMode("add");
-    setEditId(null);
+    setEditUser(null);
     setError(null);
+    setOpen(false);
   }, []);
 
   const handleChange = useCallback(
@@ -84,8 +85,8 @@ export function useUserModal(getUsers?: () => void) {
           addToast({ title: "Usuario agregado", description: "El usuario ha sido agregado exitosamente", color: "success" });
           handleOpen(userAdded);
 
-        } else if (mode === "edit" && editId) {
-          await updateUserService(editId, user);
+        } else if (mode === "edit" && editUser) {
+          await updateUserService(editUser.id, user);
         }
         getUsers?.();
       } catch (err: any) {
@@ -99,7 +100,7 @@ export function useUserModal(getUsers?: () => void) {
         }
       }
     },
-    [mode, editId, getUsers]
+    [mode, editUser, getUsers]
   );
 
   const handleSubmit = useCallback(
@@ -120,7 +121,7 @@ export function useUserModal(getUsers?: () => void) {
     handleClose,
     handleChange,
     handleSubmit,
-    editId,
+    editUser,
     plans,
     plansLoading,
     plansError,

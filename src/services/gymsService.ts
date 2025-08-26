@@ -1,10 +1,11 @@
-import { Gym, CreateGymDTO } from "@/types/gym";
+import { Gym, CreateGymDTO, UpdateGymDTO } from "@/types/gym";
 import { GYM_ENDPOINTS } from "@/constants/apiEndopoints";
 import fetchWithAuth from "@/utils/fetchWithAuth";
+import { GymListResponseSchema, GymRequestSchema, GymResponseSchema } from "@/schemas/gym.schemas";
 
 export async function getGymsService(): Promise<Gym[]> {
 
-  const res = await fetch(GYM_ENDPOINTS.GYM_BASE);
+  const res = await fetch(GYM_ENDPOINTS.GYM_ACTIVE);
 
   if (!res.ok) {
     let message = `Error ${res.status}`;
@@ -20,7 +21,8 @@ export async function getGymsService(): Promise<Gym[]> {
   }
 
   try {
-    const gyms: Gym[] = await res.json();
+    const data = await res.json();
+    const gyms: Gym[] = GymListResponseSchema.parse(data);
     return gyms;
   } catch (err) {
     throw new Error("Error al parsear la respuesta del servidor");
@@ -28,13 +30,17 @@ export async function getGymsService(): Promise<Gym[]> {
 }
 
 export async function addGymService(gym: CreateGymDTO): Promise<Gym> {
-  // Validación de entrada
+  const parseResult = GymRequestSchema.safeParse(gym);
+  if (!parseResult.success) {
+    console.log(parseResult.error.issues);
+    throw new Error("Datos del gimnasio inválidos");
+  }
 
   try {
     const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(gym),
+      body: JSON.stringify(parseResult.data),
     });
 
     if (!res.ok) {
@@ -44,8 +50,12 @@ export async function addGymService(gym: CreateGymDTO): Promise<Gym> {
 
     const data = await res.json();
 
-    // Validar respuesta del servidor
-    const addedGym: Gym = data;
+    const addedGym: Gym = GymResponseSchema.parse(data);
+    console.log("addedGym", addedGym)
+    if (!addedGym.isActive && addedGym.name === gym.name) {
+        const { name, ...updatedGym } = { ...gym};
+        await updateGymService(addedGym.id, updatedGym);
+    }
     return addedGym;
   } catch (err) {
     console.error("addGymService error:", err);
@@ -53,12 +63,17 @@ export async function addGymService(gym: CreateGymDTO): Promise<Gym> {
   }
 }
 
-export async function updateGymService(gym: Gym): Promise<Gym> {
+export async function updateGymService(id: number, gym: UpdateGymDTO): Promise<Gym> {
+    const parseResult = GymRequestSchema.safeParse(gym);
+    if (!parseResult.success) {
+        throw new Error("Datos del gimnasio inválidos");
+    }
+
   try {
-    const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE + gym.id, {
+    const res = await fetchWithAuth(GYM_ENDPOINTS.GYM_BASE + id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(gym),
+      body: JSON.stringify(parseResult.data),
     });
 
     if (!res.ok) {
@@ -68,7 +83,7 @@ export async function updateGymService(gym: Gym): Promise<Gym> {
 
     const data = await res.json();
 
-    const updatedGym: Gym = data;
+    const updatedGym: Gym = GymResponseSchema.parse(data);
     return updatedGym;
   } catch (err) {
     console.error("updateGymService error:", err);

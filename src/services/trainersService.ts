@@ -3,7 +3,7 @@ import {
   TrainerListResponseSchema,
   TrainerResponseSchema,
   TrainerRequestSchema,
-  EditTrainerRequestSchema
+  EditTrainerRequestSchema,
 } from "@/schemas/trainer.schemas";
 import { Trainer, CreateTrainerDTO, EditTrainerDTO } from "@/types/trainer";
 import fetchWithAuth from "@/utils/fetchWithAuth";
@@ -54,8 +54,15 @@ export async function addTrainerService(
     const data = await res.json();
 
     // Validar respuesta del servidor
-    const trainer: Trainer = TrainerResponseSchema.parse(data);
-    return trainer;
+    const addedTrainer: Trainer = TrainerResponseSchema.parse(data);
+    console.log("Entrenador agregado:", addedTrainer);
+    if (!addedTrainer.isActive) {
+      const {...updatedTrainer } = { ...trainer };
+      const newTrainer = await updateTrainerService(addedTrainer.id, updatedTrainer);
+      return newTrainer;
+    }
+
+    return addedTrainer;
   } catch (err) {
     console.error("addTrainerService error:", err);
     throw err;
@@ -66,22 +73,27 @@ export async function updateTrainerService(
   selectedTrainerId: number,
   trainer: EditTrainerDTO
 ): Promise<Trainer> {
-  console.log("servicio put")
-  const parsedForm = TrainerRequestSchema.safeParse(trainer);
+  const parsedForm = EditTrainerRequestSchema.safeParse(trainer);
 
   if (!parsedForm.success) {
-    console.error("TrainerRequestSchema validation failed:", parsedForm.error.format());
+    console.error(
+      "TrainerRequestSchema validation failed:",
+      parsedForm.error.format()
+    );
     throw new Error("Datos del entrenador inválidos");
   }
 
   const filteredForm = removeEmptyFields(parsedForm.data);
 
   try {
-    const res = await fetchWithAuth(TRAINER_ENDPOINTS.TRAINERS_UPDATE + selectedTrainerId, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(filteredForm),
-    });
+    const res = await fetchWithAuth(
+      TRAINER_ENDPOINTS.TRAINERS_UPDATE + selectedTrainerId,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(filteredForm),
+      }
+    );
 
     if (!res.ok) {
       const errorData = await res.json();
@@ -89,7 +101,7 @@ export async function updateTrainerService(
     }
 
     const data = await res.json();
-   
+
     // Validar respuesta del servidor
     const updatedTrainer: Trainer = TrainerResponseSchema.parse(data);
     return updatedTrainer;
@@ -108,7 +120,7 @@ export async function deleteTrainerService(id: number): Promise<number> {
   });
 
   if (!res.ok) {
-    console.log(res)
+    console.log(res);
     const errorBody = await res.json();
     console.error("Código de error:", res.status);
     throw new Error(errorBody.datail || `Error HTTP ${res.status}`);

@@ -1,7 +1,7 @@
 import { PLAN_ENDPOINTS } from "@/constants/apiEndopoints";
 import {CreatePlanDTO, Plan, UpdatePlanDTO} from "@/types/plan";
 import fetchWithAuth from "@/utils/fetchWithAuth";
-import { PlanListResponseSchema, PlanResponseSchema, PlanRequestSchema } from "@/schemas/plan.schemas";
+import { PlanListResponseSchema, PlanResponseSchema, PlanRequestSchema, PlanFormSchema } from "@/schemas/plan.schemas";
 import { removeEmptyFields } from "@/utils/removeEmptyFields";
 
 export async function getPlansService(): Promise<Plan[]> {
@@ -66,7 +66,7 @@ export async function updatePlanService(
   selectedPlanId: number,
   plan: UpdatePlanDTO
 ): Promise<Plan> {
-  const parseResult = PlanRequestSchema.safeParse(plan);
+  const parseResult = PlanFormSchema.partial().safeParse(plan);
 
   if (!parseResult.success) {
     console.log(parseResult.error.issues);

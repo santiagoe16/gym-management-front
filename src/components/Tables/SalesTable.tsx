@@ -13,6 +13,8 @@ const columns = [
   { name: "PAGO", uid: "paymentType" },
   { name: "VENDEDOR", uid: "soldBy.fullName" },
   { name: "FECHA", uid: "saleDate" },
+  { name: "GIMNASIO", uid: "gym.name" },
+
 ];
 
 interface SalesTableProps {

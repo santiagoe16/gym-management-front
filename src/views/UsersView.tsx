@@ -21,7 +21,7 @@ export default function UsersView() {
     handleClose,
     handleChange,
     handleSubmit,
-    editId,
+    editUser,
     plans,
     plansLoading,
     plansError,
@@ -71,7 +71,7 @@ export default function UsersView() {
         loading={modalLoading}
         onChange={handleChange}
         onSubmit={handleSubmit}
-        editId={editId}
+        editUser={editUser}
         mode={mode}
         plans={plans}
         plansLoading={plansLoading}

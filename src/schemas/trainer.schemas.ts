@@ -1,20 +1,8 @@
 import { z } from "zod";
 import { Trainer } from "@/types/trainer";
 import { Gym } from "@/types/gym";
-
-const GymSchema: z.ZodType<Gym> = z
-  .object({
-    id: z.number(),
-    name: z.string().min(2),
-    address: z.string(),
-  })
-  .transform(
-    (gym): Gym => ({
-      id: gym.id,
-      name: gym.name,
-      address: gym.address,
-    })
-  );
+import { GymResponseSchema } from "./gym.schemas";
+import { i } from "framer-motion/client";
 
 // 3. Schema para Trainer (forzado a coincidir con la interfaz)
 export const TrainerResponseSchema: z.ZodType<Trainer> = z
@@ -31,7 +19,7 @@ export const TrainerResponseSchema: z.ZodType<Trainer> = z
     updated_at: z.string(),
     schedule_start: z.string().optional(),
     schedule_end: z.string().optional(),
-    gym: GymSchema,
+    gym: GymResponseSchema,
   })
   .transform(
     (data): Trainer => ({
@@ -74,6 +62,7 @@ export const TrainerRequestSchema = TrainerFormSchema.transform((data) => ({
   role: data.role,
   email: data.email,
   password: data.password,
+  is_active: true,
   gym_id: data.gymId,
   schedule_start: data.scheduleStart,
   schedule_end: data.scheduleEnd,
@@ -87,6 +76,7 @@ export const EditTrainerRequestSchema = TrainerFormSchema.partial().transform(
     phone_number: data.phoneNumber,
     role: data.role,
     email: data.email,
+    is_active: true,
     password: data.password,
     gym_id: data.gymId,
     schedule_start: data.scheduleStart,

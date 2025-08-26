@@ -12,6 +12,7 @@ const columns = [
   { name: "PAGO", uid: "paymentType" },
   { name: "VENDEDOR", uid: "createdBy.fullName" },
   { name: "FECHA", uid: "createdAt" },
+  { name: "GIMNASIO", uid: "plan.gym.name" },
 ];
 
 interface UserPlansTableProps {

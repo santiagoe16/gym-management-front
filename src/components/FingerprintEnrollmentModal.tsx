@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useWebSocket } from '../context/WebSocketContext';
 import SpinnerLoader from './SpinnerLoader';
 import { CheckCircle, XCircle, Fingerprint } from 'lucide-react';
-import { set } from 'zod';
 
 interface FingerprintEnrollmentModalProps {
   isOpen: boolean;
@@ -33,6 +32,7 @@ export const FingerprintEnrollmentModal: React.FC<FingerprintEnrollmentModalProp
   const [secondFingerCaptures, setSecondFingerCaptures] = useState(0);
 
   useEffect(() => {
+    console.log(userId)
     if (isOpen && userId) {
       if (!isConnected) {
         setStatus('ws_disconnected');
@@ -58,6 +58,7 @@ export const FingerprintEnrollmentModal: React.FC<FingerprintEnrollmentModalProp
   // Efecto para manejar los mensajes entrantes del WebSocket
   useEffect(() => {
     if (!lastMessage?.data || !isOpen) return;
+    console.log("Mensaje recibido del WebSocket:", lastMessage.data);
 
     const data = JSON.parse(lastMessage.data);
 
@@ -93,6 +94,9 @@ export const FingerprintEnrollmentModal: React.FC<FingerprintEnrollmentModalProp
         setStatus('error');
         setMessage(data.message || 'Ocurrió un error durante el enrolamiento.');
         break;
+      default:
+        setStatus('error');
+        setMessage(data.message || 'Ocurrió un error durante el enrolamiento.');
     }
   }, [lastMessage, isOpen, status]); // Depender de status para re-evaluar
 

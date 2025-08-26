@@ -1,8 +1,9 @@
 import { PRODUCT_ENDPOINTS } from "@/constants/apiEndopoints";
-import { Product, CreateProductDTO } from "@/types/product";
+import { Product, CreateProductDTO, UpdateProductDTO } from "@/types/product";
 import fetchWithAuth from "@/utils/fetchWithAuth";
-import { ProductListResponseSchema, ProductResponseSchema, ProductRequestSchema } from "@/schemas/product.schemas";
+import { ProductListResponseSchema, ProductRequestSchema, ProductResponseSchema, ProductFormSchema } from "@/schemas/product.schemas";
 import { removeEmptyFields } from "@/utils/removeEmptyFields";
+import { a } from "framer-motion/client";
 
 export async function getProductsService(): Promise<Product[]> {
   try {
@@ -66,6 +67,11 @@ export async function addProductService(
 
     // Validar respuesta del servidor
     const addedProduct: Product = ProductResponseSchema.parse(data);
+    if (!addedProduct.isActive && addedProduct.name === product.name) {
+      const { name, ...updatedProduct } = { ...product};
+      const newProduct = await updateProductService(addedProduct.id, updatedProduct);
+      return newProduct;
+    }
     return addedProduct;
   } catch (err) {
     console.error("addProductService error:", err);
@@ -76,9 +82,9 @@ export async function addProductService(
 
 export async function updateProductService(
   selectedProductId: number,
-  product: CreateProductDTO
+  product: UpdateProductDTO
 ): Promise<Product> {
-  const parseResult = ProductRequestSchema.safeParse(product);
+  const parseResult = ProductFormSchema.partial().safeParse(product);
 
   if (!parseResult.success) {
     console.log(parseResult.error.issues);
@@ -110,7 +116,7 @@ export async function updateProductService(
   }
 }
 
-export async function deleteProdutcService(id: number): Promise<number> {
+export async function deleteProductService(id: number): Promise<number> {
   const res = await fetchWithAuth(PRODUCT_ENDPOINTS.PRODUCTS_ALL + id, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

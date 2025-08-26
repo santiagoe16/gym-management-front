@@ -21,10 +21,12 @@ export type User = {
   fullName: string;
   documentId: string;
   phoneNumber: string;
+  isActive: boolean;
   gym: Gym;
   activePlan: ActivePlan | null | undefined;
   createdAt: string;
   updatedAt: string;
+  hasFingerprint: boolean;
 };
 
 export interface CreateUserDTO {
@@ -36,6 +38,8 @@ export interface CreateUserDTO {
   planId: number;
   paymentType: PaymentType;
 }
+
+export type EditUserDTO = Partial<CreateUserDTO>;
 
 export type createdBy = {
   email: string;

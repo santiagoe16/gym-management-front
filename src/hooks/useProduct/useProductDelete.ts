@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Product } from "@/types/product";
-import { deleteProdutcService } from "@/services/productsService";
+import { deleteProductService } from "@/services/productsService";
 
 export function useProductDelete(getProducts: () => void) {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -17,7 +17,7 @@ export function useProductDelete(getProducts: () => void) {
       setLoading(true);
       setError(null);
       try {
-        await deleteProdutcService(productDelete.id);
+        await deleteProductService(productDelete.id);
         getProducts();
         setShowConfirm(false);
         setProductDelete(null);

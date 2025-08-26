@@ -18,7 +18,7 @@ export default function UserModal({
   loading = false,
   mode = 'add',
   plans = [],
-  editId = null,
+  editUser = null,
   plansLoading = false,
   plansError = null,
   gyms = [],
@@ -153,10 +153,10 @@ export default function UserModal({
                 </div>
                 <div
                   className={`col-span-2 p-4 border rounded-lg ${
-                    !form.planId ? 'border-red-500' : 'border-gray-200'
+                    !form.planId && mode === 'edit' ? 'border-red-500' : 'border-gray-200'
                   }`}
                 >
-                  {!form.planId && (
+                  {!form.planId && mode === 'edit' && (
                     <p className="text-sm text-red-500 mb-8">
                       El usuario no tiene un plan activo. Por favor, selecciona
                       un nuevo plan.
@@ -282,7 +282,7 @@ export default function UserModal({
                     className="font-semibold"
                     onPress={handleEnrollClick}
                   >
-                    Inscribir Huella
+                    {editUser?.hasFingerprint ? 'Actualizar Huella' : 'Inscribir Huella'}
                   </Button>
                 )}
                 <Button
@@ -303,8 +303,8 @@ export default function UserModal({
         <FingerprintEnrollmentModal
           isOpen={isFingerprintModalOpen}
           onClose={() => setFingerprintModalOpen(false)}
-          userId={editId ?? null}
-          userName={form.fullName}
+          userId={editUser?.id ?? null}
+          userName={form?.fullName ?? ''}
         />
       )}
     </>

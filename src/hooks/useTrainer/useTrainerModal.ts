@@ -10,9 +10,8 @@ import { mapTrainerToCreateDTO } from "@/utils/mappers";
 export function useTrainerModal(getTrainers: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const [selectedTrainerId, setSelectedTrainerId] = useState<number | null>(
-    null
-  );
+  const [editTrainer, setEditTrainer] = useState<Trainer | null>(null);
+
   const initialForm: CreateTrainerDTO = {
     email: "",
     fullName: "",
@@ -34,7 +33,7 @@ export function useTrainerModal(getTrainers: () => void) {
     setOpen(true);
     if (editData) {
       const formData = mapTrainerToCreateDTO(editData);
-      setSelectedTrainerId(editData.id)
+      setEditTrainer(editData);
       setForm(formData);
       setMode("edit");
     } else {
@@ -46,7 +45,7 @@ export function useTrainerModal(getTrainers: () => void) {
   const handleClose = () => {
     setOpen(false);
     setForm(initialForm);
-    setSelectedTrainerId(null);
+    setEditTrainer(null);
     setMode("add");
   };
 
@@ -78,11 +77,11 @@ export function useTrainerModal(getTrainers: () => void) {
   };
 
   const updateTrainer = async (trainer: any) => {
-    if (!selectedTrainerId) return;
+    if (!editTrainer) return;
     setLoading(true);
     setError(null);
     try {
-      await updateTrainerService(selectedTrainerId, trainer);
+      await updateTrainerService(editTrainer.id, trainer);
       getTrainers();
       handleClose();
     } catch (err: any) {

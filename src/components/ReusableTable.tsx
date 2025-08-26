@@ -32,7 +32,7 @@ export default function ReusableTable<T extends { id: React.Key }>({
   topContent,
 }: ReusableTableProps<T>) {
   const [page, setPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(13);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "age",
     direction: "ascending",

@@ -1,8 +1,9 @@
 import { z } from "zod";
-import { Sale, CreateSaleDTO } from "@/types/sale";
+import { Sale } from "@/types/sale";
 import { ProductResponseSchema } from "./product.schemas";
 import { UserResponseSchema } from "./user.schemas";
 import { PaymentType } from "@/types/paymentType";
+import { GymResponseSchema } from "./gym.schemas";
 
 // Schema para Sale Response (convierte snake_case a camelCase)
 export const SaleResponseSchema = z
@@ -21,11 +22,7 @@ export const SaleResponseSchema = z
     product: ProductResponseSchema,
     sold_by: UserResponseSchema,
     payment_type: z.enum(["cash", "transfer"]),
-    gym: z.object({
-      id: z.number(),
-      name: z.string(),
-      address: z.string(),
-    }),
+    gym: GymResponseSchema
   })
   .transform(
     (data): Sale => ({

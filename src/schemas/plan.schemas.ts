@@ -1,21 +1,7 @@
 import { z } from "zod";
 import { Plan } from "@/types/plan";
-import { Gym } from "@/types/gym";
-import { is } from "zod/locales";
+import { GymResponseSchema } from "./gym.schemas";
 
-const GymSchema: z.ZodType<Gym> = z
-  .object({
-    id: z.number(),
-    name: z.string(),
-    address: z.string(),
-  })
-  .transform(
-    (gym): Gym => ({
-      id: gym.id,
-      name: gym.name,
-      address: gym.address,
-    })
-  );
 
 // 3. Schema para Plan (forzado a coincidir con la interfaz)
 export const PlanResponseSchema: z.ZodType<Plan> = z
@@ -25,7 +11,7 @@ export const PlanResponseSchema: z.ZodType<Plan> = z
     price: z.string(),
     duration_days: z.number(),
     is_active: z.boolean(),
-    gym: GymSchema.nullable().optional(),
+    gym: GymResponseSchema.nullable().optional(),
     gym_id: z.number(),
     days: z.number().nullable().optional(), 
     role: z.enum(["regular", "taquillero"]),
@@ -46,7 +32,7 @@ export const PlanResponseSchema: z.ZodType<Plan> = z
 export const PlanListResponseSchema = z.array(PlanResponseSchema);
 
 // Este es solo el schema base sin transformar
-const PlanFormSchema = z.object({
+export const PlanFormSchema = z.object({
   name: z.string().optional(),
   price: z.string(),
   durationDays: z.number(),

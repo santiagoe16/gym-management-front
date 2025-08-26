@@ -1,5 +1,5 @@
 import {Gym} from "@/types/gym"
-import  {CreateUserDTO}  from "@/types/user";
+import  {CreateUserDTO, User}  from "@/types/user";
 import {Plan} from "@/types/plan"
 
 export default interface UserModalProps {
@@ -12,7 +12,7 @@ export default interface UserModalProps {
   onSubmit: (e: React.FormEvent) => void;
   loading: boolean;
   mode?: "add" | "edit";
-  editId?: number | null;
+  editUser?: User | null;
   plans: Plan[];
   plansLoading: boolean;
   plansError: string | null;

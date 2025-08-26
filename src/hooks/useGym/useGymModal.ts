@@ -11,20 +11,20 @@ export function useGymModal(getGyms: () => void) {
     address: "",
   };
   const [form, setForm] = useState<CreateGymDTO>(initialForm);
-  const [editId, setEditId] = useState<number | null>(null);
+  const [editGym, setEditGym] = useState<Gym | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleOpen = (editData?: Gym) => {
     setOpen(true);
     if (editData) {
-      const { id, ...formData } = editData;
+      const { id, isActive, ...formData } = editData;
       setForm(formData);
-      setEditId(id);
+      setEditGym(editData);
       setMode("edit");
     } else {
       setForm(initialForm);
-      setEditId(null);
+      setEditGym(null);
       setMode("add");
     }
   };
@@ -32,7 +32,7 @@ export function useGymModal(getGyms: () => void) {
   const handleClose = () => {
     setOpen(false);
     setForm(initialForm);
-    setEditId(null);
+    setEditGym(null);
     setMode("add");
   };
 
@@ -56,11 +56,17 @@ export function useGymModal(getGyms: () => void) {
     }
   };
 
-  const updateGym = async (gym: Gym) => {
+  const updateGym = async (gym: CreateGymDTO) => {
+    if (!editGym?.id) return;
     setLoading(true);
     setError(null);
     try {
-      await updateGymService(gym);
+      if (editGym.name === gym.name) {
+        const { name, ...updatedGym } = { ...gym };
+        await updateGymService(editGym.id, updatedGym);
+      } else {
+        await updateGymService(editGym.id, gym);
+      }
       getGyms();
       handleClose();
     } catch (err: any) {
@@ -74,8 +80,8 @@ export function useGymModal(getGyms: () => void) {
     e.preventDefault();
     if (mode === "add") {
       addGym(form);
-    } else if (editId !== null) {
-      updateGym({ ...form, id: editId });
+    } else {
+      updateGym(form);
     }
   };
 
@@ -90,4 +96,6 @@ export function useGymModal(getGyms: () => void) {
     handleChange,
     handleSubmit,
   };
-} 
+}
+
+ 

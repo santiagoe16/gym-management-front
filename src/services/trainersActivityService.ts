@@ -138,14 +138,14 @@ export async function getAttendanceInRange(filters: TrainersActivityFilters): Pr
     
     if (filters.trainerId) {
       // Para asistencias, filtramos por quien registró la asistencia (recorded_by_id)
-      params.append('recorded_by_id', filters.trainerId.toString());
+      params.append('trainer_id', filters.trainerId.toString());
     }
     
     if (filters.gymId) {
       params.append('gym_id', filters.gymId.toString());
     }
 
-    const url = `${ATTENDANCE_ENDPOINTS.ATTENDANCE_ALL}daily/2025-08-16`;
+    const url = `${ATTENDANCE_ENDPOINTS.ATTENDANCE_ALL}?${params.toString()}`;
     const res = await fetchWithAuth(url);
 
     if (!res.ok) {

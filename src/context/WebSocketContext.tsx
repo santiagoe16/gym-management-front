@@ -84,6 +84,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const sendMessage = useCallback((message: string) => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       socketRef.current.send(message);
+      console.log('Mensaje enviado al WS:', message);
     } else {
       console.error('WebSocket no está conectado.');
     }

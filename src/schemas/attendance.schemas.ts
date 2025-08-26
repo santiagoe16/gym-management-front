@@ -1,17 +1,8 @@
 import { z } from "zod";
-import { Attendance, CreateAttendanceDTO } from "@/types/activity";
+import { Attendance } from "@/types/activity";
 import { UserResponseSchema } from "./user.schemas";
-
-// Schema para recorded_by (usuario que registró)
-const RecordedBySchema = z
-  .object({
-    document_id: z.string(),
-    full_name: z.string(),
-  })
-  .transform((data) => ({
-    documentId: data.document_id,
-    fullName: data.full_name,
-  }));
+import { GymResponseSchema } from "./gym.schemas";
+import { CreatedBySchema } from "./userPlan.schemas";
 
 // Schema para Attendance Response (convierte snake_case a camelCase)
 export const AttendanceResponseSchema: z.ZodType<Attendance> = z
@@ -25,12 +16,8 @@ export const AttendanceResponseSchema: z.ZodType<Attendance> = z
     created_at: z.string(), // ISO datetime string
     updated_at: z.string(), // ISO datetime string
     user: UserResponseSchema,
-    gym: z.object({
-      id: z.number(),
-      name: z.string(),
-      address: z.string(),
-    }),
-    recorded_by: RecordedBySchema,
+    gym: GymResponseSchema,
+    recorded_by: CreatedBySchema,
   })
   .transform(
     (data): Attendance => ({

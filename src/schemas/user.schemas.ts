@@ -1,22 +1,9 @@
 import { z } from "zod";
-import { User, CreateUserDTO, ActivePlan } from "@/types/user";
-import { Gym } from "@/types/gym";
+import { User, ActivePlan } from "@/types/user";
 import { PlanResponseSchema } from "./plan.schemas";
 import { PaymentType } from "@/types/paymentType";
+import { GymResponseSchema } from "./gym.schemas";
 
-const GymSchema: z.ZodType<Gym> = z
-  .object({
-    id: z.number(),
-    name: z.string().min(2),
-    address: z.string(),
-  })
-  .transform(
-    (gym): Gym => ({
-      id: gym.id,
-      name: gym.name,
-      address: gym.address,
-    })
-  );
 
 export const ActivePlanSchema: z.ZodType<ActivePlan> = z
   .object({
@@ -49,28 +36,30 @@ export const ActivePlanSchema: z.ZodType<ActivePlan> = z
 export const UserResponseSchema: z.ZodType<User> = z
   .object({
     id: z.number(),
-    email: z.string(),
     full_name: z.string(),
     document_id: z.string(),
+    email: z.string(),
+    is_active: z.boolean(),
     phone_number: z.string(),
-    gym: GymSchema,
-    active_plan: ActivePlanSchema.nullable(),
-    created_at: z.string(), 
-    updated_at: z.string(), 
+    gym: GymResponseSchema,
+    active_plan: ActivePlanSchema.nullable().optional(),
+    created_at: z.string(),
+    updated_at: z.string(),
+    has_fingerprint: z.boolean(),
   })
-  .transform(
-    (data): User => ({
-      id: data.id,
-      email: data.email,
-      fullName: data.full_name,
-      documentId: data.document_id,
-      phoneNumber: data.phone_number,
-      gym: data.gym,
-      activePlan: data.active_plan,
-      createdAt: data.created_at,
-      updatedAt: data.updated_at,
-    })
-  );
+  .transform((data) => ({
+    id: data.id,
+    fullName: data.full_name,
+    documentId: data.document_id,
+    email: data.email,
+    isActive: data.is_active,
+    phoneNumber: data.phone_number,
+    gym: data.gym,
+    activePlan: data.active_plan,
+    createdAt: data.created_at,
+    updatedAt: data.updated_at,
+    hasFingerprint: data.has_fingerprint,
+  }));
 
 export const UserListResponseSchema = z.array(UserResponseSchema);
 
@@ -89,6 +78,7 @@ export const UserRequestSchema = UserFormSchema.transform((data): any => ({
   full_name: data.fullName,
   document_id: data.documentId,
   phone_number: data.phoneNumber,
+  is_active: true,
   gym_id: data.gymId,
   plan_id: data.planId,
   payment_type: data.paymentType,
@@ -99,7 +89,8 @@ export const EditUserRequestSchema = UserFormSchema.transform((data): any => ({
   full_name: data.fullName,
   document_id: data.documentId,
   phone_number: data.phoneNumber,
-  gym_id: data.gymId,
+  is_active: true,
+  gym_id: 1,
   plan_id: data.planId,
   payment_type: data.paymentType,
 }));

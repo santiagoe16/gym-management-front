@@ -9,7 +9,6 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import SpinnerLoader from "@/components/SpinnerLoader";
 import UserPlansTable from "@/components/Tables/UserPlansTable";
 import SalesTable from "@/components/Tables/SalesTable";
-import NewUsersTable from "@/components/Tables/NewUsersTable";
 import AttendanceTable from "@/components/Tables/AttendanceTable";
 import { Select, SelectItem } from "@heroui/select";
 import { FilePen, Handbag, UserCheck, Wallet } from "lucide-react";
@@ -226,21 +225,21 @@ export default function TrainersActivityView() {
       </section>
 
       {/* Tablas de datos */}
-      <section className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        {/* Planes vendidos */}
+      <section className="grid grid-cols-1 gap-10 mb-10">
+        {/* Asistencias */}
         <div className="bg-white rounded-lg shadow-lg border border-gray-300">
           <div className="p-6 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-gray-800">
-              Planes Vendidos ({data.userPlans.length})
+              Asistencias ({data.attendance.length})
             </h2>
           </div>
           <div className="h-auto">
-            {data.userPlans.length === 0 ? (
+            {data.attendance.length === 0 ? (
               <p className="text-gray-500 p-6">
-                No hay planes vendidos en este período
+                No hay asistencias registradas en este período
               </p>
             ) : (
-              <UserPlansTable userPlans={data.userPlans} />
+              <AttendanceTable attendance={data.attendance} />
             )}
           </div>
         </div>
@@ -262,21 +261,21 @@ export default function TrainersActivityView() {
             )}
           </div>
         </div>
-        
-        {/* Asistencias */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-300 mb-10">
+
+        {/* Planes vendidos */}
+        <div className="bg-white rounded-lg shadow-lg border border-gray-300">
           <div className="p-6 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-gray-800">
-              Asistencias ({data.attendance.length})
+              Planes Vendidos ({data.userPlans.length})
             </h2>
           </div>
           <div className="h-auto">
-            {data.attendance.length === 0 ? (
+            {data.userPlans.length === 0 ? (
               <p className="text-gray-500 p-6">
-                No hay asistencias registradas en este período
+                No hay planes vendidos en este período
               </p>
             ) : (
-              <AttendanceTable attendance={data.attendance} />
+              <UserPlansTable userPlans={data.userPlans} />
             )}
           </div>
         </div>

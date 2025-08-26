@@ -1,20 +1,6 @@
 import { z } from "zod";
 import { Product } from "@/types/product";
-import { Gym } from "@/types/gym";
-
-const GymSchema: z.ZodType<Gym> = z
-  .object({
-    id: z.number(),
-    name: z.string(),
-    address: z.string(),
-  })
-  .transform(
-    (gym): Gym => ({
-      id: gym.id,
-      name: gym.name,
-      address: gym.address,
-    })
-  );
+import { GymResponseSchema } from "./gym.schemas";
 
 // 3. Schema para Product (forzado a coincidir con la interfaz)
 export const ProductResponseSchema: z.ZodType<Product> = z
@@ -24,13 +10,15 @@ export const ProductResponseSchema: z.ZodType<Product> = z
     name: z.string(),
     price: z.string(),
     quantity: z.number(),
-    gym: GymSchema,
+    is_active: z.boolean(),
+    gym: GymResponseSchema,
     gym_id: z.number(),
   })
   .transform(
     (data): Product => ({
       id: data.id,
       name: data.name,
+      isActive: data.is_active,
       price: parseFloat(data.price),
       quantity: data.quantity,
       gym: data.gym,
@@ -40,8 +28,8 @@ export const ProductResponseSchema: z.ZodType<Product> = z
 // Schema para lista
 export const ProductListResponseSchema = z.array(ProductResponseSchema);
 
-const ProductFormSchema = z.object({
-  name: z.string(),
+export const ProductFormSchema = z.object({
+  name: z.string().optional(),
   price: z.string(),
   quantity: z.number(),
   gymId: z.number(),
@@ -51,6 +39,7 @@ const ProductFormSchema = z.object({
 export const ProductRequestSchema = ProductFormSchema.transform((data) => ({
   name: data.name,
   price: data.price,
+  is_active: true,
   quantity: data.quantity,
   gym_id: data.gymId,
 }));

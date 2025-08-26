@@ -7,7 +7,7 @@ import { useGyms } from "../useGym/useGyms";
 export function useProductModal(getProducts: () => void) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
-  const [editId, setEditId] = useState<number | null>(null);
+  const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const initialForm: CreateProductDTO = {
@@ -25,11 +25,11 @@ export function useProductModal(getProducts: () => void) {
     if (editData) {
       const { id, gym, price, ...formData } = editData;
       setForm({ gymId: gym.id, price: price.toString(), ...formData });
-      setEditId(id);
+      setEditProduct(editData);
       setMode("edit");
     } else {
       setForm(initialForm);
-      setEditId(null);
+      setEditProduct(null);
       setMode("add");
     }
   };
@@ -37,7 +37,7 @@ export function useProductModal(getProducts: () => void) {
   const handleClose = () => {
     setOpen(false);
     setForm(initialForm);
-    setEditId(null);
+    setEditProduct(null);
     setMode("add");
   };
 
@@ -69,11 +69,17 @@ export function useProductModal(getProducts: () => void) {
   };
 
   const updateProduct = async (product: CreateProductDTO) => {
-    if (!editId) return;
+    if (!editProduct?.id) return;
     setLoading(true);
     setError(null);
     try {
-      await updateProductService(editId, product);
+      if(editProduct.name === product.name) {
+        const { name, ...updatedProduct } = { ...product};
+        await updateProductService(editProduct.id, updatedProduct);
+      }
+      else {
+        await updateProductService(editProduct.id, product);
+      }
       getProducts();
       handleClose();
     } catch (err: any) {

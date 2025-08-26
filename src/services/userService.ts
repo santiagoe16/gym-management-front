@@ -1,8 +1,13 @@
-import { CreateUserDTO, User } from "@/types/user";
-import {UserMeasurements} from "@/types/measurements";
+import { CreateUserDTO, EditUserDTO, User } from "@/types/user";
+import { UserMeasurements } from "@/types/measurements";
 import fetchWithAuth from "@/utils/fetchWithAuth";
 import { USER_ENDPOINTS } from "@/constants/apiEndopoints";
-import { UserListResponseSchema, UserRequestSchema, UserResponseSchema } from "@/schemas/user.schemas";
+import {
+  EditUserRequestSchema,
+  UserListResponseSchema,
+  UserRequestSchema,
+  UserResponseSchema,
+} from "@/schemas/user.schemas";
 import { removeEmptyFields } from "@/utils/removeEmptyFields";
 import ShowToast from "@/components/ShowToast";
 
@@ -21,9 +26,7 @@ export async function getUsersService(): Promise<User[]> {
   }
 }
 
-export async function getUserByIdService(
-  id: number
-): Promise<User> {
+export async function getUserByIdService(id: number): Promise<User> {
   try {
     const res = await fetchWithAuth(USER_ENDPOINTS.USER_BY_ID + id);
     const data = await res.json();
@@ -61,9 +64,7 @@ export async function getUserByDocumentIdService(
   }
 }
 
-export async function addUserService(
-  user: CreateUserDTO
-): Promise<User> {
+export async function addUserService(user: CreateUserDTO): Promise<User> {
   // Validación de entrada
   const parseResult = UserRequestSchema.safeParse(user);
   if (!parseResult.success) {
@@ -85,6 +86,16 @@ export async function addUserService(
 
     // Validar respuesta del servidor
     const addedUser: User = UserResponseSchema.parse(data);
+    console.log("Entrenador agregado:", addedUser);
+    if (!addedUser.isActive) {
+      const { ...updatedUser } = { ...user };
+      const newUser = await updateUserService(
+        addedUser.id,
+        updatedUser
+      );
+      return newUser;
+    }
+
     return addedUser;
   } catch (error) {
     console.error("addUserService error:", error);
@@ -94,10 +105,10 @@ export async function addUserService(
 
 export async function updateUserService(
   selectedUserId: number,
-  user: CreateUserDTO
+  user: EditUserDTO
 ): Promise<User> {
   console.log("Updating user with ID:", selectedUserId);
-  const parseResult = UserRequestSchema.safeParse(user);
+  const parseResult = EditUserRequestSchema.safeParse(user);
 
   if (!parseResult.success) {
     console.log(parseResult.error.issues);
@@ -105,16 +116,19 @@ export async function updateUserService(
   }
 
   const filteredForm = removeEmptyFields(parseResult.data);
-  
+
   try {
-    const res = await fetchWithAuth(USER_ENDPOINTS.USERS_UPDATE + selectedUserId, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(filteredForm),
-    });
+    const res = await fetchWithAuth(
+      USER_ENDPOINTS.USERS_UPDATE + selectedUserId,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(filteredForm),
+      }
+    );
 
     const data = await res.json();
-   
+
     // Validar respuesta del servidor
     const updatedUser: User = UserResponseSchema.parse(data);
     return updatedUser;
@@ -132,7 +146,7 @@ export async function deleteUserService(id: number): Promise<number> {
   });
 
   if (!res.ok) {
-    console.log(res)
+    console.log(res);
     const errorBody = await res.json();
     console.error("Código de error:", res.status);
     throw new Error(errorBody.datail || `Error HTTP ${res.status}`);
@@ -141,4 +155,3 @@ export async function deleteUserService(id: number): Promise<number> {
   const data = await res.json();
   return data.message;
 }
-

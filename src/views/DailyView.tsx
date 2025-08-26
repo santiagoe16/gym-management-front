@@ -79,6 +79,7 @@ export default function DailyView() {
     form: userForm,
     loading: userLoading,
     error: userError,
+    editUser: editUser,
     handleOpen: handleUserOpen,
     handleClose: handleUserClose,
     handleChange: handleUserChange,
@@ -116,14 +117,19 @@ export default function DailyView() {
 
   const handleUserNoPlan = useCallback(
     async (documentId: string) => {
+      console.log("Usuario sin plan activo:", documentId);
       try {
         const user = await getUserByDocumentIdService(documentId);
         handleUserOpen(user);
+        const event = {
+          target: { name: "documentId", value: documentId },
+        } as React.ChangeEvent<HTMLInputElement>;
+        handleUserChange(event);
       } catch (error) {
         console.error("Error al obtener el usuario:", error);
       }
     },
-    [handleUserOpen]
+    [handleUserOpen, handleUserChange]
   );
 
   useFingerprintAttendance(loadAttendance, handleUserNoPlan);
@@ -268,8 +274,10 @@ export default function DailyView() {
         open={userModalOpen}
         onClose={() => {
           handleUserClose();
+          clearDocumentId();
         }}
         loading={userLoading}
+        editUser={editUser}
         form={userForm}
         onChange={handleUserChange}
         onSubmit={handleUserSubmit}
