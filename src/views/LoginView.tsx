@@ -41,7 +41,6 @@ export default function LoginView() {
 
     try {
       await login(email, password, selectedGymId);
-      router.push("/admin/daily");
     } catch (err: any) {
       setError(err.message || "Error al iniciar sesión. Intenta de nuevo.");
     }

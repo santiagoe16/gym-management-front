@@ -115,7 +115,7 @@ export default function DailyView() {
     [handleUserOpen, handleUserChange]
   );
 
-  const handleUserNoPlan = useCallback(
+const handleUserNoPlan = useCallback(
     async (documentId: string) => {
       console.log("Usuario sin plan activo:", documentId);
       try {
@@ -170,7 +170,7 @@ export default function DailyView() {
   }, [sales, userPlans]);
 
   return (
-    <main>
+    <main className="mb-6">
       <header className="mb-6">
         <h1 className="text-4xl font-semibold text-gray-800 mb-2">
           Resumen Diario
@@ -215,7 +215,7 @@ export default function DailyView() {
                 No hay asistencias registradas en este período
               </p>
             ) : (
-              <AttendanceTable attendance={attendance} />
+              user && <AttendanceTable attendance={attendance} role={user.role as 'admin' | 'trainer'} />
             )}
           </div>
         </div>

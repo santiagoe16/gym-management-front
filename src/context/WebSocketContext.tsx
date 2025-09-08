@@ -7,6 +7,7 @@ interface WebSocketContextType {
   sendMessage: (message: string) => void;
   lastMessage: MessageEvent | null;
   isConnected: boolean;
+  clearLastMessage: () => void;
 }
 
 const WebSocketContext = createContext<WebSocketContextType | null>(null);
@@ -90,8 +91,12 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   }, []);
 
+  const clearLastMessage = useCallback(() => {
+    setLastMessage(null);
+  }, []);
+
   return (
-    <WebSocketContext.Provider value={{ sendMessage, lastMessage, isConnected }}>
+    <WebSocketContext.Provider value={{ sendMessage, lastMessage, isConnected, clearLastMessage }}>
       {children}
     </WebSocketContext.Provider>
   );

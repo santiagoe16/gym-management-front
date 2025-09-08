@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   createContext,
@@ -43,9 +43,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("token", data.accessToken);
 
     if (data.user.role == "trainer") {
-      router.push("/trainer/users");
+      router.push("/trainer/daily");
     } else {
-      router.push("/admin/users");
+      router.push("/admin/daily");
     }
   };
 

@@ -88,7 +88,9 @@ export default function UsersTable({
     switch (columnKey) {
       case "fullName":
         return (
-          <HeroUser name={cellValue as string} description={user.documentId} />
+          <div style={{ display: "inline-flex", minWidth: "220px" }}>
+            <HeroUser name={cellValue as string} description={user.documentId} />
+          </div>
         );
       case "activePlan":
         return user.activePlan ? user.activePlan.plan.name : "Inactivo";

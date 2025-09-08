@@ -18,9 +18,10 @@ const columns = [
 
 interface AttendanceTableProps {
   attendance: Attendance[];
+  role: "admin" | "trainer";
 }
 
-export default function AttendanceTable({ attendance }: AttendanceTableProps) {
+export default function AttendanceTable({ attendance, role }: AttendanceTableProps) {
   const renderCell = React.useCallback(
     (record: Attendance, columnKey: React.Key) => {
       const cellValue = columnKey.toString().includes(".")
@@ -33,10 +34,12 @@ export default function AttendanceTable({ attendance }: AttendanceTableProps) {
       switch (columnKey) {
         case "user.fullName":
           return (
-            <HeroUser
-              name={cellValue as string}
-              description={record.user.documentId}
-            />
+            <div style={{ display: "inline-flex", minWidth: "220px" }}>
+              <HeroUser
+                name={cellValue as string}
+                description={record.user.documentId}
+              />
+            </div>
           );
         case "planName":
           return record.user.activePlan?.plan.name || "Sin plan";
@@ -56,13 +59,13 @@ export default function AttendanceTable({ attendance }: AttendanceTableProps) {
           return record.recordedBy.fullName;
 
         case "actions":
-          return <Link href={`/admin/users/${record.user.id}`}><Eye strokeWidth={1.8} /></Link>;
+          return <Link href={`/${role}/users/${record.user.id}`}><Eye strokeWidth={1.8} /></Link>;
 
         default:
           return cellValue as React.ReactNode;
       }
     },
-    []
+    [role]
   );
 
   return (

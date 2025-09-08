@@ -47,7 +47,7 @@ export default function ProductsView() {
   return (
     <main>
       {/* Encabezado de la página */}
-      <header className="mb-4">
+      <header className="mb-12">
         <h1 className="text-4xl font-semibold text-gray-800">
           Inventario de productos
         </h1>

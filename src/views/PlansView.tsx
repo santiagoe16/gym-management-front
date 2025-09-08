@@ -52,7 +52,7 @@ export default function PlansView() {
 
   return (
     <main>
-      <header className="mb-4">
+      <header className="mb-12">
         <h1 className="text-4xl font-semibold text-gray-800">
           Listado de Planes
         </h1>

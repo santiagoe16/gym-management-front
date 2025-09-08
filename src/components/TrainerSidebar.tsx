@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import logoLine from "../../public/logoLinefit.png";
 import { useAuth } from "@/context/authContext";
+import { usePathname } from "next/navigation";
 
 export default function TrainerSidebar({
   children,
@@ -13,6 +14,7 @@ export default function TrainerSidebar({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const { logout } = useAuth();
+  const pathname = usePathname();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -20,6 +22,13 @@ export default function TrainerSidebar({
 
   const closeSidebar = () => {
     setIsOpen(false);
+  };
+
+  const getLinkClassName = (path:any) => {
+    const isActive = pathname === path;
+    return `flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group ${
+      isActive ? "bg-gray-200 hover:bg-gray-200" : ""
+    }`;
   };
 
   return (
@@ -78,7 +87,7 @@ export default function TrainerSidebar({
             <li>
               <Link
                 href="/trainer/users"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                className={getLinkClassName("/trainer/users")}
                 onClick={closeSidebar}
               >
                 <svg
@@ -95,7 +104,7 @@ export default function TrainerSidebar({
             <li>
               <Link
                 href="/trainer/products"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                className={getLinkClassName("/trainer/products")}
                 onClick={closeSidebar}
               >
                 <svg
@@ -112,7 +121,7 @@ export default function TrainerSidebar({
             <li>
               <Link
                 href="/trainer/daily"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                className={getLinkClassName("/trainer/daily")}
                 onClick={closeSidebar}
               >
                 <svg

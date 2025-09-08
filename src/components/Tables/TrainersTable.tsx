@@ -52,7 +52,9 @@ export default function TrainersTable({
     switch (columnKey) {
       case "fullName":
         return (
-          <HeroUser name={cellValue as string} description={trainer.email} />
+          <div style={{ display: "inline-flex", minWidth: "220px" }}>
+            <HeroUser name={cellValue as string} description={trainer.email} />
+          </div>
         );
       case "actions":
         return (

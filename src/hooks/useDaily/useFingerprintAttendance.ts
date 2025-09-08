@@ -8,7 +8,7 @@ import { CreateAttendanceDTO } from "@/types/activity";
 import ShowToast from "@/components/ShowToast";
 
 export const useFingerprintAttendance = (loadAttendance: () => void, handleUserNoPlan: (documentId: string) => void) => {
-  const { lastMessage, isConnected } = useWebSocket();
+  const { lastMessage, isConnected, clearLastMessage } = useWebSocket();
 
   useEffect(() => {
     if (!isConnected || !lastMessage?.data) {
@@ -54,5 +54,6 @@ export const useFingerprintAttendance = (loadAttendance: () => void, handleUserN
     }
 
     handleFingerprintMessage(data);
-  }, [lastMessage, isConnected]);
+    clearLastMessage(); // Clear the message after handling
+  }, [lastMessage, isConnected, clearLastMessage, handleUserNoPlan, loadAttendance]);
 };

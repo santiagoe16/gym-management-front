@@ -13,6 +13,7 @@ export default function TrainerUsersView() {
     open,
     mode,
     form,
+    editUser,
     loading: modalLoading,
     error: modalError,
     handleOpen,
@@ -34,7 +35,7 @@ export default function TrainerUsersView() {
   return (
     <main className="min-h-screen">
       {/* Encabezado de la página */}
-      <header className="mb-4">
+      <header className="mb-12">
         <h1 className="text-4xl font-semibold text-gray-800">
           Listado de usuarios
         </h1>
@@ -46,17 +47,18 @@ export default function TrainerUsersView() {
         open={open}
         onClose={handleClose}
         form={form}
+        loading={modalLoading}
         onChange={handleChange}
         onSubmit={handleSubmit}
-        error={modalError}
+        editUser={editUser}
         mode={mode}
         plans={plans}
-        loading={modalLoading}
         plansLoading={plansLoading}
         plansError={plansError}
         gyms={gyms}
         gymsLoading={gymsLoading}
         gymsError={gymsError}
+        error={modalError}
       />
     </main>
   );

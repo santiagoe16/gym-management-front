@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import logoLine from "../../public/logoLinefit.png";
 import { useAuth } from "@/context/authContext";
+import { usePathname } from "next/navigation";
 
 export default function AdminSidebar({
   children,
@@ -13,6 +14,7 @@ export default function AdminSidebar({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const { logout } = useAuth();
+  const pathname = usePathname();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -20,6 +22,13 @@ export default function AdminSidebar({
 
   const closeSidebar = () => {
     setIsOpen(false);
+  };
+
+  const getLinkClassName = (path:any) => {
+    const isActive = pathname === path;
+    return `flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-200 group ${
+      isActive ? "bg-gray-200 hover:bg-gray-200" : ""
+    }`;
   };
 
   return (
@@ -78,8 +87,28 @@ export default function AdminSidebar({
           <ul className="space-y-2 font-medium">
             <li>
               <Link
+                href="/admin/daily"
+                className={getLinkClassName("/admin/daily")}
+                onClick={closeSidebar}
+              >
+                <svg
+                  className="w-7 h-7 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 640 640"
+                >
+                  <path d="M224 64C241.7 64 256 78.3 256 96L256 128L384 128L384 96C384 78.3 398.3 64 416 64C433.7 64 448 78.3 448 96L448 128L480 128C515.3 128 544 156.7 544 192L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 192C96 156.7 124.7 128 160 128L192 128L192 96C192 78.3 206.3 64 224 64zM160 304L160 336C160 344.8 167.2 352 176 352L208 352C216.8 352 224 344.8 224 336L224 304C224 295.2 216.8 288 208 288L176 288C167.2 288 160 295.2 160 304zM288 304L288 336C288 344.8 295.2 352 304 352L336 352C344.8 352 352 344.8 352 336L352 304C352 295.2 344.8 288 336 288L304 288C295.2 288 288 295.2 288 304zM432 288C423.2 288 416 295.2 416 304L416 336C416 344.8 423.2 352 432 352L464 352C472.8 352 480 344.8 480 336L480 304C480 295.2 472.8 288 464 288L432 288zM160 432L160 464C160 472.8 167.2 480 176 480L208 480C216.8 480 224 472.8 224 464L224 432C224 423.2 216.8 416 208 416L176 416C167.2 416 160 423.2 160 432zM304 416C295.2 416 288 423.2 288 432L288 464C288 472.8 295.2 480 304 480L336 480C344.8 480 352 472.8 352 464L352 432C352 423.2 344.8 416 336 416L304 416zM416 432L416 464C416 472.8 423.2 480 432 480L464 480C472.8 480 480 472.8 480 464L480 432C480 423.2 472.8 416 464 416L432 416C423.2 416 416 423.2 416 432z" />
+                </svg>
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  Resumen Diario
+                </span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
                 href="/admin/users"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                className={getLinkClassName("/admin/users")}
                 onClick={closeSidebar}
               >
                 <svg
@@ -97,7 +126,7 @@ export default function AdminSidebar({
             <li>
               <Link
                 href="/admin/gyms"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                className={getLinkClassName("/admin/gyms")}
                 onClick={closeSidebar}
               >
                 <svg
@@ -114,7 +143,7 @@ export default function AdminSidebar({
             <li>
               <Link
                 href="/admin/trainers"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                className={getLinkClassName("/admin/trainers")}
                 onClick={closeSidebar}
               >
                 <svg
@@ -133,7 +162,7 @@ export default function AdminSidebar({
             <li>
               <Link
                 href="/admin/trainers-activity"
-                className="flex items-center p-2  hover:bg-gray-100 group"
+                className={getLinkClassName("/admin/trainers-activity")}
                 onClick={closeSidebar}
               >
                 <svg
@@ -153,7 +182,7 @@ export default function AdminSidebar({
             <li>
               <Link
                 href="/admin/products"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                className={getLinkClassName("/admin/products")}
                 onClick={closeSidebar}
               >
                 <svg
@@ -170,7 +199,7 @@ export default function AdminSidebar({
             <li>
               <Link
                 href="/admin/plans"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+                className={getLinkClassName("/admin/plans")}
                 onClick={closeSidebar}
               >
                 <svg
@@ -187,25 +216,7 @@ export default function AdminSidebar({
                 <span className="flex-1 ms-3 whitespace-nowrap">Planes</span>
               </Link>
             </li>
-            <li>
-              <Link
-                href="/admin/daily"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
-                onClick={closeSidebar}
-              >
-                <svg
-                  className="w-7 h-7 text-gray-500 transition duration-75 group-hover:text-gray-900"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 640 640"
-                >
-                  <path d="M224 64C241.7 64 256 78.3 256 96L256 128L384 128L384 96C384 78.3 398.3 64 416 64C433.7 64 448 78.3 448 96L448 128L480 128C515.3 128 544 156.7 544 192L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 192C96 156.7 124.7 128 160 128L192 128L192 96C192 78.3 206.3 64 224 64zM160 304L160 336C160 344.8 167.2 352 176 352L208 352C216.8 352 224 344.8 224 336L224 304C224 295.2 216.8 288 208 288L176 288C167.2 288 160 295.2 160 304zM288 304L288 336C288 344.8 295.2 352 304 352L336 352C344.8 352 352 344.8 352 336L352 304C352 295.2 344.8 288 336 288L304 288C295.2 288 288 295.2 288 304zM432 288C423.2 288 416 295.2 416 304L416 336C416 344.8 423.2 352 432 352L464 352C472.8 352 480 344.8 480 336L480 304C480 295.2 472.8 288 464 288L432 288zM160 432L160 464C160 472.8 167.2 480 176 480L208 480C216.8 480 224 472.8 224 464L224 432C224 423.2 216.8 416 208 416L176 416C167.2 416 160 423.2 160 432zM304 416C295.2 416 288 423.2 288 432L288 464C288 472.8 295.2 480 304 480L336 480C344.8 480 352 472.8 352 464L352 432C352 423.2 344.8 416 336 416L304 416zM416 432L416 464C416 472.8 423.2 480 432 480L464 480C472.8 480 480 472.8 480 464L480 432C480 423.2 472.8 416 464 416L432 416C423.2 416 416 423.2 416 432z" />
-                </svg>
-                <span className="flex-1 ms-3 whitespace-nowrap">
-                  Resumen Diario
-                </span>
-              </Link>
-            </li>
+
             <li>
               <button
                 onClick={() => {
