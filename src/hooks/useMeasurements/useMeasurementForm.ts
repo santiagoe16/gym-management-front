@@ -82,7 +82,7 @@ export default function useMeasurementForm({
     setLoading(true);
     setError(null);
     try {
-      await addUserMeasurementsService(form, authenticateUser.user?.gym_id);
+      await addUserMeasurementsService(form, authenticateUser.user?.gymId);
       getUserMeasurements();
     } catch (err: any) {
       setError(err?.message || "Ocurrió un error al guardar las medidas.");

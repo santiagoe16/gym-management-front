@@ -239,7 +239,7 @@ export default function TrainersActivityView() {
                 No hay asistencias registradas en este período
               </p>
             ) : (
-              <AttendanceTable attendance={data.attendance} />
+              <AttendanceTable attendance={data.attendance} role="trainer" />
             )}
           </div>
         </div>
