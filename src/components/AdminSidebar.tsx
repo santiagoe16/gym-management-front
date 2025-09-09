@@ -71,8 +71,8 @@ export default function AdminSidebar({
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-[#fafafa] shadow-[1px_0px_8px_rgba(0,0,0,0.1)]">
-          <a
-            href=""
+          <Link
+            href="/admin/daily"
             className={`flex items-center ps-2 mb-5 ${
               isOpen ? "pt-12" : "pt-4"
             }`}
@@ -83,7 +83,7 @@ export default function AdminSidebar({
               alt="Line fitness logo"
               priority
             />
-          </a>
+          </Link>
           <ul className="space-y-2 font-medium">
             <li>
               <Link
@@ -223,7 +223,7 @@ export default function AdminSidebar({
                   closeSidebar();
                   logout();
                 }}
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group w-full text-left"
+                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-200 group w-full text-left"
               >
                 <svg
                   className="w-7 h-7 text-gray-500 transition duration-75 group-hover:text-gray-900"

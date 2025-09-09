@@ -35,6 +35,7 @@ export default function UserDetailView({ userId }: Props) {
     mode,
     form,
     loading: modalLoading,
+    editUser,
     handleOpen,
     handleClose,
     handleChange,
@@ -225,6 +226,7 @@ export default function UserDetailView({ userId }: Props) {
         onChange={handleChange}
         onSubmit={handleSubmit}
         mode={mode}
+        editUser={editUser}
         loading={modalLoading}
         plans={plans}
         plansLoading={plansLoading}
