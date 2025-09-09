@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "analyze": "set \"ANALYZE=true\" && next build",
-    "postinstall": "npm install --include=optional sharp --os=linux --cpu=x64 lightningcss"
+    "postinstall": "npm install --include=optional sharp --os=linux --cpu=x64 lightningcss @tailwindcss/postcss"
   },
   "dependencies": {
     "@heroui/button": "^2.2.24",
