@@ -31,7 +31,7 @@ export const useFingerprintAttendance = (loadAttendance: () => void, handleUserN
             color: "danger",
             timeout: 7000,
           });
-          if (error.message && error.message.includes("El usuario no tiene un plan activo válido")) {
+          if (error.message && (error.message.includes("El usuario no tiene un plan activo válido") || error.message.includes("El plan del usuario ha expirado"))) {
             handleUserNoPlan(data.document_id);
           }
         }

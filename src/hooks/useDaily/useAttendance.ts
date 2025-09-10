@@ -48,6 +48,7 @@ export function useAttendance(onSuccess: () => void, onUserNotFound?: (documentI
       else if (errorMessage.includes("no tiene un plan activo") ||
                errorMessage.includes("El usuario no tiene un plan activo válido") ||
                errorMessage.includes("plan ha expirado") ||
+               errorMessage.includes("El plan del usuario ha expirado") ||
                errorMessage.includes("sin días") ||
                errorMessage.includes("plan taquillero")) {
         // Llamar al callback para mostrar el modal de asignación de plan
