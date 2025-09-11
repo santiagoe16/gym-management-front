@@ -36,9 +36,9 @@ export default function UserModal({
 
   return (
     <>
-      <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full max-h-full bg-black/50 h-full">
-        <div className="relative p-4 w-full max-w-md max-h-full">
-          <div className="relative bg-white rounded-lg shadow-xs">
+      <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black/50">
+        <div className="relative p-4 w-full max-w-md">
+          <div className="relative bg-white rounded-lg shadow-xs max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
               <h3 className="text-xl font-semibold text-gray-900">
                 {mode === 'edit' ? 'Editar usuario' : 'Crear nuevo usuario'}
