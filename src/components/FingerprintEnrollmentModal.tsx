@@ -3,6 +3,7 @@ import { useWebSocket } from "../context/WebSocketContext";
 import SpinnerLoader from "./SpinnerLoader";
 import { CheckCircle, XCircle, Fingerprint } from "lucide-react";
 import { Spinner } from "@heroui/spinner";
+import { set } from "zod";
 
 interface FingerprintEnrollmentModalProps {
   isOpen: boolean;
@@ -95,6 +96,7 @@ export const FingerprintEnrollmentModal: React.FC<
         // El mensaje se actualiza en el efecto de abajo para evitar re-renders conflictivos
         break;
       case "first_finger_enrolled":
+        console.log("First finger enrolleddddddddddddddddddddd");
         setStatus("capturing_second_finger");
         setFirstFingerCaptures(capturesNeeded);
         setMessage(
@@ -137,6 +139,7 @@ export const FingerprintEnrollmentModal: React.FC<
     ) {
       sendMessage(JSON.stringify({ type: "cancel_enrollment" }));
     }
+    setStatus("idle");
     onClose();
   };
 
