@@ -7,7 +7,7 @@ import { ToastProvider } from "@heroui/toast";
 import { WebSocketProvider } from "@/context/WebSocketContext";
 
 export const metadata: Metadata = {
-  title: "Sistema de gimnasio",
+  title: "Line fitness",
   description: "Control de ingresos, ventas y usuarios",
 };
 
