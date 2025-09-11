@@ -168,6 +168,8 @@ export default function PlanModal({
                     labelPlacement="outside"
                     size="md"
                     variant="faded"
+                    name="days"
+                    id="days"
                     type="number"
                     placeholder="Duración en días"
                     value={form.days === 0 ? "" : String(form.days)}
