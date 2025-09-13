@@ -64,8 +64,13 @@ export async function getUserByDocumentIdService(
   }
 }
 
+function delay<T>(ms: number, fn: () => Promise<T>): Promise<T> {
+  return new Promise((resolve) => {
+    setTimeout(async () => resolve(await fn()), ms);
+  });
+}
+
 export async function addUserService(user: CreateUserDTO): Promise<User> {
-  // Validación de entrada
   const parseResult = UserRequestSchema.safeParse(user);
   if (!parseResult.success) {
     console.log(parseResult.error.issues);
@@ -75,25 +80,23 @@ export async function addUserService(user: CreateUserDTO): Promise<User> {
   const validUser = parseResult.data;
 
   try {
-    // Enviar el cuerpo validado al backend
-    const res = await fetchWithAuth(USER_ENDPOINTS.USERS_ADD, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(validUser),
+    console.log("Adding user:", validUser);
+
+    const data = await delay(200, async () => {
+      const res = await fetchWithAuth(USER_ENDPOINTS.USERS_ADD, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(validUser),
+      });
+
+      return res.json();
     });
 
-    const data = await res.json();
-
-    // Validar respuesta del servidor
     const addedUser: User = UserResponseSchema.parse(data);
-    console.log("Entrenador agregado:", addedUser);
+
     if (!addedUser.isActive) {
-      const { ...updatedUser } = { ...user };
-      const newUser = await updateUserService(
-        addedUser.id,
-        updatedUser
-      );
-      return newUser;
+      const updatedUser = { ...user };
+      return await updateUserService(addedUser.id, updatedUser);
     }
 
     return addedUser;
@@ -102,6 +105,7 @@ export async function addUserService(user: CreateUserDTO): Promise<User> {
     throw error;
   }
 }
+
 
 export async function updateUserService(
   selectedUserId: number,
